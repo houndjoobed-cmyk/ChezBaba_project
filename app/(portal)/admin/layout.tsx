@@ -43,6 +43,7 @@ export default function AdminLayout({
     { name: "Signalements", href: "/admin/reports", iconName: "ShieldAlert" },
     { name: "Notifications", href: "/admin/notifications", iconName: "Bell" },
     { name: "Paramètres", href: "/admin/settings", iconName: "Settings" },
+    { name: "Retraits", href: "/admin/withdrawals", iconName: "Wallet" },
   ];
 
   return (

@@ -46,11 +46,28 @@ export default function OrderActions({ orderId, status, userRole }: OrderActions
         }
     };
 
-    // Handler for Vendor Marking as Shipped (This would ideally be a separate thunk/API call)
+    // Handler for Vendor Marking as Shipped
     const handleMarkShipped = async () => {
-        // Implementation needed in backend first (PATCH /api/orders/[id]/status)
-        // For now showing UI only or linking to existing method
-        toast.info("Fonctionnalité en cours de développement");
+        try {
+            setLoading(true);
+            const res = await fetch(`/api/orders/${orderId}/status`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status: "EXPEDIEE" }),
+            });
+
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.error || "Erreur lors de la mise à jour");
+            }
+
+            toast.success("Commande marquée comme expédiée !");
+            window.location.reload();
+        } catch (error: any) {
+            toast.error(error.message || "Impossible de mettre à jour le statut");
+        } finally {
+            setLoading(false);
+        }
     };
 
     // Handler for creating dispute

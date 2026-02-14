@@ -338,6 +338,9 @@ export async function processWebhookPayment(
                 },
             });
         }
+    }, {
+        maxWait: 5000, // 5s max pour avoir une connexion du pool
+        timeout: 20000 // 20s max pour exécuter la transaction
     });
 
     console.log(

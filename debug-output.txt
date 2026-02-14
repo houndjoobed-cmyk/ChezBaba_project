@@ -1,0 +1,28 @@
+Analyzing order: cmlmreino000ng2wsd49dlt0j
+{
+  "PAYMENT_DETAILS": {
+    "id": "cmlmrevst000vg2wsltc1hcko",
+    "statut": "REUSSI",
+    "montantBrut": "5000",
+    "montantNetVendeur": "4750"
+  },
+  "ORDER_STATUS": "LIVRAISON_CONFIRMEE"
+}
+
+Vendor IDs: ["cmlmcv5zn000ag2qcieu8bd58"]
+
+WALLET VENDOR cmlmcv5zn000ag2qcieu8bd58:
+{
+  "id": "cmlmrsh5g001bg2wshg45d551",
+  "balance": "4750",
+  "transactions": [
+    {
+      "id": "cmlmrshf9001dg2wskn73yk8p",
+      "type": "CREDIT_VENTE",
+      "amount": "4750",
+      "desc": "Crédit vente commande cmlmreino000ng2wsd49dlt0j (95% de 5000 FCFA)",
+      "date": "2026-02-14T20:29:33.622Z"
+    }
+  ]
+}
+

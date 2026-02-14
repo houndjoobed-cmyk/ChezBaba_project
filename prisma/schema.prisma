@@ -230,6 +230,7 @@ model Retrait {
   dateDemande    DateTime            @default(now()) @map("date_demande")
   dateTraitement DateTime?           @map("date_traitement")
   reference      String?             @db.VarChar(255)
+  detailsDestination String?         @map("details_destination") @db.VarChar(255)
   portefeuilleId String              @map("portefeuille_id") @db.VarChar(25)
   portefeuille   PortefeuilleVendeur @relation(fields: [portefeuilleId], references: [id], onDelete: Cascade)
 
@@ -503,6 +504,7 @@ enum SignalementStatut {
 enum CommandeStatut {
   EN_ATTENTE_PAIEMENT
   PAYEE
+  EN_PREPARATION
   EXPEDIEE
   LIVREE
   LIVRAISON_CONFIRMEE

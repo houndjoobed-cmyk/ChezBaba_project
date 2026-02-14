@@ -41,9 +41,9 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        const { montant, methode } = parsed.data;
+        const { montant, methode, details } = parsed.data;
 
-        const result = await requestWithdrawal(session.user.id, montant, methode);
+        const result = await requestWithdrawal(session.user.id, montant, methode, details);
 
         return NextResponse.json(
             {

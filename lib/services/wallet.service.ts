@@ -3,7 +3,7 @@
 // ==========================================
 
 import { prisma } from "@/lib/utils/prisma";
-import { MethodePaiement } from "@prisma/client";
+import { MethodePaiement, DemandeRetraitStatut } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import type { WalletBalanceResponse } from "@/lib/types/payment.types";
 
@@ -92,7 +92,8 @@ export async function getWalletTransactions(
 export async function requestWithdrawal(
     vendeurId: string,
     montant: number,
-    methode: MethodePaiement
+    methode: MethodePaiement,
+    details: string
 ) {
     const wallet = await getOrCreateWallet(vendeurId);
 
@@ -115,6 +116,7 @@ export async function requestWithdrawal(
             data: {
                 montant: new Decimal(montant),
                 methode,
+                detailsDestination: details,
                 portefeuilleId: wallet.id,
             },
         });
@@ -193,4 +195,136 @@ export async function getWithdrawalHistory(
             pageSize,
         },
     };
+}// ---- Admin : Gestion des retraits ----
+
+/**
+ * Récupère toutes les demandes de retrait (pour l'admin).
+ */
+export async function getAllWithdrawals(
+    page: number = 1,
+    pageSize: number = 20,
+    statut?: DemandeRetraitStatut
+) {
+    const where = statut ? { statut } : {};
+
+    const [retraits, total] = await Promise.all([
+        prisma.retrait.findMany({
+            where,
+            orderBy: { dateDemande: "desc" },
+            include: {
+                portefeuille: {
+                    include: {
+                        vendeur: {
+                            select: {
+                                nomBoutique: true,
+                                user: {
+                                    select: {
+                                        nom: true,
+                                        prenom: true,
+                                        email: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            take: pageSize,
+            skip: (page - 1) * pageSize,
+        }),
+        prisma.retrait.count({ where }),
+    ]);
+
+    return {
+        retraits: retraits.map((r) => ({
+            id: r.id,
+            montant: r.montant.toNumber(),
+            statut: r.statut,
+            methode: r.methode,
+            details: r.detailsDestination,
+            dateDemande: r.dateDemande,
+            vendeur: {
+                nomBoutique: r.portefeuille.vendeur.nomBoutique,
+                nomComplet: `${r.portefeuille.vendeur.user.prenom} ${r.portefeuille.vendeur.user.nom}`,
+                email: r.portefeuille.vendeur.user.email,
+            },
+        })),
+        pagination: {
+            totalItems: total,
+            totalPages: Math.ceil(total / pageSize),
+            currentPage: page,
+            pageSize,
+        },
+    };
+}
+
+/**
+ * Met à jour le statut d'une demande de retrait.
+ * Si REJETE -> Rembourse le vendeur.
+ */
+export async function updateWithdrawalStatus(
+    retraitId: string,
+    nouveauStatut: DemandeRetraitStatut,
+    adminId: string
+) {
+    const retrait = await prisma.retrait.findUnique({
+        where: { id: retraitId },
+        include: { portefeuille: true },
+    });
+
+    if (!retrait) throw new Error("Retrait introuvable");
+    if (retrait.statut !== "EN_ATTENTE") throw new Error("Ce retrait a déjà été traité");
+
+    await prisma.$transaction(async (tx) => {
+        // Mise à jour du statut
+        await tx.retrait.update({
+            where: { id: retraitId },
+            data: {
+                statut: nouveauStatut,
+                dateTraitement: new Date(),
+            },
+        });
+
+        const vendeurId = retrait.portefeuille.vendeurId;
+
+        if (nouveauStatut === "REJETE") {
+            // Remboursement du portefeuille
+            await tx.portefeuilleVendeur.update({
+                where: { id: retrait.portefeuilleId },
+                data: { solde: { increment: retrait.montant } },
+            });
+
+            // Transaction de crédit (remboursement)
+            await tx.transactionPortefeuille.create({
+                data: {
+                    type: "CREDIT_VENTE", // Ou un nouveau type CREDIT_REMBOURSEMENT si dispo
+                    montant: retrait.montant,
+                    description: `Remboursement retrait rejeté ${retraitId}`,
+                    portefeuilleId: retrait.portefeuilleId,
+                },
+            });
+
+            // Notification Rejet
+            await tx.notification.create({
+                data: {
+                    userId: vendeurId,
+                    type: "PAIEMENT",
+                    objet: "Demande de retrait rejetée",
+                    text: `Votre demande de retrait de ${retrait.montant} FCFA a été rejetée. Les fonds ont été reversés sur votre portefeuille.`,
+                    urlRedirection: "/vendor/wallet",
+                },
+            });
+        } else if (nouveauStatut === "TRAITE") {
+            // Notification Succès
+            await tx.notification.create({
+                data: {
+                    userId: vendeurId,
+                    type: "PAIEMENT",
+                    objet: "Retrait effectué",
+                    text: `Votre retrait de ${retrait.montant} FCFA a été traité avec succès.`,
+                    urlRedirection: "/vendor/wallet",
+                },
+            });
+        }
+    });
 }

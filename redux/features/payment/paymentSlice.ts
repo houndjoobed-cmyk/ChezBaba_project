@@ -142,7 +142,7 @@ export const fetchWalletBalance = createAsyncThunk(
 export const requestWithdrawal = createAsyncThunk(
     "payment/requestWithdrawal",
     async (
-        payload: { montant: number; methode: "MOBILE_MONEY" | "CARTE_BANCAIRE" },
+        payload: { montant: number; methode: "MOBILE_MONEY" | "CARTE_BANCAIRE"; details: string },
         { rejectWithValue }
     ) => {
         try {

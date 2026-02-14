@@ -35,6 +35,7 @@ export default function VendorWallet() {
     );
 
     const [withdrawalAmount, setWithdrawalAmount] = useState("");
+    const [withdrawalDetails, setWithdrawalDetails] = useState("");
     const [withdrawalMethod, setWithdrawalMethod] = useState<"MOBILE_MONEY" | "CARTE_BANCAIRE">("MOBILE_MONEY");
     const [open, setOpen] = useState(false);
 
@@ -55,11 +56,21 @@ export default function VendorWallet() {
             return;
         }
 
+        if (withdrawalDetails.length < 5) {
+            toast.error("Veuillez fournir les détails de paiement (Numéro ou RIB)");
+            return;
+        }
+
         try {
-            await dispatch(requestWithdrawal({ montant: amount, methode: withdrawalMethod })).unwrap();
+            await dispatch(requestWithdrawal({
+                montant: amount,
+                methode: withdrawalMethod,
+                details: withdrawalDetails
+            })).unwrap();
             toast.success("Demande de retrait envoyée avec succès");
             setOpen(false);
             setWithdrawalAmount("");
+            setWithdrawalDetails("");
         } catch (error: any) {
             toast.error(error || "Erreur lors de la demande");
         }
@@ -157,6 +168,18 @@ export default function VendorWallet() {
                                             </Label>
                                         </div>
                                     </RadioGroup>
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor="details">
+                                        {withdrawalMethod === "MOBILE_MONEY" ? "Numéro Mobile Money" : "RIB / Numéro de compte"}
+                                    </Label>
+                                    <Input
+                                        id="details"
+                                        placeholder={withdrawalMethod === "MOBILE_MONEY" ? "+229 01..." : "BJ061..."}
+                                        value={withdrawalDetails}
+                                        onChange={(e) => setWithdrawalDetails(e.target.value)}
+                                    />
                                 </div>
 
                                 <div className="bg-yellow-50 p-3 rounded-md border border-yellow-100 flex gap-2">

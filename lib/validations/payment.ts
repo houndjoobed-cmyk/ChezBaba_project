@@ -29,6 +29,7 @@ export const requestWithdrawalSchema = z.object({
       message: "Méthode de retrait invalide",
     }),
   }),
+  details: z.string().min(5, "Les détails (numéro ou RIB) sont requis"),
 });
 
 // ---- Création de litige ----
