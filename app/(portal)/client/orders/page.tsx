@@ -4,7 +4,7 @@ import * as XLSX from "xlsx";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { JSX, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // Components
 import PageHeader from "@/components/portal/client/orderspage/PageHeader";
@@ -37,6 +37,7 @@ export default function OrderHistoryPage(): JSX.Element {
 
   const { data: session, status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   // Derived state
   const userId = session?.user?.id;
@@ -134,7 +135,40 @@ export default function OrderHistoryPage(): JSX.Element {
     };
 
     fetchOrders();
-  }, [sessionReady, userId, currentPage, searchDebounced, sortConfig]);
+
+    // Check for payment success from redirect
+    const statusParam = searchParams.get("status");
+    const transactionId = searchParams.get("transactionId");
+
+    if (statusParam === "success" && transactionId) {
+      const verifyPayment = async () => {
+        try {
+          const res = await fetch("/api/payments/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ transactionId }),
+          });
+
+          const data = await res.json();
+          if (res.ok) {
+            toast.success("Bravo ! Votre paiement a été vérifié et validé.");
+            // Re-fetch orders to see updated status
+            fetchOrders();
+            // Clear URL params without reload
+            const newParams = new URLSearchParams(searchParams.toString());
+            newParams.delete("status");
+            newParams.delete("transactionId");
+            router.replace(`?${newParams.toString()}`, { scroll: false });
+          } else {
+            console.error("Vérification échouée:", data.error);
+          }
+        } catch (err) {
+          console.error("Erreur vérification:", err);
+        }
+      };
+      verifyPayment();
+    }
+  }, [sessionReady, userId, currentPage, searchDebounced, sortConfig, searchParams, router]);
 
   const handleExport = (): void => {
     const data = orders.map((order) => ({

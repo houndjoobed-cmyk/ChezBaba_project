@@ -46,10 +46,14 @@ export default function OrderHistoryPage(): JSX.Element {
 
   // Status labels for display
   const statusLabels: Record<CommandeStatut, string> = {
-    [CommandeStatut.EN_COURS]: "En attente",
+    [CommandeStatut.EN_ATTENTE_PAIEMENT]: "En attente de paiement",
+    [CommandeStatut.PAYEE]: "Payée",
     [CommandeStatut.EXPEDIEE]: "Expédiée",
     [CommandeStatut.LIVREE]: "Livrée",
+    [CommandeStatut.LIVRAISON_CONFIRMEE]: "Confirmée",
     [CommandeStatut.ANNULEE]: "Annulée",
+    [CommandeStatut.EN_LITIGE]: "En litige",
+    [CommandeStatut.REMBOURSEE]: "Remboursée",
   };
 
   /**

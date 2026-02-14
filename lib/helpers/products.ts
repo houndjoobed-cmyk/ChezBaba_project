@@ -89,7 +89,7 @@ export function formatProductData(product: ProductFromDB): ProductFromAPI {
     qteStock,
     noteMoyenne: noteMoyenne?.toNumber(),
     delaiLivraison,
-    prixPromo: (prixPromo as any)?.toNumber() ?? null,
+    prixPromo: prixPromo ? (prixPromo as { toNumber(): number }).toNumber() : null,
     garantie,
     ...rest,
     video,

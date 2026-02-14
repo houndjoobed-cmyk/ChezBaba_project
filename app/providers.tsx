@@ -11,24 +11,30 @@ import { makeStore } from "@/redux/store";
 // UI components
 import SpinnerbLoader from "@/components/ui/SpinnerLoader";
 
+import { useRef } from "react";
+
 type Props = {
   children: React.ReactNode;
   session?: Session;
 };
 
 const Providers = ({ children, session }: Props) => {
-  const { store, persistor } = makeStore();
+  const storeRef = useRef<{ store: any; persistor: any }>(null);
+
+  if (!storeRef.current) {
+    storeRef.current = makeStore();
+  }
 
   return (
     <SessionProvider session={session}>
-      <ReduxProvider store={store}>
+      <ReduxProvider store={storeRef.current.store}>
         <PersistGate
           loading={
             <div className="flex items-center justify-center h-96">
               <SpinnerbLoader className="w-10 border-2 border-gray-300 border-r-gray-600" />
             </div>
           }
-          persistor={persistor}
+          persistor={storeRef.current.persistor}
         >
           {children}
         </PersistGate>

@@ -1,7 +1,8 @@
 "use client";
 
-import { X, CheckCircle } from "lucide-react"; // Import CheckCircle
+import { X } from "lucide-react";
 import { motion } from "framer-motion";
+import OrderActions from "@/components/orders/OrderActions";
 import { OrderFromAPI } from "@/lib/types/order.types";
 import { extractDateString, formatPrice } from "@/lib/utils";
 import { getStatusColor, getStatusLabel } from "@/lib/helpers/orderStatus";
@@ -19,41 +20,7 @@ export default function OrderDetailModal({
   order,
   onClose,
 }: OrderDetailModalProps) {
-  const router = useRouter(); // To refresh page after update
-  const [isConfirming, setIsConfirming] = useState(false);
-
   if (!order) return null;
-
-  const handleConfirmDelivery = async () => {
-    try {
-      setIsConfirming(true);
-      const response = await fetch(`/api/orders/${order.id}/status`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ statut: CommandeStatut.LIVREE }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Erreur lors de la confirmation");
-      }
-
-      toast.success("Réception confirmée ! Merci.");
-      onClose();
-      // Refresh the page or trigger a data reload - simple page reload for now
-      window.location.reload();
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Une erreur est survenue");
-    } finally {
-      setIsConfirming(false);
-    }
-  };
-
-  const showConfirmButton =
-    order.statut !== CommandeStatut.LIVREE &&
-    order.statut !== CommandeStatut.ANNULEE;
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50">
@@ -85,17 +52,6 @@ export default function OrderDetailModal({
               >
                 {getStatusLabel(order.statut)}
               </span>
-
-              {showConfirmButton && (
-                <button
-                  onClick={handleConfirmDelivery}
-                  disabled={isConfirming}
-                  className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-full text-sm font-semibold transition-colors disabled:opacity-50"
-                >
-                  <CheckCircle className="w-4 h-4" />
-                  {isConfirming ? "Confirmation..." : "Confirmer réception"}
-                </button>
-              )}
             </div>
           </div>
           {/* Informations vendeur */}
@@ -176,6 +132,10 @@ export default function OrderDetailModal({
             <span className="text-green-900 font-bold text-lg sm:text-2xl">
               {formatPrice(order.montant)}
             </span>
+          </div>
+
+          <div className="pt-2 border-t border-gray-100">
+            <OrderActions orderId={order.id} status={order.statut} userRole="CLIENT" />
           </div>
         </div>
       </motion.div>

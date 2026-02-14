@@ -59,6 +59,7 @@ model Client {
   vendeur      Vendeur?
   commandes    Commande[]
   signalements Signalement[]
+  litiges      Litige[]
 
   @@map("client")
 }
@@ -67,21 +68,22 @@ model Commande {
   id             String            @id @default(cuid()) @db.VarChar(25)
   date           DateTime          @default(now())
   montant        Decimal           @db.Decimal(10, 2)
-  statut         CommandeStatut    @default(EN_COURS)
+  statut         CommandeStatut    @default(EN_ATTENTE_PAIEMENT)
   adresseId      String?           @map("adresse_id") @db.VarChar(25)
   panierId       String?           @map("panier_id") @db.VarChar(25)
   clientId       String?           @map("client_id") @db.VarChar(25)
-  paiementId     String?           @map("paiement_id") @db.VarChar(25)
   adresse        Adresse?          @relation(fields: [adresseId], references: [id], onDelete: SetNull, onUpdate: NoAction)
   panier         Panier?           @relation(fields: [panierId], references: [id], onDelete: SetNull, onUpdate: NoAction)
   client         Client?           @relation(fields: [clientId], references: [id], onDelete: SetNull, onUpdate: NoAction)
   lignesCommande LigneCommande[]
-  paiement       PaiementCommande?
+  paiement       Paiement?
+  litige         Litige?
+  transactionsPortefeuille TransactionPortefeuille[]
+  entreesLivre   GrandLivrePlateforme[]
 
   @@index([clientId], map: "index_commande_client_id")
   @@index([panierId], map: "index_commande_panier_id")
   @@index([adresseId], map: "index_commande_adresse_id")
-  @@index([paiementId], map: "index_commande_paiement_id")
   @@map("commande")
 }
 
@@ -168,28 +170,108 @@ model Notification {
   @@map("notification")
 }
 
-model PaiementCommande {
-  id         String         @id @default(cuid()) @db.VarChar(25)
-  date       DateTime       @default(now())
-  statut     PaiementStatut @default(EN_COURS)
-  commandeId String         @unique @map("commande_id") @db.VarChar(25)
-  commande   Commande       @relation(fields: [commandeId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+// ==========================================
+// MODÈLES DE PAIEMENT ESCROW KKIAPAY
+// ==========================================
 
-  @@index([commandeId], map: "index_commande_id")
-  @@map("paiement_commande")
+model Paiement {
+  id                   String          @id @default(cuid()) @db.VarChar(25)
+  date                 DateTime        @default(now())
+  statut               PaiementStatut  @default(EN_ATTENTE)
+  methode              MethodePaiement?
+  montantBrut          Decimal         @map("montant_brut") @db.Decimal(10, 2)
+  commissionPlateforme Decimal         @map("commission_plateforme") @db.Decimal(10, 2)
+  montantNetVendeur    Decimal         @map("montant_net_vendeur") @db.Decimal(10, 2)
+  fraisTransaction     Decimal         @default(0) @map("frais_transaction") @db.Decimal(10, 2)
+  supporteurFrais      SupporteurFrais @default(CLIENT) @map("supporteur_frais")
+  fournisseur          String          @default("KKIAPAY") @db.VarChar(50)
+  referenceProvider    String?         @unique @map("reference_provider") @db.VarChar(255)
+  webhookPayload       Json?           @map("webhook_payload")
+  commandeId           String          @unique @map("commande_id") @db.VarChar(25)
+  commande             Commande        @relation(fields: [commandeId], references: [id], onDelete: Cascade)
+
+  @@index([commandeId], map: "index_paiement_commande_id")
+  @@index([referenceProvider], map: "index_paiement_reference_provider")
+  @@map("paiement")
 }
 
-model PaiementVendeur {
-  id        String          @id @default(cuid()) @db.VarChar(25)
-  montant   Decimal         @db.Decimal(10, 2)
-  date      DateTime?       @default(now())
-  statut    PaiementStatut? @default(EN_COURS)
-  vendeurId String          @map("vendeur_id") @db.VarChar(25)
-  vendeur   Vendeur         @relation(fields: [vendeurId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+model PortefeuilleVendeur {
+  id           String                    @id @default(cuid()) @db.VarChar(25)
+  vendeurId    String                    @unique @map("vendeur_id") @db.VarChar(25)
+  solde        Decimal                   @default(0) @db.Decimal(12, 2)
+  vendeur      Vendeur                   @relation(fields: [vendeurId], references: [id], onDelete: Cascade)
+  transactions TransactionPortefeuille[]
+  retraits     Retrait[]
 
-  @@index([vendeurId], map: "index_paiement_vendeur_vendeur_id")
-  @@map("paiement_vendeur")
+  @@map("portefeuille_vendeur")
 }
+
+model TransactionPortefeuille {
+  id             String              @id @default(cuid()) @db.VarChar(25)
+  type           TypeTransaction
+  montant        Decimal             @db.Decimal(10, 2)
+  description    String?             @db.VarChar(500)
+  date           DateTime            @default(now())
+  commandeId     String?             @map("commande_id") @db.VarChar(25)
+  portefeuilleId String              @map("portefeuille_id") @db.VarChar(25)
+  portefeuille   PortefeuilleVendeur @relation(fields: [portefeuilleId], references: [id], onDelete: Cascade)
+  commande       Commande?           @relation(fields: [commandeId], references: [id])
+
+  @@index([portefeuilleId], map: "index_transaction_portefeuille_id")
+  @@index([commandeId], map: "index_transaction_commande_id")
+  @@map("transaction_portefeuille")
+}
+
+model Retrait {
+  id             String              @id @default(cuid()) @db.VarChar(25)
+  montant        Decimal             @db.Decimal(10, 2)
+  statut         StatutRetrait       @default(EN_ATTENTE)
+  methode        MethodePaiement     @default(MOBILE_MONEY)
+  dateDemande    DateTime            @default(now()) @map("date_demande")
+  dateTraitement DateTime?           @map("date_traitement")
+  reference      String?             @db.VarChar(255)
+  portefeuilleId String              @map("portefeuille_id") @db.VarChar(25)
+  portefeuille   PortefeuilleVendeur @relation(fields: [portefeuilleId], references: [id], onDelete: Cascade)
+
+  @@index([portefeuilleId], map: "index_retrait_portefeuille_id")
+  @@map("retrait")
+}
+
+model Litige {
+  id          String       @id @default(cuid()) @db.VarChar(25)
+  motif       String       @db.VarChar(500)
+  description String?      @db.VarChar(1000)
+  statut      StatutLitige @default(OUVERT)
+  resolution  String?      @db.VarChar(1000)
+  dateOuvert  DateTime     @default(now()) @map("date_ouvert")
+  dateFerme   DateTime?    @map("date_ferme")
+  commandeId  String       @unique @map("commande_id") @db.VarChar(25)
+  clientId    String       @map("client_id") @db.VarChar(25)
+  commande    Commande     @relation(fields: [commandeId], references: [id], onDelete: Cascade)
+  client      Client       @relation(fields: [clientId], references: [id])
+
+  @@index([commandeId], map: "index_litige_commande_id")
+  @@index([clientId], map: "index_litige_client_id")
+  @@map("litige")
+}
+
+model GrandLivrePlateforme {
+  id          String    @id @default(cuid()) @db.VarChar(25)
+  type        String    @db.VarChar(50) // "COMMISSION", "FRAIS_CARTE", "FRAIS_REVERSEMENT"
+  montant     Decimal   @db.Decimal(10, 2)
+  description String?   @db.VarChar(500)
+  commandeId  String?   @map("commande_id") @db.VarChar(25)
+  date        DateTime  @default(now())
+  commande    Commande? @relation(fields: [commandeId], references: [id])
+
+  @@index([commandeId], map: "index_grand_livre_commande_id")
+  @@index([type], map: "index_grand_livre_type")
+  @@map("grand_livre_plateforme")
+}
+
+// ==========================================
+// FIN MODÈLES PAIEMENT ESCROW
+// ==========================================
 
 model Panier {
   id               String        @id @default(cuid()) @db.VarChar(25)
@@ -389,9 +471,14 @@ model Vendeur {
   client             Client               @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   paiementVendeur    PaiementVendeur[]
   produitMarketplace ProduitMarketplace[]
+  portefeuille       PortefeuilleVendeur?
 
   @@map("vendeur")
 }
+
+// ==========================================
+// ENUMS
+// ==========================================
 
 enum PanierStatut {
   EN_COURS
@@ -400,9 +487,11 @@ enum PanierStatut {
 }
 
 enum PaiementStatut {
-  EN_COURS
-  VALIDE
+  EN_ATTENTE
+  INITIE
+  REUSSI
   ECHOUE
+  REMBOURSE
 }
 
 enum SignalementStatut {
@@ -412,10 +501,14 @@ enum SignalementStatut {
 }
 
 enum CommandeStatut {
-  EN_COURS
+  EN_ATTENTE_PAIEMENT
+  PAYEE
   EXPEDIEE
   LIVREE
+  LIVRAISON_CONFIRMEE
   ANNULEE
+  EN_LITIGE
+  REMBOURSEE
 }
 
 enum UserRole {
@@ -433,6 +526,38 @@ enum NotificationType {
   EVALUATION
   MESSAGE
   SECURITE
+}
+
+enum MethodePaiement {
+  MOBILE_MONEY
+  CARTE_BANCAIRE
+}
+
+enum SupporteurFrais {
+  CLIENT
+  PLATEFORME
+}
+
+enum TypeTransaction {
+  CREDIT_VENTE
+  DEBIT_RETRAIT
+  COMMISSION
+  REMBOURSEMENT
+}
+
+enum StatutRetrait {
+  EN_ATTENTE
+  APPROUVE
+  TRAITE
+  REJETE
+}
+
+enum StatutLitige {
+  OUVERT
+  EN_COURS
+  RESOLU_CLIENT
+  RESOLU_VENDEUR
+  FERME
 }
 
 model Temoignage {
@@ -470,3 +595,15 @@ model Favori {
   @@map("favori")
 }
 
+// Ancien modèle conservé pour compatibilité avec les données existantes
+model PaiementVendeur {
+  id        String          @id @default(cuid()) @db.VarChar(25)
+  montant   Decimal         @db.Decimal(10, 2)
+  date      DateTime?       @default(now())
+  statut    PaiementStatut? @default(EN_ATTENTE)
+  vendeurId String          @map("vendeur_id") @db.VarChar(25)
+  vendeur   Vendeur         @relation(fields: [vendeurId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([vendeurId], map: "index_paiement_vendeur_vendeur_id")
+  @@map("paiement_vendeur")
+}

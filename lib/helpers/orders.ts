@@ -6,6 +6,7 @@ export function getOrderSelect() {
     date: true,
     montant: true,
     statut: true,
+    clientId: true,
     client: {
       select: {
         user: {

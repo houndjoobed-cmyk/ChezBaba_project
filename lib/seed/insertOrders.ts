@@ -119,11 +119,12 @@ const addresses = [
   },
 ];
 
-// Available order statuses
 const orderStatuses: CommandeStatut[] = [
-  CommandeStatut.EN_COURS,
+  CommandeStatut.EN_ATTENTE_PAIEMENT,
+  CommandeStatut.PAYEE,
   CommandeStatut.EXPEDIEE,
   CommandeStatut.LIVREE,
+  CommandeStatut.LIVRAISON_CONFIRMEE,
   CommandeStatut.ANNULEE,
 ];
 

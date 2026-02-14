@@ -40,9 +40,11 @@ export default function OrderSummary({
               <span className={cn(satoshi.className, "")}>
                 {item.quantite} × {item.nomProduit}
               </span>
-              <span className={cn(satoshi.className, "ml-[25px]")}>
-                Couleur: {item.couleur?.nom}, Taille: {item.taille?.nom}
-              </span>
+              {item.couleur?.nom && item.taille?.nom && (
+                <span className={cn(satoshi.className, "ml-[25px] text-xs text-gray-500")}>
+                  Couleur: {item.couleur.nom}, Taille: {item.taille.nom}
+                </span>
+              )}
             </span>
 
             <span

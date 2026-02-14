@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Loader2, PackageX, Filter, Search } from "lucide-react";
+import { Loader2, PackageX, Filter } from "lucide-react";
 import ProductCard from "@/components/common/ProductCard";
 import { ProductFromAPI } from "@/lib/types/product.types";
 import { motion, AnimatePresence } from "framer-motion";

@@ -25,9 +25,9 @@ export async function POST(req: NextRequest) {
 
             ---
 
-            ### 🛒 About MEGA SHOP
+            ### 🛒 About CHEZ BABA
 
-            MEGA SHOP is built with modern web technologies, ensuring a fast, reliable, and scalable e-commerce experience:
+            CHEZ BABA is built with modern web technologies, ensuring a fast, reliable, and scalable e-commerce experience:
 
             - **React 19** and **Next.js 15 (App Router)**
             - **Supabase** for authentication and database storage
@@ -40,8 +40,8 @@ export async function POST(req: NextRequest) {
             - A simulated payment system  
             - A complete set of features for real-world training and use-case coverage
 
-            🌐 Hosted on **[Vercel](https://project-megashop.vercel.app)**  
-            💻 Source code available on **[GitHub – MEGA SHOP Repo](https://github.com/lyes-mersel/megashop)**  
+            🌐 Hosted on **[Vercel](https://project-chezbaba.vercel.app)**  
+            💻 Source code available on **[GitHub – CHEZ BABA Repo](https://github.com/lyes-mersel/chezbaba)**  
 
             👨‍💻 Development Team:
             - [MERSEL Lyes](https://github.com/lyes-mersel)  
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
 
             👨‍🏫 **Encadrant**: Mr **Z. Farah**
 
-            📝 MEGA SHOP © 2025 — Projet académique réalisé par des étudiants en **Master 1 Génie Logiciel**, Université de Béjaïa.  
+            📝 CHEZ BABA © 2025 — Projet académique réalisé par des étudiants en **Master 1 Génie Logiciel**, Université de Béjaïa.  
             Fait dans le cadre du module **"Application informatique encadrée"**.
 
             ---

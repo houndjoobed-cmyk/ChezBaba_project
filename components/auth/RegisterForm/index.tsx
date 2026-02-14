@@ -27,6 +27,8 @@ import FieldErrorMessage from "@/components/auth/FieldErrorMessage";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
+import { Eye, EyeOff } from "lucide-react";
+
 export function RegisterForm({
   className,
   ...props
@@ -153,9 +155,11 @@ export function RegisterForm({
                   className="absolute right-3 top-3/4 transform -translate-y-1/2 text-gray-500"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  <i
-                    className={`bi ${showPassword ? "bi-eye" : "bi-eye-slash"}`}
-                  ></i>
+                  {showPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
                 </button>
                 {fieldErrors.password && (
                   <FieldErrorMessage message={fieldErrors.password} />

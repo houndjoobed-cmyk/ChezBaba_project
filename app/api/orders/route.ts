@@ -6,11 +6,12 @@ import {
   getPaginationParams,
   getSortingOrdersParams,
 } from "@/lib/utils/params";
-import { PaiementStatut, Prisma, UserRole } from "@prisma/client";
+import { Prisma, UserRole } from "@prisma/client";
 import { formatOrderData, getOrderSelect } from "@/lib/helpers/orders";
 import {
   formatValidationErrors,
   fullOrderWithPaymentSchema,
+  createOrderSchema,
 } from "@/lib/validations";
 import { Decimal } from "@prisma/client/runtime/library";
 import { BadRequestIdError } from "@/lib/classes/BadRequestIdError";
@@ -135,14 +136,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Check authorization
-  if (session.user.role !== UserRole.CLIENT) {
-    return NextResponse.json(
-      { error: ERROR_MESSAGES.FORBIDDEN },
-      { status: 403 }
-    );
-  }
-
   // Check if user has a phone number
   if (!session.user.tel) {
     return NextResponse.json(
@@ -152,7 +145,7 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const parsed = fullOrderWithPaymentSchema.safeParse(body);
+  const parsed = createOrderSchema.safeParse(body);
 
   if (!parsed.success) {
     return formatValidationErrors(parsed);
@@ -171,6 +164,19 @@ export async function POST(req: NextRequest) {
     // Start transaction with increased timeout (15s)
     const order = await prisma.$transaction(
       async (tx) => {
+        // Verify that the user exists in the DB (JWT session might be stale if DB was reset)
+        const userExists = await tx.user.findUnique({ where: { id: userId } });
+        if (!userExists) {
+          throw new Error("L'utilisateur n'existe pas dans la base de données. Veuillez vous reconnecter.");
+        }
+
+        // Ensure the user has a client profile (required for the FK constraint)
+        await tx.client.upsert({
+          where: { id: userId },
+          create: { id: userId },
+          update: {},
+        });
+
         // Create address
         const address = await tx.adresse.create({ data: addresse });
 
@@ -245,15 +251,7 @@ export async function POST(req: NextRequest) {
           select: getOrderSelect(),
         });
 
-        // Create payment record
-        const paiement = await tx.paiementCommande.create({
-          data: {
-            commandeId: newOrder.id,
-            statut: PaiementStatut.VALIDE,
-          },
-        });
-
-        // 1. Notify the Customer
+        // 1. Notify the Customer (paiement now handled via /api/payments/initiate)
         await tx.notification.create({
           data: {
             userId: userId,
@@ -301,7 +299,7 @@ export async function POST(req: NextRequest) {
           }
         }
 
-        return { ...newOrder, paiement };
+        return newOrder;
       },
       {
         maxWait: 5000,
@@ -333,7 +331,10 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(
-      { error: ERROR_MESSAGES.INTERNAL_ERROR },
+      {
+        error: ERROR_MESSAGES.INTERNAL_ERROR,
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }

@@ -14,6 +14,7 @@ import {
   LoadingState,
   ErrorState,
 } from "@/components/portal/vendor/dashboard";
+import VendorWallet from "@/components/portal/vendor/wallet/VendorWallet";
 
 // Import custom hook
 import { useVendorDashboard } from "@/hooks/useVendorDashboard";
@@ -127,6 +128,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-6 px-4 sm:px-6 lg:px-10">
       <div className="max-w-7xl mx-auto">
+
         <div className="mb-4 sm:mb-6">
           <div className="flex items-center gap-2 sm:gap-3">
             <BarChart2 className="h-6 w-6 sm:h-8 sm:w-8 text-black animate-pulse" />
@@ -140,6 +142,11 @@ export default function DashboardPage() {
           <p className="mt-1 sm:mt-2 text-base sm:text-lg text-gray-600">
             Aperçu des performances de votre boutique
           </p>
+        </div>
+
+        {/* Vendor Wallet Section */}
+        <div className="mb-8">
+          <VendorWallet />
         </div>
 
         {/* Section colorée (Bienvenue) et cartes statistiques à droite */}

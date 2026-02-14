@@ -1,4 +1,6 @@
 import type { NextAuthConfig } from "next-auth";
+import type { Session, User } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 // Configuration minimale pour le middleware (Edge Runtime compatible)
@@ -22,7 +24,7 @@ export const authConfig = {
         strategy: "jwt" as const,
     },
     callbacks: {
-        async session({ session, token }: { session: any; token: any }) {
+        async session({ session, token }: { session: Session; token: JWT }) {
             if (session.user) {
                 session.user.id = token.id as string;
                 session.user.email = token.email as string;
@@ -35,16 +37,16 @@ export const authConfig = {
             }
             return session;
         },
-        async jwt({ token, user, trigger }: { token: any; user?: any; trigger?: string }) {
+        async jwt({ token, user, trigger }: { token: JWT; user?: User; trigger?: string }) {
             if (trigger === "signIn" && user) {
                 token.id = user.id!;
                 token.email = user.email!;
-                token.nom = user.nom;
-                token.prenom = user.prenom;
-                token.role = user.role;
-                token.emailVerifie = user.emailVerifie;
-                token.imagePublicId = user.imagePublicId;
-                token.tel = user.tel;
+                token.nom = (user as { nom?: string }).nom || "";
+                token.prenom = (user as { prenom?: string }).prenom || "";
+                token.role = (user as { role?: "ADMIN" | "VENDEUR" | "CLIENT" }).role || "CLIENT";
+                token.emailVerifie = (user as { emailVerifie?: boolean }).emailVerifie || false;
+                token.imagePublicId = (user as { imagePublicId?: string }).imagePublicId || null;
+                token.tel = (user as { tel?: string }).tel || null;
             }
             return token;
         },

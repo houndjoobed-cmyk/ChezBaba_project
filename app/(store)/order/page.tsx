@@ -11,11 +11,6 @@ export default async function OrderPage() {
     return <RestrictedAccess />;
   }
 
-  if (session.user.role !== UserRole.CLIENT) {
-    return (
-      <RestrictedAccess message="Vous n'avez pas l'autorisation d'accéder à cette page, qui est réservée uniquement aux clients." />
-    );
-  }
 
   if (!session.user.tel) {
     redirect("/client/settings?error=missing_phone");

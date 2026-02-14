@@ -18,6 +18,8 @@ import {
 import { fetchPaginatedDataFromAPI } from "@/lib/utils/fetchData";
 import { NotificationFromAPI } from "@/lib/types/notification.types";
 
+import { User } from "lucide-react";
+
 const UserMenu = () => {
   const router = useRouter();
   const { data: session } = useSession();
@@ -58,7 +60,7 @@ const UserMenu = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="p-1 md:p-2 relative">
-          <i className="bi bi-person" style={{ fontSize: 28, color: 'white' }}></i>
+          <User size={28} color="white" />
           {unreadCount > 0 && (
             <span className="absolute top-1 right-1 flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>

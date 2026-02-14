@@ -31,7 +31,7 @@ const HeroSec = () => {
             transition={{ delay: 0.5, duration: 0.6 }}
             className="text-black/60 text-sm lg:text-base mb-6 lg:mb-10 max-w-[545px] text-[var(--darkblue)]"
           >
-            Rejoignez des millions d'utilisateurs sur la marketplace de référence. Vendez vos objets ou découvrez des trésors près de chez vous.
+            Rejoignez des millions d&apos;utilisateurs sur la marketplace de référence. Vendez vos objets ou découvrez des trésors près de chez vous.
           </motion.p>
           <motion.div
             initial={{ y: "100px", opacity: 0 }}
@@ -41,7 +41,7 @@ const HeroSec = () => {
           >
             <Link
               href="/catalog"
-className="w-full md:w-[18rem] mb-5 md:mb-12 inline-block text-center 
+              className="w-full md:w-[18rem] mb-5 md:mb-12 inline-block text-center 
 bg-[var(--darkblue)] text-white px-14 py-4 rounded-full
 transition-all duration-300 ease-out
 hover:scale-[1.03] hover:shadow-xl hover:shadow-[var(--darkblue)/30]"

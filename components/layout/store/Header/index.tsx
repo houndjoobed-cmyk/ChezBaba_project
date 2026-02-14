@@ -7,6 +7,8 @@ import UserMenu from "@/components/layout/store/Header/UserMenu";
 import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 
+import { LayoutGrid, Heart, ShoppingCart, Search } from "lucide-react";
+
 const Navbar = () => {
   const { cart } = useAppSelector((state: RootState) => state.carts);
   return (
@@ -30,15 +32,15 @@ const Navbar = () => {
             </form>
             {/* Bouton Catégories */}
             <Link href="/categories" className="categorie_button" style={{ display: 'inline-block', marginRight: 24 }}>
-              <i className="bi bi-grid" style={{ marginRight: 6 }}></i> Catégories
+              <LayoutGrid size={20} style={{ marginRight: 6, display: 'inline' }} /> Catégories
             </Link>
             {/* Icônes */}
             <div className="button_icons" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
               <Link href="/favorites" className="icone" title="Mes Favoris">
-                <i className="bi bi-heart"></i>
+                <Heart size={24} />
               </Link>
               <Link href="/cart" className="icone" style={{ position: 'relative' }}>
-                <i className="bi bi-cart3"></i>
+                <ShoppingCart size={24} />
                 <span className="cart-badge" style={{ background: '#EA9010' }}>{cart ? cart.totalQuantities : 0}</span>
               </Link>
               <UserMenu />
@@ -55,7 +57,7 @@ const Navbar = () => {
             </div>
             <div className="navBar_connexion_cart">
               <Link href="/cart" className="icone" style={{ position: 'relative' }}>
-                <i className="bi bi-cart3"></i>
+                <ShoppingCart size={24} />
                 <span className="cart-badge" style={{ background: '#EA9010' }}>{cart ? cart.totalQuantities : 0}</span>
               </Link>
             </div>
@@ -66,7 +68,7 @@ const Navbar = () => {
           <form className="search_input_button" style={{ flex: 1 }}>
             <input type="text" className="search_input" placeholder="Rechercher un produit" />
             <button type="submit" className="search_icon_btn">
-              <i className="bi bi-search"></i>
+              <Search size={20} />
             </button>
           </form>
         </div>

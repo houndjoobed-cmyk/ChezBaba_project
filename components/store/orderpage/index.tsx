@@ -119,10 +119,6 @@ export default function OrderPageMain() {
     setDeliveryAddress({ ...deliveryAddress, [e.target.name]: e.target.value });
   };
 
-  const handlePaymentInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPaymentInfo({ ...paymentInfo, [e.target.name]: e.target.value });
-  };
-
   const handleSubmit = async () => {
     if (!orderSummary) return;
 
@@ -145,12 +141,6 @@ export default function OrderPageMain() {
         quartier: deliveryAddress.quartier,
         codePostal: deliveryAddress.postalCode,
       },
-      payment: {
-        cardNumber: paymentInfo.cardNumber,
-        cvc: paymentInfo.cvc,
-        expirationDate: paymentInfo.expirationDate,
-        legalName: paymentInfo.cardholderName,
-      },
       produits: productsForOrder,
     };
 
@@ -162,7 +152,8 @@ export default function OrderPageMain() {
       });
 
       if (response.ok) {
-        setIsOrderSuccessful(true);
+        const result = await response.json();
+        router.push(`/checkout/${result.data.id}`);
       } else if (response.status === 400) {
         const errorData = await response.json();
         if (errorData.data) {
@@ -226,7 +217,7 @@ export default function OrderPageMain() {
               />
               <PaymentInfoForm
                 paymentInfo={paymentInfo}
-                onChange={handlePaymentInfoChange}
+                onChange={() => { }}
                 errors={validationErrors}
               />
             </div>
@@ -252,3 +243,4 @@ export default function OrderPageMain() {
     </main>
   );
 }
+

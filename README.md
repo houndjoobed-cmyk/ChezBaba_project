@@ -1,4 +1,4 @@
-# MEGA SHOP 🛍️
+# CHEZ BABA 🛍️
 
 [![Academic Project](https://img.shields.io/badge/Academic%20Project-Master%201%20Software%20Engineering-blue?style=for-the-badge&logo=graduation-cap)](https://www.univ-bejaia.dz/)
 

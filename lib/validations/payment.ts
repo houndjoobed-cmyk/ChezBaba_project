@@ -1,17 +1,57 @@
 import { z } from "zod";
 
-// Schéma de validation des paiements
-export const paymentSchema = z.object({
-  cardNumber: z
-    .string()
-    .min(12, "Min. 12 chiffres")
-    .max(19, "Max. 19 chiffres")
-    .regex(/^\d+$/, "Chiffres uniquement"),
-  cvc: z
-    .string()
-    .min(3, "Min. 3 chiffres")
-    .max(4, "Max. 4 chiffres")
-    .regex(/^\d+$/, "Chiffres uniquement"),
-  expirationDate: z.string().regex(/^\d{2}\/\d{2}$/, "Format MM/AA"),
-  legalName: z.string().min(1, "Nom requis"),
+// ---- Initiation de paiement ----
+
+export const initiatePaymentSchema = z.object({
+  commandeId: z.string().min(1, "L'identifiant de commande est requis"),
+  methode: z.enum(["MOBILE_MONEY", "CARTE_BANCAIRE"], {
+    errorMap: () => ({
+      message: "Méthode de paiement invalide. Choisissez MOBILE_MONEY ou CARTE_BANCAIRE",
+    }),
+  }),
 });
+
+// ---- Confirmation de livraison ----
+
+export const confirmDeliverySchema = z.object({
+  commandeId: z.string().min(1, "L'identifiant de commande est requis"),
+});
+
+// ---- Demande de retrait vendeur ----
+
+export const requestWithdrawalSchema = z.object({
+  montant: z
+    .number()
+    .positive("Le montant doit être positif")
+    .min(500, "Le montant minimum de retrait est 500 FCFA"),
+  methode: z.enum(["MOBILE_MONEY", "CARTE_BANCAIRE"], {
+    errorMap: () => ({
+      message: "Méthode de retrait invalide",
+    }),
+  }),
+});
+
+// ---- Création de litige ----
+
+export const createDisputeSchema = z.object({
+  commandeId: z.string().min(1, "L'identifiant de commande est requis"),
+  motif: z
+    .string()
+    .min(10, "Le motif doit contenir au moins 10 caractères")
+    .max(500, "Le motif ne peut pas dépasser 500 caractères"),
+  description: z
+    .string()
+    .max(1000, "La description ne peut pas dépasser 1000 caractères")
+    .optional(),
+});
+
+// ---- Webhook KKiaPay (validation entrante) ----
+
+export const kkiapayWebhookSchema = z.object({
+  transactionId: z.string().min(1),
+  status: z.enum(["SUCCESS", "FAILED", "PENDING"]),
+  amount: z.number().positive(),
+  fees: z.number().optional(),
+  phone_number: z.string().optional(),
+  operator: z.string().optional(),
+}).passthrough(); // Autoriser les champs supplémentaires de KKiaPay

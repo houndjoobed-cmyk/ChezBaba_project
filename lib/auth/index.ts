@@ -9,7 +9,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { authConfig } from "./auth.config";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma) as any,
+  adapter: PrismaAdapter(prisma) as import("next-auth/adapters").Adapter,
   ...authConfig,
   providers: [
     CredentialsProvider({
@@ -65,12 +65,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (trigger === "signIn" && user) {
         token.id = user.id!;
         token.email = user.email!;
-        token.nom = (user as any).nom;
-        token.prenom = (user as any).prenom;
-        token.role = (user as any).role;
-        token.emailVerifie = (user as any).emailVerifie;
-        token.imagePublicId = (user as any).imagePublicId;
-        token.tel = (user as any).tel;
+        token.nom = user.nom;
+        token.prenom = user.prenom;
+        token.role = user.role;
+        token.emailVerifie = user.emailVerifie;
+        token.imagePublicId = user.imagePublicId;
+        token.tel = user.tel;
       }
 
       // If the user is updating their session, fetch the latest user data

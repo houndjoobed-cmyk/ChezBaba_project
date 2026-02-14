@@ -25,6 +25,8 @@ import FieldErrorMessage from "@/components/auth/FieldErrorMessage";
 // Utils
 import { cn } from "@/lib/utils";
 
+import { Eye, EyeOff } from "lucide-react";
+
 export function LoginForm({
   className,
   ...props
@@ -149,9 +151,11 @@ export function LoginForm({
                   className="absolute right-3 top-3/4 transform -translate-y-1/2 text-gray-500"
                   onClick={() => setShowPassword((prev) => !prev)}
                 >
-                  <i
-                    className={`bi ${showPassword ? "bi-eye" : "bi-eye-slash"}`}
-                  ></i>
+                  {showPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
                 </button>
                 {fieldErrors.password && (
                   <FieldErrorMessage message={fieldErrors.password} />

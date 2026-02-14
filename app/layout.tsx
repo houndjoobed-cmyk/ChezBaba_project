@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import HolyLoader from "holy-loader";
 
 // styles
 import "@/styles/globals.css";
@@ -15,8 +14,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "MEGA SHOP",
-  description: "Ecommerce store built with Next.js",
+  title: "CHEZ BABA",
+  description: "Plateforme marketplace centralisée pour petits et grands commerces au Bénin.",
 };
 
 export default function GlobalLayout({
@@ -26,14 +25,7 @@ export default function GlobalLayout({
 }>) {
   return (
     <html lang="en">
-            <head>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-        />
-      </head>
       <body className={satoshi.className}>
-        <HolyLoader color="#868686" />
         <Providers>
           {children}
           <Toaster />

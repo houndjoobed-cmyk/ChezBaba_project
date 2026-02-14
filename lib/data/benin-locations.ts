@@ -164,7 +164,7 @@ export function getVillesParDepartement(departement: string): string[] {
     return villesBenin[departement] || [];
 }
 
-export default {
+const locationsData = {
     departements,
     villesBenin,
     quartiersBenin,
@@ -173,3 +173,5 @@ export default {
     getQuartiersParVille,
     getVillesParDepartement,
 };
+
+export default locationsData;

@@ -43,7 +43,7 @@ const ShopHeader = ({ shop }: ShopHeaderProps) => {
             if (navigator.share) {
                 await navigator.share({
                     title: shop.nomBoutique,
-                    text: shop.description || `Découvrez la boutique ${shop.nomBoutique} sur MEGA SHOP`,
+                    text: shop.description || `Découvrez la boutique ${shop.nomBoutique} sur CHEZ BABA`,
                     url: url,
                 });
             } else {
@@ -132,7 +132,7 @@ const ShopHeader = ({ shop }: ShopHeaderProps) => {
                                 <div className="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 leading-relaxed">
                                     <div className={cn("relative transition-all duration-300", !isDescriptionExpanded && "max-h-[120px] overflow-hidden")}>
                                         <p className="whitespace-pre-line">
-                                            {shop.description || "Une boutique passionnée par la mode et la qualité sur MEGA SHOP. Découvrez nos produits exclusifs et profitez de nos offres exceptionnelles."}
+                                            {shop.description || "Une boutique passionnée par la mode et la qualité sur CHEZ BABA. Découvrez nos produits exclusifs et profitez de nos offres exceptionnelles."}
                                         </p>
                                         {!isDescriptionExpanded && (shop.description?.length || 0) > 200 && (
                                             <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white dark:from-slate-950 to-transparent" />

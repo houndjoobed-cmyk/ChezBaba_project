@@ -27,13 +27,13 @@ export async function generateMetadata({ params }: ShopPageProps) {
 
     if (!shop) {
         return {
-            title: "Boutique introuvable | MEGA SHOP",
+            title: "Boutique introuvable | CHEZ BABA",
         };
     }
 
     return {
-        title: `${shop.nomBoutique} | MEGA SHOP`,
-        description: shop.description || `Découvrez les produits de ${shop.nomBoutique} sur MEGA SHOP`,
+        title: `${shop.nomBoutique} | CHEZ BABA`,
+        description: shop.description || `Découvrez les produits de ${shop.nomBoutique} sur CHEZ BABA`,
     };
 }
 

@@ -7,11 +7,21 @@ import UserMenu from "@/components/layout/store/Header/UserMenu";
 // Bootstrap Icons (assume they are globally available or use <i> tags)
 // Icon names: house, grid, heart, person
 
+import { Home, LayoutGrid, Heart, User } from "lucide-react";
+
+// Icon components mapping
+const icons = {
+  Home,
+  LayoutGrid,
+  Heart,
+  User,
+};
+
 const navItems = [
-  { href: "/", label: "Accueil", icon: "house" },
-  { href: "/categories", label: "Catégories", icon: "grid" },
-  { href: "/favorites", label: "Favoris", icon: "heart" },
-  { href: "/profile", label: "Compte", icon: "person" },
+  { href: "/", label: "Accueil", icon: "Home" },
+  { href: "/categories", label: "Catégories", icon: "LayoutGrid" },
+  { href: "/favorites", label: "Favoris", icon: "Heart" },
+  { href: "/profile", label: "Compte", icon: "User" },
 ];
 
 export default function BottomNav() {
@@ -28,6 +38,9 @@ export default function BottomNav() {
               </div>
             );
           }
+
+          const IconComponent = icons[item.icon as keyof typeof icons];
+
           return (
             <Link
               key={item.href}
@@ -40,7 +53,7 @@ export default function BottomNav() {
                 aria-hidden="true"
                 style={{ color: "white" }}
               >
-                <i className={`bi bi-${item.icon}`}></i>
+                <IconComponent size={24} />
               </span>
             </Link>
           );

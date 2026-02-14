@@ -21,14 +21,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Check authorization
-  if (session.user.role !== UserRole.CLIENT) {
-    return NextResponse.json(
-      { error: ERROR_MESSAGES.FORBIDDEN },
-      { status: 403 }
-    );
-  }
-
   // Parse and validate request body
   const body = await req.json();
   const parsed = prepareOrderSchema.safeParse(body);
@@ -48,8 +40,6 @@ export async function POST(req: NextRequest) {
     const dbProducts = await prisma.produit.findMany({
       where: {
         id: { in: productIds },
-        ...(couleurIds.length > 0 && { couleurs: { some: { id: { in: couleurIds } } } }),
-        ...(tailleIds.length > 0 && { tailles: { some: { id: { in: tailleIds } } } }),
       },
       select: {
         id: true,
@@ -93,13 +83,16 @@ export async function POST(req: NextRequest) {
       const sousTotal = prixUnit.mul(quantite);
       total = total.add(sousTotal);
 
-      // Filter the exact color/size from the arrays (since findMany returns matches in the some condition)
-      const selectedCouleur = produit.couleurs.find(
-        (c) => c.id === line.couleurId
-      );
-      const selectedTaille = produit.tailles.find((t) => t.id === line.tailleId);
+      // Filter the exact color/size if provided
+      const selectedCouleur = line.couleurId
+        ? produit.couleurs.find((c) => c.id === line.couleurId)
+        : null;
+      const selectedTaille = line.tailleId
+        ? produit.tailles.find((t) => t.id === line.tailleId)
+        : null;
 
-      if (!selectedCouleur || !selectedTaille) {
+      // If ID was provided but not found in product variants
+      if ((line.couleurId && !selectedCouleur) || (line.tailleId && !selectedTaille)) {
         throw new BadRequestIdError(
           `Variante (couleur/taille) pour le produit "${produit.nom}" non trouvée.`
         );
@@ -114,6 +107,7 @@ export async function POST(req: NextRequest) {
         produitId: produit.id,
         couleur: selectedCouleur,
         taille: selectedTaille,
+        couleurId: line.couleurId ?? null,
         tailleId: line.tailleId ?? null,
       });
     }

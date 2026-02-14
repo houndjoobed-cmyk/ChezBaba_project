@@ -44,7 +44,8 @@ export default function CartOrderSummary() {
       });
 
       if (response.ok) {
-        // Everything is fine, go to order page
+        // Everything is fine, go to payment page
+        const orderData = await response.json();
         router.push("/order");
       } else if (response.status === 409) {
         // Stock error

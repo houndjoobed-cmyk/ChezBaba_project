@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { paymentSchema } from "./payment";
+import { initiatePaymentSchema } from "./payment";
 
 // Delivery address schema
 const deliveryAddressSchema = z.object({
@@ -31,5 +31,5 @@ export const prepareOrderSchema = z.object({
 
 // Combine schemas
 export const fullOrderWithPaymentSchema = createOrderSchema.extend({
-  payment: paymentSchema,
+  payment: initiatePaymentSchema,
 });

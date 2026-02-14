@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { OrderFromAPI } from "@/lib/types/order.types";
 import { extractDateString, formatPrice } from "@/lib/utils";
 import { getStatusColor, getStatusLabel } from "@/lib/helpers/orderStatus";
+import OrderActions from "@/components/orders/OrderActions";
 
 interface OrderDetailModalProps {
   order: OrderFromAPI | null;
@@ -47,6 +48,8 @@ export default function OrderDetailModal({
               {getStatusLabel(order.statut)}
             </span>
           </div>
+
+          <OrderActions orderId={order.id} status={order.statut} userRole="ADMIN" />
 
           {/* Informations vendeur */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 bg-gray-50 p-3 sm:p-4 rounded-xl">

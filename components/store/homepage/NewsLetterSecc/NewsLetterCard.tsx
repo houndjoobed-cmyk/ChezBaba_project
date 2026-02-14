@@ -36,8 +36,9 @@ const NewsLetterSection = () => {
 
       toast.success(data.message);
       setEmail("");
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Une erreur est survenue.";
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }

@@ -27,7 +27,7 @@ export const ERROR_MESSAGES = {
   BAD_REQUEST:
     "La requête est invalide. Veuillez vérifier les données envoyées.",
   BAD_REQUEST_ID:
-    "Échec de la création du produit : Un ou plusieurs IDs fournis sont invalides.",
+    "Un ou plusieurs IDs fournis sont invalides ou introuvables.",
   // 401
   UNAUTHORIZED: "Vous devez être authentifié pour accéder à cette ressource.",
   // 403

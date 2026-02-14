@@ -33,117 +33,22 @@ export default function PaymentInfoForm({
         Informations de paiement
       </h3>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div className="sm:col-span-2 space-y-2">
-          <InputGroup className="focus-within:shadow-none">
-            <InputGroup.Text
-              className={cn(satoshi.className, "text-gray-700 font-medium")}
-            >
-              Numéro de carte
-            </InputGroup.Text>
-            <InputGroup.Input
-              type="text"
-              name="cardNumber"
-              value={paymentInfo.cardNumber}
-              onChange={onChange}
-              placeholder="Entrez votre numéro de carte"
-              className={cn(
-                satoshi.className,
-                "text-black placeholder:text-gray-400 px-4 py-3 border border-gray-200 rounded-lg transition-all duration-200",
-                errors["payment.cardNumber"] && "border-red-500"
-              )}
-              required
-            />
-          </InputGroup>
-          {errors["payment.cardNumber"] && (
-            <p className="text-red-500 text-sm float-right">
-              {errors["payment.cardNumber"]}
-            </p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <InputGroup className="focus-within:shadow-none">
-            <InputGroup.Text
-              className={cn(satoshi.className, "text-gray-700 font-medium")}
-            >
-              CVC
-            </InputGroup.Text>
-            <InputGroup.Input
-              type="text"
-              name="cvc"
-              value={paymentInfo.cvc}
-              onChange={onChange}
-              placeholder="Entrez votre CVC"
-              className={cn(
-                satoshi.className,
-                "text-black placeholder:text-gray-400 px-4 py-3 border border-gray-200 rounded-lg transition-all duration-200",
-                errors["payment.cvc"] && "border-red-500"
-              )}
-              required
-            />
-          </InputGroup>
-          {errors["payment.cvc"] && (
-            <p className="text-red-500 text-sm float-right">
-              {errors["payment.cvc"]}
-            </p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <InputGroup className="focus-within:shadow-none">
-            <InputGroup.Text
-              className={cn(satoshi.className, "text-gray-700 font-medium")}
-            >
-              Date d&apos;expiration
-            </InputGroup.Text>
-            <InputGroup.Input
-              type="text"
-              name="expirationDate"
-              value={paymentInfo.expirationDate}
-              onChange={onChange}
-              placeholder="MM/AA"
-              className={cn(
-                satoshi.className,
-                "text-black placeholder:text-gray-400 px-4 py-3 border border-gray-200 rounded-lg transition-all duration-200",
-                errors["payment.expirationDate"] && "border-red-500"
-              )}
-              required
-            />
-          </InputGroup>
-          {errors["payment.expirationDate"] && (
-            <p className="text-red-500 text-sm float-right">
-              {errors["payment.expirationDate"]}
-            </p>
-          )}
-        </div>
-        
-        <div className="sm:col-span-2 space-y-2">
-          <InputGroup className="focus-within:shadow-none">
-            <InputGroup.Text
-              className={cn(satoshi.className, "text-gray-700 font-medium")}
-            >
-              Nom du titulaire
-            </InputGroup.Text>
-            <InputGroup.Input
-              type="text"
-              name="cardholderName"
-              value={paymentInfo.cardholderName}
-              onChange={onChange}
-              placeholder="Entrez le nom du titulaire"
-              className={cn(
-                satoshi.className,
-                "text-black placeholder:text-gray-400 px-4 py-3 border border-gray-200 rounded-lg transition-all duration-200",
-                errors["payment.legalName"] && "border-red-500"
-              )}
-              required
-            />
-          </InputGroup>
-          {errors["payment.legalName"] && (
-            <p className="text-red-500 text-sm float-right">
-              {errors["payment.legalName"]}
-            </p>
-          )}
+      <div className="space-y-4">
+        <p className={cn(satoshi.className, "text-gray-600")}>
+          Le paiement est sécurisé par notre partenaire <strong>KKiaPay</strong>.
+        </p>
+        <p className={cn(satoshi.className, "text-sm text-gray-500")}>
+          Après avoir cliqué sur &quot;Passer la commande&quot;, vous serez redirigé vers l&apos;interface de paiement sécurisée pour finaliser votre achat par <strong>Carte Bancaire</strong> ou <strong>Mobile Money</strong>.
+        </p>
+        <div className="p-4 bg-blue-50 rounded-lg border border-blue-100 flex items-start gap-3">
+          <div className="mt-1">
+            <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <p className={cn(satoshi.className, "text-sm text-blue-700")}>
+            Vos informations bancaires ne sont jamais stockées sur nos serveurs.
+          </p>
         </div>
       </div>
     </div>

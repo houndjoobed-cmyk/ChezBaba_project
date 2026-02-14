@@ -55,21 +55,29 @@ export default function OrderHistoryPage(): JSX.Element {
 
   // Valid status transitions
   const statusTransitions: Record<CommandeStatut, CommandeStatut[]> = {
-    [CommandeStatut.EN_COURS]: [
+    [CommandeStatut.EN_ATTENTE_PAIEMENT]: [CommandeStatut.ANNULEE],
+    [CommandeStatut.PAYEE]: [
       CommandeStatut.EXPEDIEE,
       CommandeStatut.ANNULEE,
     ],
     [CommandeStatut.EXPEDIEE]: [CommandeStatut.LIVREE, CommandeStatut.ANNULEE],
-    [CommandeStatut.LIVREE]: [],
+    [CommandeStatut.LIVREE]: [CommandeStatut.LIVRAISON_CONFIRMEE],
+    [CommandeStatut.LIVRAISON_CONFIRMEE]: [],
     [CommandeStatut.ANNULEE]: [],
+    [CommandeStatut.EN_LITIGE]: [CommandeStatut.REMBOURSEE, CommandeStatut.LIVRAISON_CONFIRMEE],
+    [CommandeStatut.REMBOURSEE]: [],
   };
 
   // Status labels for display
   const statusLabels: Record<CommandeStatut, string> = {
-    [CommandeStatut.EN_COURS]: "En attente",
+    [CommandeStatut.EN_ATTENTE_PAIEMENT]: "En attente de paiement",
+    [CommandeStatut.PAYEE]: "Payée",
     [CommandeStatut.EXPEDIEE]: "Expédiée",
     [CommandeStatut.LIVREE]: "Livrée",
+    [CommandeStatut.LIVRAISON_CONFIRMEE]: "Confirmée",
     [CommandeStatut.ANNULEE]: "Annulée",
+    [CommandeStatut.EN_LITIGE]: "En litige",
+    [CommandeStatut.REMBOURSEE]: "Remboursée",
   };
 
   /**
