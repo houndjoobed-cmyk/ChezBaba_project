@@ -15,8 +15,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "MEGA SHOP",
+  title: "Chezbaba",
   description: "Ecommerce store built with Next.js",
+  icons: {
+    icon: "/icons/smalllogo.png",
+    apple: "/icons/smalllogo.png",
+  },
 };
 
 export default function GlobalLayout({
