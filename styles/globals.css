@@ -164,6 +164,38 @@
   border-color: var(--primary-color);
 }
 
+/* === MARQUEE WELCOME MESSAGE === */
+.welcome-marquee-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  margin: 0 20px;
+}
+
+.welcome-marquee-text {
+  position: absolute;
+  white-space: nowrap;
+  animation: marquee 25s linear infinite;
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+}
+
+@keyframes marquee {
+  0% {
+    left: 100%;
+    transform: translateX(0);
+  }
+
+  100% {
+    left: 0;
+    transform: translateX(-100%);
+  }
+}
+
 .button_icons {
   display: flex;
   align-items: center;
@@ -370,6 +402,7 @@
   height: 60px;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
 }
+
 /* .text-center{ 
   display: inline-block ;}
 .text-center:hover{
@@ -553,4 +586,33 @@
   .navBar-mobile-top .search_input_button {
     display: none;
   }
+}
+
+/* === TERMS PAGE CSS === */
+.tc-prohibited-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.tc-prohibited-item {
+  background-color: rgba(12, 27, 51, 0.03);
+  padding: 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  transition: all 0.3s;
+}
+
+.tc-prohibited-item:hover {
+  background-color: rgba(189, 254, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.tc-prohibited-item i {
+  color: var(--secondary-color);
+  margin-top: 3px;
 }

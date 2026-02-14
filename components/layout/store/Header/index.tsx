@@ -24,10 +24,12 @@ const Navbar = () => {
                 <Image src="/images/logo-removebg-preview.png" alt="CHEZ BABA" width={120} height={60} className="logo-image" />
               </Link>
             </div>
-            {/* Barre de recherche */}
-            <form className="search_input_button" style={{ flex: 1, margin: '0 24px' }}>
-              <input type="text" className="search_input" placeholder="Rechercher un produit" />
-            </form>
+            {/* Message de Bienvenue Défilant */}
+            <div className="welcome-marquee-container">
+              <div className="welcome-marquee-text">
+                <span style={{ color: 'var(--primary-color)' }}>ChezBaba</span> : le moins cher! &bull; Profitez de nos offres exceptionnelles &bull; Retrait facile en magasin &bull; la qualité au meilleur prix !
+              </div>
+            </div>
             {/* Bouton Catégories */}
             <Link href="/categories" className="categorie_button" style={{ display: 'inline-block', marginRight: 24 }}>
               <i className="bi bi-grid" style={{ marginRight: 6 }}></i> Catégories
@@ -61,14 +63,13 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-        {/* Mobile : section basse (barre de recherche) */}
+        {/* Mobile : section basse (Message défilant) */}
         <div className="navBar navBar-mobile-bottom">
-          <form className="search_input_button" style={{ flex: 1 }}>
-            <input type="text" className="search_input" placeholder="Rechercher un produit" />
-            <button type="submit" className="search_icon_btn">
-              <i className="bi bi-search"></i>
-            </button>
-          </form>
+          <div className="welcome-marquee-container">
+            <div className="welcome-marquee-text">
+              <span style={{ color: 'var(--primary-color)' }}>ChezBaba</span>:le moins cher! &bull; Retrait facile &bull; Livraison partout !
+            </div>
+          </div>
         </div>
       </nav>
       {/* Bottom navigation mobile only */}
