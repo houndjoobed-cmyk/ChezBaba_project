@@ -1,0 +1,254 @@
+/* CSS SCOPÉ POUR LA PAGE TERMS */
+/* Toutes les classes sont préfixées par 'tc-' (Terms Css) */
+
+.tc-hero {
+    background: linear-gradient(135deg, rgba(12, 27, 51, 0.05) 0%, rgba(189, 254, 0, 0.05) 100%);
+    padding: 3.5rem 0;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.tc-hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.tc-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+.tc-hero p {
+    font-size: 1.1rem;
+    color: var(--darkgray);
+    margin-bottom: 1.5rem;
+}
+
+.tc-update-date {
+    background-color: var(--white);
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    border: 1px solid var(--border-color);
+    font-weight: 500;
+    color: var(--darkgray1);
+    font-size: 0.9rem;
+}
+
+/* Layout Principal */
+.tc-main-content {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 4rem 20px;
+}
+
+.tc-terms-content {
+    background-color: var(--white);
+    padding: 2.5rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+}
+
+/* Sections */
+.tc-section {
+    margin-bottom: 3rem;
+    scroll-margin-top: 150px;
+}
+
+.tc-section:last-child {
+    margin-bottom: 0;
+}
+
+.tc-section-title {
+    font-size: 1.6rem;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+.tc-subsection {
+    margin-bottom: 2rem;
+}
+
+.tc-subsection-title {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+/* Typographie */
+.tc-p {
+    margin-bottom: 1.2rem;
+    color: var(--darkgray1);
+    line-height: 1.6;
+}
+
+.tc-ul,
+.tc-ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.tc-li {
+    margin-bottom: 0.8rem;
+    color: var(--darkgray1);
+}
+
+.tc-highlight {
+    background-color: rgba(189, 254, 0, 0.08);
+    border-left: 4px solid var(--primary-color);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+/* Prohibited Items Grid */
+.tc-prohibited-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.tc-prohibited-item {
+    background-color: rgba(12, 27, 51, 0.03);
+    padding: 1rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    transition: all 0.3s;
+}
+
+.tc-prohibited-item:hover {
+    background-color: rgba(189, 254, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+.tc-prohibited-item i {
+    color: var(--secondary-color);
+    margin-top: 3px;
+}
+
+/* Sidebar */
+.tc-sidebar {
+    position: sticky;
+    top: 120px;
+    height: fit-content;
+}
+
+.tc-sidebar-nav {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+}
+
+.tc-sidebar-title {
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.tc-sidebar-links {
+    display: flex;
+    flex-direction: column;
+}
+
+.tc-sidebar-link {
+    padding: 0.8rem 0;
+    color: var(--darkgray);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tc-sidebar-link:hover {
+    color: var(--secondary-color);
+    padding-left: 5px;
+    background-color: var(--light-gray);
+}
+
+.tc-sidebar-link.tc-active {
+    color: var(--secondary-color);
+    font-weight: 600;
+    border-left: 3px solid var(--primary-color);
+    padding-left: 10px;
+    background-color: rgba(189, 254, 0, 0.1);
+}
+
+/* Contact Card */
+.tc-contact-card {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.tc-contact-card h3 {
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
+.tc-contact-btn {
+    display: inline-block;
+    background-color: #25d366;
+    color: white;
+    padding: 0.8rem 1.8rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 1rem;
+    transition: all 0.3s;
+}
+
+.tc-contact-btn:hover {
+    background-color: #128c7e;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .tc-main-content {
+        grid-template-columns: 1fr;
+    }
+
+    .tc-sidebar {
+        display: none;
+    }
+
+    .tc-hero h1 {
+        font-size: 2rem;
+    }
+
+    .tc-terms-content {
+        padding: 1.5rem;
+    }
+
+    .tc-prohibited-items {
+        grid-template-columns: 1fr;
+    }
+}
