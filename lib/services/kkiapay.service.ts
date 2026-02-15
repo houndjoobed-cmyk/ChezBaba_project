@@ -14,11 +14,9 @@ const KKIAPAY_PRIVATE_KEY = process.env.KKIAPAY_PRIVATE_KEY!;
 const KKIAPAY_SECRET = process.env.KKIAPAY_SECRET!;
 const KKIAPAY_PUBLIC_KEY = process.env.KKIAPAY_PUBLIC_KEY!;
 
-// @ts-ignore
 import { kkiapay } from "@kkiapay-org/nodejs-sdk";
 
 // Initialisation du SDK KKiaPay
-// @ts-ignore
 const k = kkiapay({
     publickey: KKIAPAY_PUBLIC_KEY,
     privatekey: KKIAPAY_PRIVATE_KEY,
@@ -41,7 +39,6 @@ export async function verifyTransaction(
         // Petite pause pour laisser le temps à KKiaPay de propager la transaction
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        // @ts-ignore
         const transaction = await k.verify(transactionId);
 
         console.log(`[KKiaPay] Réponse SDK:`, JSON.stringify(transaction));
@@ -52,9 +49,10 @@ export async function verifyTransaction(
         }
 
         return transaction as KKiaPyWebhookPayload;
-    } catch (error: any) {
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Erreur inconnue";
         console.error(`[KKiaPay] Erreur SDK Verify:`, error);
-        throw new Error(`Échec de la vérification SDK: ${error.message}`);
+        throw new Error(`Échec de la vérification SDK: ${errorMessage}`);
     }
 }
 
@@ -161,7 +159,7 @@ export function getWidgetConfig(
         phone?: string;
         name?: string;
         reference: string;
-        metadata?: any;
+        metadata?: Record<string, unknown>;
     }
 ) {
     const channels =

@@ -5,52 +5,57 @@ import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import PaymentMethodSelector from "@/components/checkout/PaymentMethodSelector";
 import KKiaPyWidget from "@/components/checkout/KKiaPyWidget";
-import { Loader2, ShieldCheck, AlertCircle } from "lucide-react";
+import { Loader2, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
+
+interface Order {
+    id: string;
+    montant: number;
+    paiement?: {
+        statut: string;
+    };
+}
 
 export default function CheckoutPage({ params }: { params: Promise<{ orderId: string }> }) {
     const { orderId } = use(params);
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const { data: session } = useSession();
-    const [order, setOrder] = useState<any>(null);
+    const [order, setOrder] = useState<Order | null>(null);
     const [loading, setLoading] = useState(true);
-    const [paymentConfig, setPaymentConfig] = useState<any>(null);
+    const [error, setError] = useState<string | null>(null);
+    const [paymentConfig, setPaymentConfig] = useState<Record<string, unknown> | null>(null); // safely typed config
     const [initializing, setInitializing] = useState(false);
 
     // From Redux (or props if integrated differently)
     const [selectedMethod, setSelectedMethod] = useState<"MOBILE_MONEY" | "CARTE_BANCAIRE" | null>(null);
 
     useEffect(() => {
+        const fetchOrder = async () => {
+            try {
+                const res = await fetch(`/api/orders/${orderId}`);
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data.details || data.error || "Commande introuvable");
+                }
+
+                setOrder(data.data);
+
+                // If already paid, redirect
+                if (data.data.paiement && data.data.paiement.statut === "REUSSI") {
+                    router.push(`/client/orders/${orderId}?payment=success`);
+                }
+            } catch (err: unknown) {
+                const errorMessage = err instanceof Error ? err.message : "Erreur inconnue";
+                setError(errorMessage);
+                toast.error(errorMessage);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchOrder();
-    }, [orderId]);
-
-    const [error, setError] = useState<string | null>(null);
-
-    const fetchOrder = async () => {
-        try {
-            const res = await fetch(`/api/orders/${orderId}`);
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.details || data.error || "Commande introuvable");
-            }
-
-            setOrder(data.data);
-
-            // If already paid, redirect
-            if (data.data.paiement && data.data.paiement.statut === "REUSSI") {
-                router.push(`/client/orders/${orderId}?payment=success`);
-            }
-        } catch (err: any) {
-            setError(err.message);
-            toast.error(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+    }, [orderId, router]);
 
     const handleInitiatePayment = async () => {
         if (!selectedMethod) {
@@ -73,8 +78,9 @@ export default function CheckoutPage({ params }: { params: Promise<{ orderId: st
             if (!res.ok) throw new Error(data.error || "Erreur d'initialisation");
 
             setPaymentConfig(data.data.kkiapayConfig);
-        } catch (error: any) {
-            toast.error(error.message);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : "Erreur d'initialisation";
+            toast.error(errorMessage);
         } finally {
             setInitializing(false);
         }
@@ -119,8 +125,6 @@ export default function CheckoutPage({ params }: { params: Promise<{ orderId: st
 
                 {!paymentConfig ? (
                     <div key="selector-section" className="space-y-6">
-                        {/* Reuse PaymentMethodSelector Logic locally or via Redux */}
-                        {/* Simplified local version for this page */}
                         <div className="space-y-4">
                             <label className="font-medium text-gray-700">Choisissez votre méthode :</label>
                             <div className="grid grid-cols-2 gap-4">
@@ -164,7 +168,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ orderId: st
                 ) : (
                     <div key="widget-section">
                         <KKiaPyWidget
-                            amount={paymentConfig.amount} // Utiliser le montant calculé (avec frais éventuels)
+                            amount={(paymentConfig as { amount: number }).amount}
                             paymentConfig={paymentConfig}
                         />
                     </div>

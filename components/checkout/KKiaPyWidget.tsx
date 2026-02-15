@@ -10,16 +10,16 @@ import { toast } from "sonner";
 
 interface KKiaPayWidgetProps {
     amount: number;
-    paymentConfig: any; // Configuration retournée par /api/payments/initiate
+    paymentConfig: Record<string, unknown>; // Configuration retournée par /api/payments/initiate
     onSuccess?: () => void;
-    onError?: (error: any) => void;
+    onError?: (error: unknown) => void;
 }
 
 declare global {
     interface Window {
-        openKkiapayWidget: (config: any) => void;
-        addSuccessListener: (callback: (response: any) => void) => void;
-        addFailedListener: (callback: (error: any) => void) => void;
+        openKkiapayWidget: (config: Record<string, unknown>) => void;
+        addSuccessListener: (callback: (response: Record<string, unknown>) => void) => void;
+        addFailedListener: (callback: (error: unknown) => void) => void;
     }
 }
 
@@ -101,7 +101,7 @@ export default function KKiaPyWidget({
                         onClick={openWidget}
                         className="mt-4 text-primary text-sm underline hover:text-primary/80"
                     >
-                        Si la fenêtre ne s'ouvre pas, cliquez ici
+                        Si la fenêtre ne s&apos;ouvre pas, cliquez ici
                     </button>
                 )}
             </div>

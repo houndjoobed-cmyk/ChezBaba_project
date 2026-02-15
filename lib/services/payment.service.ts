@@ -187,12 +187,12 @@ export async function processWebhookPayment(
         if (typeof metadata === 'string') {
             try {
                 metadata = JSON.parse(metadata);
-            } catch (e) {
+            } catch (e: unknown) {
                 console.error("[Webhook] Erreur parsing metadata JSON:", e);
             }
         }
 
-        const orderId = metadata?.orderId || webhookData.orderId;
+        const orderId = (metadata as Record<string, unknown>)?.orderId as string || webhookData.orderId;
         console.log(`[Webhook] Extraction OrderId: ${orderId} (Metadata: ${JSON.stringify(metadata)})`);
 
         if (orderId) {

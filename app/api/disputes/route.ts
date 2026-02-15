@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Vérifier le statut — litige impossible après confirmation de livraison
-        const forbiddenStatuses = [
+        const forbiddenStatuses: CommandeStatut[] = [
             CommandeStatut.LIVRAISON_CONFIRMEE,
             CommandeStatut.ANNULEE,
             CommandeStatut.REMBOURSEE,

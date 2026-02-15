@@ -1,19 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { updateWithdrawalStatus } from "@/lib/services/wallet.service";
-import { UserRole, DemandeRetraitStatut } from "@prisma/client";
+import { UserRole, StatutRetrait } from "@prisma/client";
 import { ERROR_MESSAGES } from "@/lib/constants/settings";
 import { z } from "zod";
 
 const updateStatusSchema = z.object({
-    statut: z.nativeEnum(DemandeRetraitStatut),
+    statut: z.nativeEnum(StatutRetrait),
 });
 
 export async function PATCH(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const { id } = await params;
         const session = await auth();
 
         if (!session || session.user.role !== UserRole.ADMIN) {
@@ -34,7 +35,7 @@ export async function PATCH(
         }
 
         await updateWithdrawalStatus(
-            params.id,
+            id,
             parsed.data.statut,
             session.user.id
         );

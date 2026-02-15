@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { getAllWithdrawals } from "@/lib/services/wallet.service";
-import { UserRole, DemandeRetraitStatut } from "@prisma/client";
+import { UserRole, StatutRetrait } from "@prisma/client";
 import { ERROR_MESSAGES } from "@/lib/constants/settings";
 
 export async function GET(req: NextRequest) {
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
         const { searchParams } = new URL(req.url);
         const page = Number(searchParams.get("page")) || 1;
         const pageSize = Number(searchParams.get("pageSize")) || 20;
-        const statut = searchParams.get("statut") as DemandeRetraitStatut | undefined;
+        const statut = searchParams.get("statut") as StatutRetrait | undefined;
 
         const result = await getAllWithdrawals(page, pageSize, statut);
 

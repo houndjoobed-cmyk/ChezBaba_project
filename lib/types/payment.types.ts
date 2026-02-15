@@ -45,7 +45,7 @@ export interface PaymentInitiationResponse {
         phone?: string;
         name?: string;
         reference: string;
-        metadata?: any;
+        metadata?: Record<string, unknown>;
     };
 }
 
@@ -58,8 +58,7 @@ export interface KKiaPyWebhookPayload {
     fees?: number;
     phone_number?: string;
     operator?: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
 // ---- Portefeuille vendeur ----

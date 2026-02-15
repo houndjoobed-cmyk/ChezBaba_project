@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -14,19 +14,7 @@ export default function FavoritesPage() {
     const [favorites, setFavorites] = useState<ProductFromAPI[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        // Redirect to login if not authenticated
-        if (status === "unauthenticated") {
-            router.push("/auth/login?callbackUrl=/favorites");
-            return;
-        }
-
-        if (status === "authenticated" && session?.user?.id) {
-            fetchFavorites();
-        }
-    }, [status, session, router]);
-
-    const fetchFavorites = async () => {
+    const fetchFavorites = useCallback(async () => {
         if (!session?.user?.id) return;
 
         setIsLoading(true);
@@ -41,7 +29,19 @@ export default function FavoritesPage() {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [session?.user?.id]);
+
+    useEffect(() => {
+        // Redirect to login if not authenticated
+        if (status === "unauthenticated") {
+            router.push("/auth/login?callbackUrl=/favorites");
+            return;
+        }
+
+        if (status === "authenticated" && session?.user?.id) {
+            fetchFavorites();
+        }
+    }, [status, session?.user?.id, router, fetchFavorites]);
 
     // Loading state
     if (status === "loading" || isLoading) {

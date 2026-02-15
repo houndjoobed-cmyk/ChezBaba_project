@@ -137,8 +137,8 @@ export default function OrderHistoryPage(): JSX.Element {
     fetchOrders();
 
     // Check for payment success from redirect
-    const statusParam = searchParams.get("status");
-    const transactionId = searchParams.get("transactionId");
+    const statusParam = searchParams?.get("status");
+    const transactionId = searchParams?.get("transactionId");
 
     if (statusParam === "success" && transactionId) {
       const verifyPayment = async () => {
@@ -155,10 +155,12 @@ export default function OrderHistoryPage(): JSX.Element {
             // Re-fetch orders to see updated status
             fetchOrders();
             // Clear URL params without reload
-            const newParams = new URLSearchParams(searchParams.toString());
-            newParams.delete("status");
-            newParams.delete("transactionId");
-            router.replace(`?${newParams.toString()}`, { scroll: false });
+            if (searchParams) {
+              const newParams = new URLSearchParams(searchParams.toString());
+              newParams.delete("status");
+              newParams.delete("transactionId");
+              router.replace(`?${newParams.toString()}`, { scroll: false });
+            }
           } else {
             console.error("Vérification échouée:", data.error);
           }

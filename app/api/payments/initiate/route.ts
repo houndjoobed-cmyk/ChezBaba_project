@@ -4,7 +4,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { ERROR_MESSAGES } from "@/lib/constants/settings";
-import { UserRole } from "@prisma/client";
+
 import { initiatePaymentSchema } from "@/lib/validations/payment";
 import { initiatePayment } from "@/lib/services/payment.service";
 

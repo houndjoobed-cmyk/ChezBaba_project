@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/utils/prisma";
 import { CommandeStatut, UserRole } from "@prisma/client";
+import { ERROR_MESSAGES } from "@/lib/constants/settings";
 import { z } from "zod";
 
 const updateStatusSchema = z.object({
@@ -10,15 +11,17 @@ const updateStatusSchema = z.object({
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { orderId: string } }
+  { params }: { params: Promise<{ orderId: string }> }
 ) {
   const session = await auth();
+  const { orderId } = await params;
 
   if (!session) {
-    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+    return NextResponse.json(
+      { error: ERROR_MESSAGES.UNAUTHORIZED },
+      { status: 401 }
+    );
   }
-
-  const { orderId } = params;
 
   try {
     const body = await req.json();
@@ -81,7 +84,7 @@ export async function PATCH(
     // On autorise le passage à EXPEDIEE si c'est PAYEE (ou EN_PREPARATION si on l'utilise)
     if (status === CommandeStatut.EXPEDIEE) {
       // Note: "statuses" typo fix in array variable name
-      const allowedPreviousStatuses = [CommandeStatut.PAYEE, CommandeStatut.EN_PREPARATION];
+      const allowedPreviousStatuses: CommandeStatut[] = [CommandeStatut.PAYEE, CommandeStatut.EN_PREPARATION];
 
       if (!allowedPreviousStatuses.includes(commande.statut)) {
         return NextResponse.json(

@@ -7,6 +7,8 @@ export const getStatusColor = (statut: string): string => {
       return "text-orange-600 bg-orange-100";
     case CommandeStatut.PAYEE:
       return "text-amber-600 bg-amber-100";
+    case CommandeStatut.EN_PREPARATION:
+      return "text-blue-500 bg-blue-50";
     case CommandeStatut.EXPEDIEE:
       return "text-blue-600 bg-blue-100";
     case CommandeStatut.LIVREE:
@@ -31,6 +33,8 @@ export const getStatusLabel = (statut: string): string => {
       return "En attente de paiement";
     case CommandeStatut.PAYEE:
       return "Payée";
+    case CommandeStatut.EN_PREPARATION:
+      return "En préparation";
     case CommandeStatut.EXPEDIEE:
       return "Expédiée";
     case CommandeStatut.LIVREE:

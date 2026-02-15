@@ -26,6 +26,13 @@ export async function POST(req: NextRequest) {
       );
 
     // Compare password
+    if (!user.password) {
+      return NextResponse.json(
+        { error: "Ce compte utilise une connexion sociale. Veuillez vous connecter avec Google." },
+        { status: 400 }
+      );
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return NextResponse.json(

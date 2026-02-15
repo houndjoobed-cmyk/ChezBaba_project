@@ -39,8 +39,9 @@ export default function OrderActions({ orderId, status, userRole }: OrderActions
             toast.success("Réception confirmée ! Le vendeur sera payé.");
             // Optional: force refresh or redirect
             window.location.reload();
-        } catch (error: any) {
-            toast.error(error || "Erreur lors de la confirmation");
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : "Erreur inconnue";
+            toast.error(errorMessage || "Erreur lors de la confirmation");
         } finally {
             setLoading(false);
         }
@@ -63,8 +64,9 @@ export default function OrderActions({ orderId, status, userRole }: OrderActions
 
             toast.success("Commande marquée comme expédiée !");
             window.location.reload();
-        } catch (error: any) {
-            toast.error(error.message || "Impossible de mettre à jour le statut");
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : "Erreur inconnue";
+            toast.error(errorMessage || "Impossible de mettre à jour le statut");
         } finally {
             setLoading(false);
         }
@@ -106,7 +108,7 @@ export default function OrderActions({ orderId, status, userRole }: OrderActions
                             className="bg-green-600 hover:bg-green-700 text-white flex-1"
                             disabled={loading}
                         >
-                            {loading ? "Traitement..." : "Oui, j'ai reçu ma commande"}
+                            {loading ? "Traitement..." : "Oui, j&apos;ai reçu ma commande"}
                             <CheckCircle className="ml-2 h-4 w-4" />
                         </Button>
 
@@ -147,7 +149,7 @@ export default function OrderActions({ orderId, status, userRole }: OrderActions
             return (
                 <div className="mt-4 p-3 bg-blue-50 text-blue-800 rounded text-sm flex items-center">
                     <Truck className="h-4 w-4 mr-2" />
-                    En attente d'expédition par le vendeur
+                    En attente d&apos;expédition par le vendeur
                 </div>
             );
         }

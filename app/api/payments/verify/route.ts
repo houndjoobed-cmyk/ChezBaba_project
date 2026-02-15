@@ -56,10 +56,11 @@ export async function POST(req: NextRequest) {
             { success: true, message: "Paiement vérifié et validé avec succès" },
             { status: 200 }
         );
-    } catch (error: any) {
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Erreur inconnue";
         console.error("API Error [POST /api/payments/verify]:", error);
         return NextResponse.json(
-            { error: error.message || "Erreur lors de la vérification du paiement" },
+            { error: errorMessage || "Erreur lors de la vérification du paiement" },
             { status: 500 }
         );
     }

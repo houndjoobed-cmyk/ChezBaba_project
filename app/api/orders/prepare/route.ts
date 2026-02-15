@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/utils/prisma";
 import { ERROR_MESSAGES } from "@/lib/constants/settings";
-import { UserRole } from "@prisma/client";
 import { formatValidationErrors, prepareOrderSchema } from "@/lib/validations";
 import { Decimal } from "@prisma/client/runtime/library";
 import { BadRequestIdError } from "@/lib/classes/BadRequestIdError";
@@ -34,7 +33,6 @@ export async function POST(req: NextRequest) {
   try {
     // Retrieve all products in a single batch to avoid multiple lookups
     const productIds = produits.map((p) => p.produitId);
-    const couleurIds = produits.map((p) => p.couleurId).filter((id): id is string => id !== undefined);
     const tailleIds = produits.map((p) => p.tailleId).filter((id): id is string => id !== undefined);
 
     const dbProducts = await prisma.produit.findMany({

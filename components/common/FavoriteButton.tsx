@@ -24,13 +24,6 @@ export default function FavoriteButton({
     const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
     const [isChecked, setIsChecked] = useState(false);
 
-    // Check favorite status on mount if authenticated (only once)
-    useEffect(() => {
-        if (status === "authenticated" && session?.user?.id && !isChecked) {
-            checkFavoriteStatus();
-        }
-    }, [status, session?.user?.id, isChecked]);
-
     const checkFavoriteStatus = useCallback(async () => {
         if (!session?.user?.id) return;
 
@@ -48,6 +41,13 @@ export default function FavoriteButton({
             setIsChecked(true);
         }
     }, [session?.user?.id, productId]);
+
+    // Check favorite status on mount if authenticated (only once)
+    useEffect(() => {
+        if (status === "authenticated" && session?.user?.id && !isChecked) {
+            checkFavoriteStatus();
+        }
+    }, [status, session?.user?.id, isChecked, checkFavoriteStatus]);
 
     const toggleFavorite = async (e: React.MouseEvent) => {
         e.preventDefault();

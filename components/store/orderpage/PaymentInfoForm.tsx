@@ -1,4 +1,3 @@
-import InputGroup from "@/components/ui/input-group";
 import { satoshi } from "@/styles/fonts";
 import { cn } from "@/lib/utils";
 import { CreditCard } from "lucide-react";
@@ -14,11 +13,7 @@ interface PaymentInfoFormProps {
   errors: { [key: string]: string };
 }
 
-export default function PaymentInfoForm({
-  paymentInfo,
-  onChange,
-  errors,
-}: PaymentInfoFormProps) {
+export default function PaymentInfoForm(_props: PaymentInfoFormProps) {
   return (
     <div className="p-6 sm:p-8 rounded-2xl border border-black/10 shadow-md bg-white">
       <h3

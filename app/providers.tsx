@@ -19,7 +19,7 @@ type Props = {
 };
 
 const Providers = ({ children, session }: Props) => {
-  const storeRef = useRef<{ store: any; persistor: any }>(null);
+  const storeRef = useRef<ReturnType<typeof makeStore>>(null);
 
   if (!storeRef.current) {
     storeRef.current = makeStore();

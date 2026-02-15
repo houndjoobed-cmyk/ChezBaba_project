@@ -28,7 +28,7 @@ export function TestimonialHeader({ onAdd }: TestimonialHeaderProps) {
 
             <div className="mb-8">
                 <p className={`text-base sm:text-lg text-gray-700 ${montserrat.className}`}>
-                    Gérez les témoignages qui apparaissent sur la page d'accueil de votre boutique.
+                    Gérez les témoignages qui apparaissent sur la page d&apos;accueil de votre boutique.
                 </p>
             </div>
         </>

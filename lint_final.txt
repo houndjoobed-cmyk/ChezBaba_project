@@ -1,0 +1,164 @@
+
+./app/(portal)/vendor/sells/page.tsx
+25:5  Warning: 'currentPage' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/(root)/checkout/[orderId]/page.tsx
+8:8  Warning: 'PaymentMethodSelector' is defined but never used.  @typescript-eslint/no-unused-vars
+10:32  Warning: 'AlertCircle' is defined but never used.  @typescript-eslint/no-unused-vars
+16:11  Warning: 'searchParams' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+17:19  Warning: 'session' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+18:40  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+20:56  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+28:8  Warning: React Hook useEffect has a missing dependency: 'fetchOrder'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+47:23  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+76:25  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/(root)/layout.tsx
+4:8  Warning: 'Head' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/(root)/page.tsx
+69:29  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+82:69  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+84:30  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/(store)/favorites/page.tsx
+27:8  Warning: React Hook useEffect has a missing dependency: 'fetchFavorites'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./app/(store)/order/page.tsx
+4:10  Warning: 'UserRole' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/(store)/product/[productId]/page.tsx
+41:46  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+42:67  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/api/orders/confirm/route.ts
+8:10  Warning: 'UserRole' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/orders/prepare/route.ts
+5:10  Warning: 'UserRole' is defined but never used.  @typescript-eslint/no-unused-vars
+37:11  Warning: 'couleurIds' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+38:11  Warning: 'tailleIds' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/orders/route.ts
+9:18  Warning: 'UserRole' is defined but never used.  @typescript-eslint/no-unused-vars
+13:3  Warning: 'fullOrderWithPaymentSchema' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/payments/initiate/route.ts
+7:10  Warning: 'UserRole' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/payments/verify/route.ts
+59:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/api/products/[productId]/route.ts
+9:10  Warning: 'deleteFromCloudinary' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/users/route.ts
+7:10  Warning: 'deleteFromCloudinary' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/providers.tsx
+22:36  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+22:52  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./pages/terms.tsx
+6:59  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+11:81  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+11:131  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+11:154  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+19:67  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+20:65  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+42:47  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+46:62  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+54:20  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+54:148  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+68:94  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./components/checkout/KKiaPyWidget.tsx
+5:10  Warning: 'useAppDispatch' is defined but never used.  @typescript-eslint/no-unused-vars
+5:26  Warning: 'useAppSelector' is defined but never used.  @typescript-eslint/no-unused-vars
+6:10  Warning: 'confirmDelivery' is defined but never used.  @typescript-eslint/no-unused-vars
+13:20  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+15:23  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+20:37  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+21:51  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+22:47  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+104:43  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./components/checkout/PaymentMethodSelector.tsx
+31:11  Warning: 'cardFees' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./components/common/BottomNav.tsx
+28:9  Warning: 'pathname' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./components/common/FavoriteButton.tsx
+32:8  Warning: React Hook useEffect has a missing dependency: 'checkFavoriteStatus'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/common/ProductListSec.tsx
+2:8  Warning: 'Link' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/layout/store/Header/UserMenu.tsx
+4:8  Warning: 'Image' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/orders/OrderActions.tsx
+42:25  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+66:25  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+88:18  Warning: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+150:33  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./components/portal/admin/testimonialspage/TestimonialHeader.tsx
+31:73  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./components/portal/admin/withdrawals/WithdrawalList.tsx
+13:5  Warning: 'Wallet' is defined but never used.  @typescript-eslint/no-unused-vars
+60:18  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+69:8  Warning: React Hook useEffect has a missing dependency: 'fetchWithdrawals'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+87:18  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/portal/client/orderspage/OrdersDetailModel.tsx
+9:10  Warning: 'useState' is defined but never used.  @typescript-eslint/no-unused-vars
+10:10  Warning: 'CommandeStatut' is defined but never used.  @typescript-eslint/no-unused-vars
+11:10  Warning: 'toast' is defined but never used.  @typescript-eslint/no-unused-vars
+12:10  Warning: 'useRouter' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/portal/vendor/orderspage/OrderTable.tsx
+21:10  Warning: 'openDropdownId' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./components/portal/vendor/sellspage/SellsHeader.tsx
+14:46  Warning: 'onExport' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./components/portal/vendor/wallet/VendorWallet.tsx
+9:5  Warning: 'ArrowDownLeft' is defined but never used.  @typescript-eslint/no-unused-vars
+74:25  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+188:93  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+188:111  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./components/store/cartpage/CartOrderSummary.tsx
+48:15  Warning: 'orderData' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./components/store/orderpage/index.tsx
+34:29  Warning: 'setIsOrderSuccessful' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+42:23  Warning: 'setPaymentInfo' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./components/store/orderpage/PaymentInfoForm.tsx
+1:8  Warning: 'InputGroup' is defined but never used.  @typescript-eslint/no-unused-vars
+18:3  Warning: 'paymentInfo' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+19:3  Warning: 'onChange' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+20:3  Warning: 'errors' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./components/ui/phone-input.tsx
+61:25  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+92:41  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./lib/services/kkiapay.service.ts
+17:1  Error: Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free.  @typescript-eslint/ban-ts-comment
+21:1  Error: Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free.  @typescript-eslint/ban-ts-comment
+44:9  Error: Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free.  @typescript-eslint/ban-ts-comment
+55:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+164:20  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/services/wallet.service.ts
+268:5  Warning: 'adminId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./lib/types/payment.types.ts
+48:20  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules

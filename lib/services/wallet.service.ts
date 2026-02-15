@@ -3,7 +3,7 @@
 // ==========================================
 
 import { prisma } from "@/lib/utils/prisma";
-import { MethodePaiement, DemandeRetraitStatut } from "@prisma/client";
+import { MethodePaiement, StatutRetrait } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import type { WalletBalanceResponse } from "@/lib/types/payment.types";
 
@@ -203,7 +203,7 @@ export async function getWithdrawalHistory(
 export async function getAllWithdrawals(
     page: number = 1,
     pageSize: number = 20,
-    statut?: DemandeRetraitStatut
+    statut?: StatutRetrait
 ) {
     const where = statut ? { statut } : {};
 
@@ -264,8 +264,8 @@ export async function getAllWithdrawals(
  */
 export async function updateWithdrawalStatus(
     retraitId: string,
-    nouveauStatut: DemandeRetraitStatut,
-    adminId: string
+    nouveauStatut: StatutRetrait,
+    _adminId: string
 ) {
     const retrait = await prisma.retrait.findUnique({
         where: { id: retraitId },

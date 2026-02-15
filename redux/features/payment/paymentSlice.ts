@@ -28,7 +28,7 @@ interface PaymentState {
     paymentError: string | null;
     paiementId: string | null;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    kkiapayConfig: Record<string, any> | null;
+    kkiapayConfig: Record<string, unknown> | null;
 
     // Wallet (vendor)
     walletBalance: WalletBalance | null;

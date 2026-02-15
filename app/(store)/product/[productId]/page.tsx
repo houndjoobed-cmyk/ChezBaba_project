@@ -12,6 +12,7 @@ import { ProductFromAPI } from "@/lib/types/product.types";
 // Data utils
 import { prisma } from "@/lib/utils/prisma";
 import { formatProductData, getProductSelect } from "@/lib/helpers/products";
+import { ProductFromDB } from "@/lib/types/product.types";
 
 export default async function ProductPage({
   params,
@@ -38,8 +39,8 @@ export default async function ProductPage({
 
     if (!dbProduct) return notFound();
 
-    product = formatProductData(dbProduct as any);
-    newProducts = dbNewProducts.map((p) => formatProductData(p as any));
+    product = formatProductData(dbProduct as ProductFromDB);
+    newProducts = dbNewProducts.map((p) => formatProductData(p as ProductFromDB));
   } catch (error) {
     console.error("Error fetching product page data:", error);
     return notFound();

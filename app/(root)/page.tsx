@@ -13,7 +13,8 @@ import { UserRole } from "@prisma/client";
 // Helpers
 import { formatReviewData, getReviewSelect } from "@/lib/helpers/reviews";
 import { formatProductData, getProductSelect } from "@/lib/helpers/products";
-import { ProductFromAPI } from "@/lib/types/product.types";
+import { ProductFromAPI, ProductFromDB } from "@/lib/types/product.types";
+import { ReviewFromDB } from "@/lib/types/review.types";
 
 export default async function HomePage() {
   let displayTestimonials: ReviewFromAPI[] = [];
@@ -66,7 +67,7 @@ export default async function HomePage() {
     }));
 
     const formattedEvaluations: ReviewFromAPI[] = dbEvaluations.map((e) =>
-      formatReviewData(e as any)
+      formatReviewData(e as ReviewFromDB)
     );
 
     displayTestimonials = [
@@ -79,9 +80,9 @@ export default async function HomePage() {
     }
 
     // Format products
-    shopProducts = dbShopProducts.map((p) => formatProductData(p as any));
+    shopProducts = dbShopProducts.map((p) => formatProductData(p as ProductFromDB));
     marketplaceProducts = dbMarketplaceProducts.map((p) =>
-      formatProductData(p as any)
+      formatProductData(p as ProductFromDB)
     );
   } catch (error) {
     console.error("Error fetching homepage data:", error);

@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setPaymentMethod } from "@/redux/features/payment/paymentSlice";
 import { CREDIT_CARD_COMMISSION, MOMO_COMMISSION } from "@/lib/constants/settings";
 import { AlertCircle, CreditCard, Smartphone } from "lucide-react";
+import { RootState } from "@/redux/store";
 import Image from "next/image";
 
 interface PaymentMethodSelectorProps {
@@ -12,7 +13,7 @@ interface PaymentMethodSelectorProps {
 
 export default function PaymentMethodSelector({ orderTotal }: PaymentMethodSelectorProps) {
     const dispatch = useAppDispatch();
-    const selectedMethod = useAppSelector((state) => state.payment.selectedMethod);
+    const selectedMethod = useAppSelector((state: RootState) => state.payment.selectedMethod);
 
     // Helper to format currency
     const formatCurrency = (amount: number) => {
@@ -39,8 +40,8 @@ export default function PaymentMethodSelector({ orderTotal }: PaymentMethodSelec
                 <div
                     onClick={() => handleSelect("MOBILE_MONEY")}
                     className={`cursor-pointer border rounded-lg p-4 transition-all ${selectedMethod === "MOBILE_MONEY"
-                            ? "border-primary bg-primary/5 ring-2 ring-primary"
-                            : "border-gray-200 hover:border-primary/50"
+                        ? "border-primary bg-primary/5 ring-2 ring-primary"
+                        : "border-gray-200 hover:border-primary/50"
                         }`}
                 >
                     <div className="flex items-center justify-between mb-2">
@@ -71,8 +72,8 @@ export default function PaymentMethodSelector({ orderTotal }: PaymentMethodSelec
                 <div
                     onClick={() => handleSelect("CARTE_BANCAIRE")}
                     className={`cursor-pointer border rounded-lg p-4 transition-all ${selectedMethod === "CARTE_BANCAIRE"
-                            ? "border-primary bg-primary/5 ring-2 ring-primary"
-                            : "border-gray-200 hover:border-primary/50"
+                        ? "border-primary bg-primary/5 ring-2 ring-primary"
+                        : "border-gray-200 hover:border-primary/50"
                         }`}
                 >
                     <div className="flex items-center justify-between mb-2">

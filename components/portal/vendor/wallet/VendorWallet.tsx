@@ -6,7 +6,6 @@ import { fetchWalletBalance, requestWithdrawal } from "@/redux/features/payment/
 import {
     Wallet,
     ArrowUpRight,
-    ArrowDownLeft,
     RefreshCcw,
     Calendar,
     AlertCircle
@@ -71,8 +70,9 @@ export default function VendorWallet() {
             setOpen(false);
             setWithdrawalAmount("");
             setWithdrawalDetails("");
-        } catch (error: any) {
-            toast.error(error || "Erreur lors de la demande");
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : "Erreur inconnue";
+            toast.error(errorMessage || "Erreur lors de la demande");
         }
     };
 
@@ -107,6 +107,7 @@ export default function VendorWallet() {
                         <Button
                             variant="outline"
                             size="icon"
+                            type="button"
                             onClick={() => dispatch(fetchWalletBalance())}
                             className="h-8 w-8"
                         >
@@ -185,7 +186,7 @@ export default function VendorWallet() {
                                 <div className="bg-yellow-50 p-3 rounded-md border border-yellow-100 flex gap-2">
                                     <AlertCircle className="h-5 w-5 text-yellow-600 shrink-0" />
                                     <p className="text-xs text-yellow-700">
-                                        Des frais de retrait de 1% (max 2000 FCFA) peuvent s'appliquer selon l'opérateur.
+                                        Des frais de retrait de 1% (max 2000 FCFA) peuvent s&apos;appliquer selon l&apos;opérateur.
                                     </p>
                                 </div>
                             </div>
