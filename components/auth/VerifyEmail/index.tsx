@@ -31,7 +31,7 @@ export default function VerifyEmail({ user }: VerifyEmailProps) {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
-    const refresh = searchParams.get("refresh");
+    const refresh = searchParams?.get("refresh");
     if (refresh) {
       router.replace("/auth/verify-email");
     }
@@ -71,7 +71,7 @@ export default function VerifyEmail({ user }: VerifyEmailProps) {
       toast(message || "Vérification réussie");
 
       // Valider l'URL de redirection (interne uniquement)
-      const callbackUrl = searchParams.get("callbackUrl");
+      const callbackUrl = searchParams?.get("callbackUrl");
       const safeCallbackUrl =
         callbackUrl?.startsWith("/") && !callbackUrl.startsWith("//")
           ? callbackUrl
@@ -154,8 +154,8 @@ export default function VerifyEmail({ user }: VerifyEmailProps) {
           {countdown > 0
             ? `Renvoyer le code (${countdown}s)`
             : emailSent
-            ? "Renvoyer le code"
-            : "Envoyer le code"}
+              ? "Renvoyer le code"
+              : "Envoyer le code"}
         </Button>
       </CardContent>
     </Card>

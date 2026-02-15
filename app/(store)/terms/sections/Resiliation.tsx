@@ -10,7 +10,7 @@ export default function Resiliation() {
             <div className="tc-subsection">
                 <h3 className="tc-subsection-title">Résiliation par la plateforme</h3>
                 <p className="tc-p">
-                    Nous pouvons suspendre ou résilier votre accès à la plateforme immédiatement, sans préavis ni responsabilité, pour quelque raison que ce soit, notamment en cas de violation des conditions.
+                    ChezBaba peut suspendre ou résilier votre accès à la plateforme immédiatement, sans préavis ni responsabilité, pour quelque raison que ce soit, notamment en cas de violation des conditions.
                 </p>
             </div>
 

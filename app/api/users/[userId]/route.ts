@@ -237,6 +237,12 @@ export async function PATCH(
 
     // Verify current password if asked to change the password
     if (newPassword && currentPassword) {
+      if (!currentUser.password) {
+        return NextResponse.json(
+          { error: "Vous n'avez pas de mot de passe défini (compte social ?)." },
+          { status: 400 }
+        );
+      }
       const isPasswordValid = await bcrypt.compare(
         currentPassword,
         currentUser.password

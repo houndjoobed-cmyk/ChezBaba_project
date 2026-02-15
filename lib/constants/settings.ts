@@ -55,3 +55,7 @@ export const WARRANTY_OPTIONS = [
   "6 mois",
   "1 an",
 ];
+
+// Payment Commissions
+export const MOMO_COMMISSION = 0.019;
+export const CREDIT_CARD_COMMISSION = 0;
