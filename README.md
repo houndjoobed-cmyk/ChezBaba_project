@@ -1,72 +1,70 @@
 # CHEZ BABA 🛍️
 
-[![Academic Project](https://img.shields.io/badge/Academic%20Project-Master%201%20Software%20Engineering-blue?style=for-the-badge&logo=graduation-cap)](https://www.univ-bejaia.dz/)
+CHEZ BABA © 2025 – Plateforme e‑commerce moderne et performante, combinant marketplace multi‑vendeurs, suivi avancé des commandes et administration complète, avec une architecture full-stack professionnelle.
 
-A comprehensive e-commerce platform featuring a multi-vendor marketplace, chatbot support, order tracking, advanced analytics, and full customer, vendor, and admin management.
+## ✨ Fonctionnalités
 
-## ✨ Features
+### 🛒 Pour les clients
 
-### 🛒 Customer Features
+- **Catalogue de produits**: Parcourir les produits avec filtres avancés et recherche
+- **Panier**: Panier persistant avec mises à jour en temps réel
+- **Gestion des commandes**: Suivi des commandes avec mises à jour en temps réel
+- **Avis produits**: Évaluer et commenter les produits avec téléchargements de photos
+- **Liste de souhaits**: Sauvegarder les produits préférés pour plus tard
+- **Chat en temps réel**: Obtenir un support instantané des vendeurs
+- **Email de vérification**: Création de compte sécurisée avec vérification par email
+- **Réinitialisation du mot de passe**: Système de récupération de mot de passe sécurisé
 
-- **Product Catalog**: Browse products with advanced filtering and search
-- **Shopping Cart**: Persistent cart with real-time updates
-- **Order Management**: Track orders with real-time status updates
-- **Product Reviews**: Rate and review products with photo uploads
-- **Wishlist**: Save favorite products for later
-- **Real-time Chat**: Get instant support from vendors
-- **Email Verification**: Secure account creation with email verification
-- **Password Reset**: Secure password recovery system
+### 🏪 Pour les vendeurs
 
-### 🏪 Vendor Features
+- **Gestion des boutiques**: Créer et gérer sa propre boutique
+- **Gestion des produits**: Ajouter, modifier et gérer l'inventaire des produits
+- **Gestion des commandes**: Gérer les commandes des clients avec mises à jour de statut
+- **Analyse des ventes**: Suivre les performances de vente et les revenus
+- **Suivi des paiements**: Surveiller le statut des paiements et l'historique
+- **Support client**: Chatter avec les clients en temps réel
 
-- **Store Management**: Create and manage your own store
-- **Product Management**: Add, edit, and manage product inventory
-- **Order Processing**: Handle customer orders with status updates
-- **Sales Analytics**: Track sales performance and revenue
-- **Payment Tracking**: Monitor payment status and history
-- **Customer Support**: Chat with customers in real-time
+### 👨‍💼 Pour les administrateurs
 
-### 👨‍💼 Admin Features
-
-- **User Management**: Manage customers, vendors, and admins
-- **Store Oversight**: Monitor and manage all vendor stores
-- **Order Management**: Oversee all platform orders
-- **Analytics Dashboard**: Comprehensive platform analytics
-- **Report Management**: Handle user reports and disputes
-- **System Notifications**: Send platform-wide announcements
+- **Gestion des utilisateurs**: Gérer les clients, les vendeurs et les administrateurs
+- **Surveillance des boutiques**: Surveiller et gérer toutes les boutiques des vendeurs
+- **Gestion des commandes**: Superviser toutes les commandes de la plateforme
+- **Tableau de bord analytique**: Analyses complètes de la plateforme
+- **Gestion des signalements**: Gérer les signalements des utilisateurs et les litiges
+- **Notifications système**: Envoyer des annonces à toute la plateforme
 
 ## 🛠️ Tech Stack
 
 ### Frontend
 
-- **Next.js 15** - React framework with App Router
-- **TypeScript** - Type-safe JavaScript
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Animation library
-- **Redux Toolkit** - State management
-- **React Hook Form** - Form handling
-- **Zod** - Schema validation
+- **Next.js 15** - Framework React avec routeur d'application
+- **TypeScript** - JavaScript sécurisé par type
+- **Tailwind CSS** - Framework CSS utilitaire
+- **Framer Motion** - Bibliothèque d'animation
+- **Redux Toolkit** - Gestion d'état
+- **React Hook Form** - Gestion de formulaires
+- **Zod** - Validation de schémas
 
 ### Backend
 
-- **Next.js API Routes** - Server-side API endpoints
-- **Prisma** - Database ORM
-- **PostgreSQL** - Primary database
-- **NextAuth.js** - Authentication system
-- **Nodemailer** - Email service
+- **Next.js API Routes** - Endpoints API côté serveur
+- **Prisma** - ORM de base de données
+- **PostgreSQL** - Base de données principale
+- **NextAuth.js** - Système d'authentification
+- **Nodemailer** - Service d'email
 
-### External Services
+### Services externes
 
-- **Cloudinary** - Image and file storage
-- **OpenRouter AI** - AI-powered chat support
-- **Supabase** - Database hosting
+- **Cloudinary** - Stockage d'images et de fichiers
+<!-- - **OpenRouter AI** - Support de chat alimenté par l'IA -->
+- **Supabase** - Hébergement de base de données
 
 ## 📋 Prerequisites
 
-Before you begin, ensure you have the following installed:
+Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 
-- **Node.js** (v18 or higher)
-- **npm** or **yarn**
+- **Node.js** (v18 ou supérieur)
+- **npm** ou **yarn**
 - **PostgreSQL** database
 - **Git**
 
@@ -75,8 +73,8 @@ Before you begin, ensure you have the following installed:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/lyes-mersel/megashop.git
-   cd megashop
+   git clone https://github.com/Chezbaba/chezbaba_project.git
+   cd chezbaba_project
    ```
 
 2. **Install Dependencies**
@@ -85,56 +83,20 @@ Before you begin, ensure you have the following installed:
    npm install
    ```
 
-3. **Set Up Environment Variables**
-
-   Create a `.env` file in the root directory:
-
-   ```env
-   # Local Development
-   NEXT_PUBLIC_BASE_URL="http://localhost:3000"
-   NEXT_PUBLIC_API_URL="http://localhost:3000/api"
-
-   # Production
-   PROD_API_URL="https://project-megashop.vercel.app"
-   PROD_BASE_URL="https://project-megashop.vercel.app/api"
-
-   # Database Connection
-   DATABASE_URL="postgresql://postgres.fallhpfxzcmhrvtticfn:[YOUR-PASSWORD]@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=200&pool_timeout=10"
-   DATABASE_DIRECT_URL="postgresql://postgres.fallhpfxzcmhrvtticfn:[YOUR-PASSWORD]@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?connection_limit=200&pool_timeout=10"
-
-   # Cloudinary Configuration
-   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="dzmbj5d0b"
-   NEXT_PUBLIC_CLOUDINARY_API_KEY="****"
-   CLOUDINARY_API_SECRET="****"
-
-   # Authentication
-   AUTH_SECRET="****"
-
-   # Chatbot OpenRouter API Key
-   OPENROUTER_API_KEY="****"
-
-   # Email Configuration
-   EMAIL_USER="noreply.megashop@gmail.com"
-   EMAIL_APP_PASSWORD="****"
-
-   # Default User Password
-   DEFAULT_PASSWORD="****"
-   ```
-
-4. **Database Setup**
+3. **Configurer la base de données**
 
    ```bash
-   # Generate Prisma client
+   # Générer le client Prisma
    npx prisma generate
 
-   # Run database migrations
+   # Exécuter les migrations de base de données
    npx prisma migrate dev
 
-   # Seed the database with initial data
+   # Pré-remplir la base de données avec les données initiales
    npx prisma db seed
    ```
 
-5. **Run the Development Server**
+4. **Lancer le serveur de développement**
 
    ```bash
    npm run dev
@@ -142,42 +104,79 @@ Before you begin, ensure you have the following installed:
 
    Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## 📊 Database Schema
+## 📊 Schéma de base de données
 
-The application uses PostgreSQL with the following main entities:
+L'application utilise PostgreSQL avec les entités principales suivantes :
 
-- **Users**: Customers, vendors, and admins
-- **Products**: Product catalog with variants
-- **Orders**: Order management and tracking
-- **Carts**: Shopping cart functionality
-- **Reviews**: Product reviews and ratings
-- **Notifications**: System notifications
-- **Reports**: User reports and disputes
+| Table                      | Description                                       | Colonnes |
+| -------------------------- | ------------------------------------------------- | -------- |
+| **account**                | Comptes utilisateurs (détails login, rôles, etc.) | 12       |
+| **admin**                  | Administrateurs de la plateforme                  | 1        |
+| **adresse**                | Adresses clients et expéditions                   | 5        |
+| **categorie**              | Catégories de produits                            | 5        |
+| **client**                 | Informations clients                              | 1        |
+| **commande**               | Gestion des commandes                             | 7        |
+| **couleur**                | Couleurs disponibles pour les produits            | 3        |
+| **_ProduitCouleurs**       | Association produits ↔ couleurs                   | 2        |
+| **_ProduitTailles**        | Association produits ↔ tailles                    | 2        |
+| **evaluation**             | Avis et notes produits                            | 6        |
+| **favori**                 | Produits favoris des clients                      | 4        |
+| **genre**                  | Genres ou types de produits                       | 2        |
+| **grand_livre_plateforme** | Historique complet des transactions               | 6        |
+| **ligne_commande**         | Détails des commandes (produits, quantité, prix)  | 9        |
+| **ligne_panier**           | Détails du panier client                          | 9        |
+| **litige**                 | Litiges ou conflits                               | 9        |
+| **newsletter**             | Abonnés à la newsletter                           | 3        |
+| **notification**           | Notifications système                             | 8        |
+| **paiement**               | Paiements clients                                 | 13       |
+| **paiement_vendeur**       | Paiements effectués aux vendeurs                  | 5        |
+| **panier**                 | Panier des clients                                | 5        |
+| **portefeuille_vendeur**   | Solde et transactions du vendeur                  | 3        |
+| **produit**                | Produits                                          | 15       |
+| **produit_boutique**       | Produits spécifiques aux boutiques                | 2        |
+| **produit_image**          | Images des produits                               | 3        |
+| **produit_marketplace**    | Produits disponibles sur la marketplace           | 2        |
+| **produit_video**          | Vidéos des produits                               | 3        |
+| **reponse_evaluation**     | Réponses aux avis clients                         | 5        |
+| **retrait**                | Retraits de fonds des vendeurs                    | 9        |
 
-## 🏗️ Project Structure
+
+## 🏗️ Structure du projet
 
 ```text
-megashop/
-├── app/                    # Next.js App Router
-│   ├── (portal)/           # Admin, vendor, and client portals
-│   ├── (store)/            # Public store pages
-│   ├── api/                # API routes
-│   └── auth/               # Authentication pages
-├── components/             # Reusable UI components
-│   ├── auth/               # Authentication components
-│   ├── common/             # Shared components
-│   ├── layout/             # Layout components
-│   ├── portal/             # Portal-specific components
-│   ├── store/              # Store-specific components
-│   └── ui/                 # Base UI components
-├── lib/                    # Utility libraries
-│   ├── auth/               # Authentication utilities
-│   ├── helpers/            # Helper functions
-│   ├── types/              # TypeScript type definitions
-│   └── validations/        # Form validations
-├── prisma/                 # Database schema and migrations
-├── redux/                  # State management
-└── styles/                 # Global styles
+Chezbaba_project/
+├── app/ # Routeur de l'application Next.js
+│ ├── (errors)/ # Pages de gestion des erreurs
+│ ├── (portal)/ # Portails pour admin, vendeur et client
+│ ├── (root)/ # Pages principales / landing pages
+│ ├── (store)/ # Pages publiques de la boutique
+│ ├── api/ # Routes API
+│ └── auth/ # Pages d'authentification
+├── composants/ # Composants UI réutilisables
+│ ├── auth/ # Composants d'authentification
+│ ├── checkout/ # Composants du processus de paiement
+│ ├── common/ # Composants partagés
+│ ├── layout/ # Mise en page et navigation
+│ ├── commandes/ # Composants liés aux commandes
+│ ├── portal/ # Modules spécifiques aux portails
+│ ├── shop/ # Composants de gestion de la boutique
+│ ├── store/ # Composants de la vitrine
+│ └── ui/ # Composants UI de base (shadcn/ui)
+├── docs/ # Documentation et diagrammes
+├── hooks/ # Hooks React personnalisés
+├── lib/ # Logique centrale et utilitaires
+│ ├── auth/ # Configurations d'authentification
+│ ├── constants/ # Constantes de l'application
+│ ├── helpers/ # Fonctions utilitaires
+│ ├── services/ # Intégrations de services externes
+│ ├── types/ # Définitions TypeScript
+│ ├── utils/ # Fonctions utilitaires générales
+│ └── validations/ # Schémas de validation Zod
+├── prisma/ # Schéma et migrations de la base de données
+├── public/ # Assets statics (images, icônes)
+├── redux/ # Store de gestion d'état
+├── scripts/ # Scripts utilitaires et de maintenance
+└── styles/ # Styles et thèmes globaux
 ```
 
 ## 🚀 Available Scripts
@@ -190,90 +189,38 @@ megashop/
 - `npx prisma migrate dev` - Run database migrations
 - `npx prisma db seed` - Seed database with initial data
 
-## 🔐 Authentication
+## 🔐 Authentification
 
-The application uses NextAuth.js with the following authentication methods:
+L'application utilise NextAuth.js avec les méthodes d'authentification suivantes :
 
-- Email/Password authentication
-- Email verification
-- Password reset functionality
-- Role-based access control (Customer, Vendor, Admin)
+- Email/Mot de passe
+- Vérification d'email
+- Fonctionnalité de réinitialisation de mot de passe
+- Contrôle d'accès basé sur les rôles (Client, Vendeur, Admin)
 
-## 🚀 Deployment
+## 🚀 Déploiement
 
-### Vercel (Recommended)
+### Vercel recommandé
 
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Set up environment variables in Vercel dashboard
-4. Deploy automatically on push
+1. Poussez votre code vers GitHub
+2. Connectez votre dépôt à Vercel
+3. Configurez les variables d'environnement dans le tableau de bord Vercel
+4. Déployez automatiquement sur push
 
-### Manual Deployment
 
-1. Build the application:
+## 📚 À propos de ce projet
 
-   ```bash
-   npm run build
-   ```
+CHEZ BABA © 2025 – Plateforme e-commerce professionnelle conçue pour offrir une expérience d'achat en ligne complète et moderne. Ce projet illustre des pratiques concrètes de développement web, une architecture full-stack et des compétences professionnelles en développement d'applications.
 
-2. Start the production server:
+**👥 Equipe:** 2 développeurs  
+**📅 Année:** 2026  
 
-   ```bash
-   npm start
-   ```
 
-## 🤝 Contributing
+## 👨‍💻 Equipe de développement
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- **HOUNDJO Obed** - Développeur Backend [@HoundjoObed](https://github.com/houndjoobed-cmyk)
+- **ADANNOU Emmanuel** - Développeur Frontend [@AdannouEmmanuel](https://github.com/BigCadors)
 
-## 📚 About This Project
 
-**MEGA SHOP © 2025** – Academic project developed by Master 1 Software Engineering students from the University of Béjaïa. This project serves as a comprehensive e-commerce solution that demonstrates modern web development practices, full-stack architecture, and real-world application development skills.
 
-**🏫 Institution:** University of Béjaïa  
-**📖 Program:** Master 1 Software Engineering  
-**👥 Team:** 4 students  
-**📅 Year:** 2025  
-**👨‍🏫 Supervisor:** Mr Z.Farah
-
----
-
-> **Note:** The user experience (UI) and all project documentation are provided in **French**.
->
-> - 📂 [Diagrams & Models](docs/diagrams/)
-> - 📄 [Final Report (PDF)](docs/final-report.pdf)
-
----
-
-## 👨‍💻 Development Team
-
-- **MERSEL Lyes** - [@lyes-mersel](https://github.com/lyes-mersel)
-- **BRAHIMI Rayan** - [@BrahimiRayan](https://github.com/BrahimiRayan)
-- **MECHKOUR Billal** - [@Billalmechekour](https://github.com/Billalmechekour)
-- **MESSAOUDENE Saïd** - [@Messaoudene-Said](https://github.com/Messaoudene-Said)
-
-## 📸 Screenshots
-
-### Hero Section
-
-<img src="docs/screenshots/0-hero-section.png" alt="Hero Section" width="600" />
-
-### View All Screenshots
-
-Explore the complete visual showcase in the [📁 Screenshots Gallery](docs/screenshots/), featuring main store interface, admin portal, vendor portal, client portal, and mobile responsive design.
-
-## 📖 API Documentation
-
-For detailed API documentation, please refer to the [API Documentation README](docs/api.md).
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-**MEGA SHOP** - Your complete e-commerce solution! 🛍️✨
+**CHEZ BABA** - Votre plateforme e-commerce complète! 🛍️✨

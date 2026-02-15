@@ -406,8 +406,8 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: #0C1B33;
-  /* Updated background color */
+  background: var(--white);
+  /* Updated background color to white */
   border-top: 1px solid var(--lightgray1);
   height: 60px;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
@@ -426,7 +426,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: var(--darkgray);
+  color: var(--darkblue);
+  /* Updated inactive color to darkblue */
   text-decoration: none;
   font-size: 12px;
   height: 100%;
@@ -435,15 +436,18 @@
 
 .bottom-nav-icon {
   font-size: 1.6rem;
-  color: var(--darkgray);
+  color: var(--darkblue);
+  /* Updated default icon color */
   display: flex;
   align-items: center;
   justify-content: center;
   transition: color 0.2s;
 }
 
+.bottom-nav-link.active .bottom-nav-icon,
 .bottom-nav-icon.active {
   color: var(--primary-color);
+  /* Active state color */
 }
 
 .bottom-nav-link:active .bottom-nav-icon,
@@ -454,7 +458,7 @@
 .bottom-nav-label {
   font-size: 11px;
   margin-top: 2px;
-  color: var(--darkgray);
+  color: var(--darkblue);
 }
 
 @media (min-width: 900px) {
