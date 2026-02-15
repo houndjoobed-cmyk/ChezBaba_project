@@ -32,26 +32,30 @@ export default function BottomNav() {
       <nav className="bottom-nav" role="navigation">
         {navItems.map((item) => {
           if (item.label === "Compte") {
+            const isActive = pathname === item.href;
             return (
               <div key="usermenu" className="bottom-nav-link">
-                <UserMenu />
+                <UserMenu
+                  color={isActive ? "#bdfe00" : "#0C1B33"}
+                  className={isActive ? "active" : ""}
+                />
               </div>
             );
           }
 
+          const isActive = pathname === item.href;
           const IconComponent = icons[item.icon as keyof typeof icons];
 
           return (
             <Link
               key={item.href}
               href={item.href}
-              className="bottom-nav-link"
+              className={`bottom-nav-link ${isActive ? "active" : ""}`}
               aria-label={item.label}
             >
               <span
-                className="bottom-nav-icon"
+                className={`bottom-nav-icon ${isActive ? "active" : ""}`}
                 aria-hidden="true"
-                style={{ color: "white" }}
               >
                 <IconComponent size={24} />
               </span>

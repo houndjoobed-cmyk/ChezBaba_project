@@ -16,6 +16,10 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "CHEZ BABA",
   description: "Plateforme marketplace centralisée pour petits et grands commerces au Bénin.",
+  icons: {
+    icon: "/icons/smalllogo.png",
+    apple: "/icons/smalllogo.png",
+  },
 };
 
 export default function GlobalLayout({
@@ -24,7 +28,17 @@ export default function GlobalLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fr">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+      </head>
       <body className={satoshi.className}>
         <Providers>
           {children}
