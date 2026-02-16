@@ -18,10 +18,9 @@ export const fetchDataFromAPI = async <T>(
       return {
         status,
         message: null,
-        error: `${
-          json.message || json.error || res.statusText
-        } (Error ${status})`,
-        data: null,
+        error: `${json.message || json.error || res.statusText
+          } (Error ${status})`,
+        data: json.data as any,
       };
     }
 
@@ -57,9 +56,8 @@ export const fetchPaginatedDataFromAPI = async <T>(
         status,
         message: null,
         data: null,
-        error: `${
-          json.message || json.error || res.statusText
-        } (Error ${status})`,
+        error: `${json.message || json.error || res.statusText
+          } (Error ${status})`,
       };
     }
 

@@ -40,6 +40,7 @@ export const productSchema = z.object({
   tailles: z
     .array(z.string().max(MAX_ID_LENGTH, "L'ID de la taille est invalide"))
     .optional(),
+  fournisseur: z.string().max(255, "Le nom du fournisseur est trop long").optional(),
   images: z
     .array(
       z.instanceof(File).refine((file) => file.type.startsWith("image/"), {
@@ -118,6 +119,7 @@ export const updateProductSchema = z
     tailles: z
       .array(z.string().max(MAX_ID_LENGTH, "L'ID de la taille est invalide"))
       .optional(),
+    fournisseur: z.string().max(255, "Le nom du fournisseur est trop long").optional(),
   })
   .refine((data) => Object.keys(data).length > 0, {
     message: "Au moins un champ doit être renseigné.",

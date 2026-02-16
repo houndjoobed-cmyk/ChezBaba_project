@@ -39,10 +39,14 @@ export type ProductFromAPI = {
   prixPromo?: number | null;
   garantie?: string | null;
   genre: { id: string; nom: string } | null;
-  categorie: { id: string; nom: string } | null;
+  categorie: {
+    id: string;
+    nom: string;
+    parent?: { id: string; nom: string } | null;
+  } | null;
   couleurs: { id: string; nom: string; code: string }[];
   tailles: { id: string; nom: string }[];
-  fournisseur?: { nom: string | null };
+  fournisseur?: string | null;
   vendeur?: {
     id: string;
     nomBoutique: string;

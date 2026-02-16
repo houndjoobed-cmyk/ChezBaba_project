@@ -9,7 +9,7 @@ import Stats from "@/components/store/homepage/HeroSec/Stats";
 
 const HeroSec = () => {
   return (
-    <section className="bg-[#F2F0F1] pt-10 md:pt-16 overflow-hidden">
+    <section className="bg-[#9efd38] pt-10 md:pt-16 overflow-hidden">
       <div className="md:max-w-[77.5rem] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
         <div className="max-w-frame px-4">
           <motion.h2
@@ -29,7 +29,7 @@ const HeroSec = () => {
             whileInView={{ y: "0", opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-black/60 text-sm lg:text-base mb-6 lg:mb-10 max-w-[545px] text-[var(--darkblue)]"
+            className="text-[var(--darkblue)] text-sm lg:text-base mb-6 lg:mb-10 max-w-[545px]"
           >
             Rejoignez des millions d&apos;utilisateurs sur la marketplace de référence. Vendez vos objets ou découvrez des trésors près de chez vous.
           </motion.p>
@@ -44,7 +44,7 @@ const HeroSec = () => {
               className="w-full md:w-[18rem] mb-5 md:mb-12 inline-block text-center 
 bg-[var(--darkblue)] text-white px-14 py-4 rounded-full
 transition-all duration-300 ease-out
-hover:scale-[1.03] hover:shadow-xl hover:shadow-[var(--darkblue)/30]"
+hover:scale-[1.03] hover:shadow-[var(--darkblue)/30]"
             >
               Commencer les achats
             </Link>

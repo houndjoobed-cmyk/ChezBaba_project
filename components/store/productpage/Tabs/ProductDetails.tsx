@@ -5,7 +5,9 @@ const ProductDetails = ({ product }: { product: ProductFromAPI }) => {
   const details: { label: string; value: string | null | undefined }[] = [
     {
       label: "Catégorie",
-      value: product.categorie?.nom,
+      value: product.categorie?.parent?.nom
+        ? `${product.categorie.parent.nom} > ${product.categorie.nom}`
+        : product.categorie?.nom,
     },
     {
       label: "Genre",
@@ -39,7 +41,7 @@ const ProductDetails = ({ product }: { product: ProductFromAPI }) => {
     },
     {
       label: "Fournisseur",
-      value: product.fournisseur?.nom,
+      value: product.fournisseur,
     },
     {
       label: "Délai de livraison",

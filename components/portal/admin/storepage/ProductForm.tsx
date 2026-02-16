@@ -23,6 +23,7 @@ import {
   Image as ImageIcon,
   ChevronDown,
 } from "lucide-react";
+import { AttributeSelector } from "../../common/AttributeSelector";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -88,6 +89,7 @@ export const ProductForm = ({
   const [formData, setFormData] = useState<ProductFromAPI>(initialFormData);
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [additionalImages, setAdditionalImages] = useState<File[]>([]);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -115,14 +117,27 @@ export const ProductForm = ({
     return true;
   };
 
+  const validateVideo = (file: File): boolean => {
+    const sizeInMB = file.size / (1024 * 1024);
+    if (sizeInMB > 10) {
+      toast.error("La vidéo dépasse la taille maximale de 10 Mo");
+      return false;
+    }
+    if (!file.type.startsWith("video/")) {
+      toast.error("Le fichier doit être une vidéo.");
+      return false;
+    }
+    return true;
+  };
+
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    isMain: boolean
+    type: "main" | "additional" | "video"
   ) => {
     const files = e.target.files;
     if (!files) return;
 
-    if (isMain) {
+    if (type === "main") {
       const file = files[0];
       if (file && validateImage(file)) {
         setMainImage(file);
@@ -130,16 +145,24 @@ export const ProductForm = ({
         setMainImage(null);
         e.target.value = "";
       }
-    } else {
+    } else if (type === "additional") {
       const newImages = Array.from(files).filter(validateImage);
-      if (newImages.length > 2) {
+      if (newImages.length > 3) {
         toast.error(
-          "Vous ne pouvez ajouter que 2 images supplémentaires maximum."
+          "Vous ne pouvez ajouter que 3 images supplémentaires maximum."
         );
         setAdditionalImages([]);
         e.target.value = "";
       } else {
-        setAdditionalImages(newImages.slice(0, 2));
+        setAdditionalImages(newImages.slice(0, 3));
+      }
+    } else if (type === "video") {
+      const file = files[0];
+      if (file && validateVideo(file)) {
+        setVideoFile(file);
+      } else {
+        setVideoFile(null);
+        e.target.value = "";
       }
     }
   };
@@ -168,6 +191,7 @@ export const ProductForm = ({
         tailles: formData.tailles.map((t) => t.id),
         delaiLivraison: formData.delaiLivraison || null,
         garantie: formData.garantie || null,
+        fournisseur: formData.fournisseur || null,
       };
 
       const result = await fetchDataFromAPI<ProductFromAPI>(
@@ -180,12 +204,21 @@ export const ProductForm = ({
       );
 
       if (result.error) {
-        toast.error(result.error);
+        const validationErrors = (result.data as unknown) as {
+          field: string;
+          message: string;
+        }[];
+        if (Array.isArray(validationErrors)) {
+          validationErrors.forEach((err) => toast.error(`${err.field}: ${err.message}`));
+        } else {
+          toast.error(result.error);
+        }
       } else {
         toast.success("Produit mis à jour avec succès");
         setFormData(initialFormData);
         setMainImage(null);
         setAdditionalImages([]);
+        setVideoFile(null);
         onSubmit();
       }
     } else {
@@ -206,6 +239,7 @@ export const ProductForm = ({
       if (formData.delaiLivraison) formDataToSend.append("delaiLivraison", formData.delaiLivraison);
       if (formData.prixPromo) formDataToSend.append("prixPromo", formData.prixPromo.toString());
       if (formData.garantie) formDataToSend.append("garantie", formData.garantie);
+      if (formData.fournisseur) formDataToSend.append("fournisseur", formData.fournisseur);
 
       if (formData.categorie)
         formDataToSend.append("categorieId", formData.categorie.id);
@@ -218,6 +252,7 @@ export const ProductForm = ({
       );
       formDataToSend.append("images", mainImage);
       additionalImages.forEach((img) => formDataToSend.append("images", img));
+      if (videoFile) formDataToSend.append("video", videoFile);
 
       const result = await fetchDataFromAPI<ProductFromAPI>("/api/products", {
         method: "POST",
@@ -225,13 +260,22 @@ export const ProductForm = ({
       });
 
       if (result.error) {
-        toast.error(result.error);
+        const validationErrors = (result.data as unknown) as {
+          field: string;
+          message: string;
+        }[];
+        if (Array.isArray(validationErrors)) {
+          validationErrors.forEach((err) => toast.error(`${err.field}: ${err.message}`));
+        } else {
+          toast.error(result.error);
+        }
       } else {
         toast.success("Produit ajouté avec succès");
         onSubmit();
         setFormData(initialFormData);
         setMainImage(null);
         setAdditionalImages([]);
+        setVideoFile(null);
       }
     }
     setIsLoading(false);
@@ -296,6 +340,20 @@ export const ProductForm = ({
                     setFormData({ ...formData, objet: e.target.value })
                   }
                   className="mt-1 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-black transition-all duration-200"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                  <User className="h-4 w-4" /> Fournisseur
+                </label>
+                <input
+                  type="text"
+                  value={formData.fournisseur || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, fournisseur: e.target.value })
+                  }
+                  className="mt-1 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-black transition-all duration-200"
+                  placeholder="Nom du fournisseur (Optionnel)"
                 />
               </div>
               <div className="sm:col-span-2" data-color-mode="light">
@@ -498,121 +556,118 @@ export const ProductForm = ({
                 <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                   <Palette className="h-4 w-4" /> Couleurs
                 </label>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between">
-                      {formData.couleurs.length > 0
-                        ? `${formData.couleurs.length} couleur(s) sélectionnée(s)`
-                        : "Sélectionner les couleurs"}
-                      <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[300px] h-[300px] overflow-y-auto">
-                    <DropdownMenuLabel>Couleurs disponibles</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {colors.map((color) => (
-                      <DropdownMenuCheckboxItem
-                        key={color.id}
-                        checked={formData.couleurs.some((c) => c.id === color.id)}
-                        onCheckedChange={(checked) => {
-                          const newCouleurs = checked
-                            ? [...formData.couleurs, color]
-                            : formData.couleurs.filter((c) => c.id !== color.id);
-                          setFormData({ ...formData, couleurs: newCouleurs });
-                        }}
-                      >
-                        <div className="flex items-center gap-2 w-full">
-                          <span
-                            className="w-4 h-4 rounded-full border border-gray-200"
-                            style={{ backgroundColor: color.code }}
-                          />
-                          {color.nom}
-                        </div>
-                      </DropdownMenuCheckboxItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <AttributeSelector
+                  type="color"
+                  options={colors}
+                  selectedIds={formData.couleurs.map((c) => c.id)}
+                  onSelect={(id) => {
+                    const color = colors.find((c) => c.id === id);
+                    if (color) {
+                      setFormData({
+                        ...formData,
+                        couleurs: [...formData.couleurs, color],
+                      });
+                    }
+                  }}
+                  onDeselect={(id) => {
+                    setFormData({
+                      ...formData,
+                      couleurs: formData.couleurs.filter((c) => c.id !== id),
+                    });
+                  }}
+                />
               </div>
               <div className="sm:col-span-2">
                 <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                   <Ruler className="h-4 w-4" /> Tailles
                 </label>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between">
-                      {formData.tailles.length > 0
-                        ? `${formData.tailles.length} taille(s) sélectionnée(s)`
-                        : "Sélectionner les tailles"}
-                      <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[300px] h-[300px] overflow-y-auto">
-                    <DropdownMenuLabel>Tailles disponibles</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {sizes.map((size) => (
-                      <DropdownMenuCheckboxItem
-                        key={size.id}
-                        checked={formData.tailles.some((t) => t.id === size.id)}
-                        onCheckedChange={(checked) => {
-                          const newTailles = checked
-                            ? [...formData.tailles, size]
-                            : formData.tailles.filter((t) => t.id !== size.id);
-                          setFormData({ ...formData, tailles: newTailles });
-                        }}
-                      >
-                        {size.nom}
-                      </DropdownMenuCheckboxItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <AttributeSelector
+                  type="size"
+                  options={sizes}
+                  selectedIds={formData.tailles.map((t) => t.id)}
+                  onSelect={(id) => {
+                    const size = sizes.find((s) => s.id === id);
+                    if (size) {
+                      setFormData({
+                        ...formData,
+                        tailles: [...formData.tailles, size],
+                      });
+                    }
+                  }}
+                  onDeselect={(id) => {
+                    setFormData({
+                      ...formData,
+                      tailles: formData.tailles.filter((t) => t.id !== id),
+                    });
+                  }}
+                />
               </div>
             </div>
           </div>
 
-          {/* Images Section */}
+          {/* Media Section */}
           {!editingProduct && (
             <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
               <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                <ImageIcon className="h-5 w-5 text-gray-600" /> Images
+                <ImageIcon className="h-5 w-5 text-gray-600" /> Médias
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                    <ImageIcon className="h-4 w-4" /> Image principale (requise)
-                  </label>
-                  <input
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    onChange={(e) => handleFileChange(e, true)}
-                    className="mt-1 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-black transition-all duration-200"
-                    required
-                  />
-                  {mainImage && (
-                    <p className="mt-1 text-sm text-gray-600 truncate">
-                      {mainImage.name}
-                    </p>
-                  )}
+              <div className="grid grid-cols-1 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                      <ImageIcon className="h-4 w-4" /> Image principale (requise)
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      onChange={(e) => handleFileChange(e, "main")}
+                      className="mt-1 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-black transition-all duration-200"
+                      required
+                    />
+                    {mainImage && (
+                      <p className="mt-1 text-sm text-gray-600 truncate">
+                        {mainImage.name}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                      <ImageIcon className="h-4 w-4" /> Images supplémentaires
+                      (max 3)
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      onChange={(e) => handleFileChange(e, "additional")}
+                      className="mt-1 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-black transition-all duration-200"
+                      multiple
+                    />
+                    {additionalImages.length > 0 && (
+                      <div className="mt-1 text-sm text-gray-600">
+                        {additionalImages.map((img, index) => (
+                          <p key={index} className="truncate">
+                            {img.name}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div>
+
+                <div className="border-t border-gray-200 pt-4">
                   <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                    <ImageIcon className="h-4 w-4" /> Images supplémentaires
-                    (max 2)
+                    <ImageIcon className="h-4 w-4" /> Vidéo de présentation (max 10 Mo)
                   </label>
                   <input
                     type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    onChange={(e) => handleFileChange(e, false)}
+                    accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                    onChange={(e) => handleFileChange(e, "video")}
                     className="mt-1 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-black transition-all duration-200"
-                    multiple
                   />
-                  {additionalImages.length > 0 && (
-                    <div className="mt-1 text-sm text-gray-600">
-                      {additionalImages.map((img, index) => (
-                        <p key={index} className="truncate">
-                          {img.name}
-                        </p>
-                      ))}
-                    </div>
+                  {videoFile && (
+                    <p className="mt-1 text-sm text-gray-600 truncate">
+                      {videoFile.name}
+                    </p>
                   )}
                 </div>
               </div>

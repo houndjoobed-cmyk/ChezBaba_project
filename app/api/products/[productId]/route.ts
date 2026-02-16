@@ -186,6 +186,7 @@ export async function PATCH(
       tailles,
       delaiLivraison,
       garantie,
+      fournisseur,
     } = parsedData.data;
 
     // Check if the product exists
@@ -251,6 +252,13 @@ export async function PATCH(
             set: tailles.map((id: string) => ({ id })),
           }
           : undefined,
+        ...(isAdmin && fournisseur !== undefined && {
+          produitBoutique: {
+            update: {
+              fournisseur: fournisseur,
+            },
+          },
+        }),
       },
       select: getProductSelect(),
     });

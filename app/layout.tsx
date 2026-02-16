@@ -7,6 +7,7 @@ import { satoshi } from "@/styles/fonts";
 // components
 import { Toaster } from "@/components/ui/sonner";
 import Providers from "@/app/providers";
+import ClientHolyLoader from "@/components/common/HolyLoader";
 
 
 export const viewport: Viewport = {
@@ -40,6 +41,7 @@ export default function GlobalLayout({
         />
       </head>
       <body className={satoshi.className}>
+        <ClientHolyLoader />
         <Providers>
           {children}
           <Toaster />

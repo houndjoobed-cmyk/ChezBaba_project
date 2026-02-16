@@ -66,13 +66,13 @@ const ProductHero = ({ product }: { product: ProductFromAPI }) => {
           <div className="flex flex-col mb-4">
             {product.prixPromo && product.prixPromo > 0 ? (
               <div className="flex items-center gap-3">
-                <span className="font-bold text-black text-2xl sm:text-[32px]">
+                <span className="font-bold text-green-600 text-2xl sm:text-[32px]">
                   {product.prixPromo} FCFA
                 </span>
                 <span className="font-bold text-gray-400 text-lg sm:text-xl line-through">
                   {product.prix} FCFA
                 </span>
-                <span className="text-sm font-bold bg-[#FF3333]/10 text-[#FF3333] px-2 py-1 rounded">
+                <span className="text-sm font-bold bg-green-50 text-green-600 px-2 py-1 rounded border border-green-100">
                   -{Math.round(((product.prix - product.prixPromo) / product.prix) * 100)}%
                 </span>
               </div>
@@ -100,8 +100,8 @@ const ProductHero = ({ product }: { product: ProductFromAPI }) => {
           {/* Stock Indicator */}
           <div className="mb-5">
             {product.qteStock === 0 ? (
-              <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-red-600 bg-red-50 px-3 py-1.5 rounded-full border border-red-200">
-                <span className="w-2 h-2 rounded-full bg-red-500"></span>
+              <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-600 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200">
+                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                 Rupture de stock
               </span>
             ) : product.qteStock <= 5 ? (
@@ -147,7 +147,7 @@ const ProductHero = ({ product }: { product: ProductFromAPI }) => {
             {/* Report */}
             <Link
               href={`/product/${product.id}/report`}
-              className="flex items-center text-sm text-red-500 hover:text-red-700"
+              className="flex items-center text-sm text-gray-400 hover:text-black transition-colors"
             >
               <Flag className="w-4 h-4 mr-1" />
               Signaler ce produit

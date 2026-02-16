@@ -18,7 +18,18 @@ export function getProductSelect() {
     garantie: true,
     // Relations
     genre: true,
-    categorie: true,
+    categorie: {
+      select: {
+        id: true,
+        nom: true,
+        parent: {
+          select: {
+            id: true,
+            nom: true,
+          },
+        },
+      },
+    },
     couleurs: true,
     tailles: true,
     produitBoutique: {
@@ -89,13 +100,13 @@ export function formatProductData(product: ProductFromDB): ProductFromAPI {
     qteStock,
     noteMoyenne: noteMoyenne?.toNumber(),
     delaiLivraison,
-    prixPromo: prixPromo ? (prixPromo as { toNumber(): number }).toNumber() : null,
+    prixPromo: prixPromo && typeof (prixPromo as any).toNumber === 'function'
+      ? (prixPromo as any).toNumber()
+      : (prixPromo as number | null),
     garantie,
     ...rest,
     video,
-    ...(produitBoutique
-      ? { fournisseur: { nom: produitBoutique.fournisseur } }
-      : {}),
+    ...(produitBoutique ? { fournisseur: produitBoutique.fournisseur } : {}),
     ...(produitMarketplace
       ? {
         vendeur: {

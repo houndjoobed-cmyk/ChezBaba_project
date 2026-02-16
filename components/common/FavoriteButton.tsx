@@ -127,12 +127,12 @@ export default function FavoriteButton({
         >
             {isFavorite ? (
                 <FaHeart
-                    className="text-red-500 transition-transform duration-200 animate-[heartPop_0.3s_ease-out]"
+                    className="text-green-600 transition-transform duration-200 animate-[heartPop_0.3s_ease-out]"
                     size={iconSize[size]}
                 />
             ) : (
                 <FiHeart
-                    className="text-gray-600 hover:text-red-500 transition-colors duration-200"
+                    className="text-gray-600 hover:text-green-600 transition-colors duration-200"
                     size={iconSize[size]}
                 />
             )}

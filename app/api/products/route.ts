@@ -89,21 +89,30 @@ export async function POST(req: NextRequest) {
 
     // Validate and Parse Form Data
     const formData = await req.formData();
-    const parsedData = productSchema.safeParse({
+    const inputData = {
       nom: formData.get("nom"),
-      objet: formData.get("objet"),
-      description: formData.get("description"),
-      prix: Number(formData.get("prix")),
-      qteStock: Number(formData.get("qteStock")),
-      categorieId: formData.get("categorieId"),
-      genreId: formData.get("genreId"),
+      objet: formData.get("objet") || undefined,
+      description: formData.get("description") || undefined,
+      prix: formData.get("prix") !== null ? Number(formData.get("prix")) : undefined,
+      qteStock: formData.get("qteStock") !== null ? Number(formData.get("qteStock")) : undefined,
+      categorieId: formData.get("categorieId") || undefined,
+      genreId: formData.get("genreId") || undefined,
+      delaiLivraison: formData.get("delaiLivraison") || undefined,
+      garantie: formData.get("garantie") || undefined,
+      prixPromo: formData.get("prixPromo") !== null ? Number(formData.get("prixPromo")) : undefined,
       couleurs: formData.getAll("couleurs"),
       tailles: formData.getAll("tailles"),
       images: formData.getAll("images"),
-      video: formData.get("video"),
-    });
+      video: formData.get("video") instanceof File ? formData.get("video") : undefined,
+      fournisseur: formData.get("fournisseur") || undefined,
+    };
+
+    const parsedData = productSchema.safeParse(inputData);
 
     if (!parsedData.success) {
+      console.error("Validation failed for product creation:");
+      console.error("Input data:", inputData);
+      console.error("Issues:", JSON.stringify(parsedData.error.issues, null, 2));
       return formatValidationErrors(parsedData);
     }
 
@@ -147,6 +156,9 @@ export async function POST(req: NextRequest) {
           genre: parsedData.data.genreId
             ? { connect: { id: parsedData.data.genreId } }
             : undefined,
+          delaiLivraison: parsedData.data.delaiLivraison,
+          garantie: parsedData.data.garantie,
+          prixPromo: parsedData.data.prixPromo,
           couleurs: parsedData.data.couleurs?.length
             ? {
               connect: parsedData.data.couleurs.map((id: string) => ({ id })),
@@ -178,7 +190,9 @@ export async function POST(req: NextRequest) {
           }),
           ...(isAdmin && {
             produitBoutique: {
-              create: {},
+              create: {
+                fournisseur: parsedData.data.fournisseur as string | undefined,
+              },
             },
           }),
         },

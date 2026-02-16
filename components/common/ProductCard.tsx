@@ -53,7 +53,7 @@ const ProductCard = ({ data, showFavorite = true, showAddToCart = true }: Produc
           {/* Out of Stock Overlay */}
           {data.qteStock === 0 && (
             <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center rounded-[13px] lg:rounded-[20px]">
-              <span className="bg-white/90 text-red-600 text-xs xl:text-sm font-bold px-3 py-1.5 rounded-full">
+              <span className="bg-white/90 text-amber-600 text-xs xl:text-sm font-bold px-3 py-1.5 rounded-full border border-amber-100 shadow-sm">
                 Rupture de stock
               </span>
             </div>
@@ -104,13 +104,13 @@ const ProductCard = ({ data, showFavorite = true, showAddToCart = true }: Produc
           {/* Price Row */}
           {data.prixPromo && data.prixPromo > 0 ? (
             <div className="flex items-baseline gap-2 flex-wrap">
-              <span className="font-bold text-[#FD6C9E] text-base xl:text-lg leading-tight">
+              <span className="font-bold text-green-600 text-base xl:text-lg leading-tight">
                 {data.prixPromo} FCFA
               </span>
               <span className="text-gray-400 text-xs line-through">
                 {data.prix} FCFA
               </span>
-              <span className="text-[10px] xl:text-xs font-semibold bg-[#FD6C9E]/10 text-[#FD6C9E] px-1.5 py-0.5 rounded">
+              <span className="text-[10px] xl:text-xs font-semibold bg-green-50 text-green-600 px-1.5 py-0.5 rounded border border-green-100">
                 -{Math.round(((data.prix - data.prixPromo) / data.prix) * 100)}%
               </span>
             </div>

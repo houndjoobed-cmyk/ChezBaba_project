@@ -50,10 +50,10 @@ export const ProductCard = ({
         />
         <div
           className={`absolute inset-0 flex items-center justify-center gap-3 transition-opacity duration-300 bg-black/40 ${isMobile
-              ? showActions
-                ? "opacity-100"
-                : "opacity-0"
-              : "opacity-0 group-hover:opacity-100"
+            ? showActions
+              ? "opacity-100"
+              : "opacity-0"
+            : "opacity-0 group-hover:opacity-100"
             }`}
         >
           <button
@@ -91,18 +91,27 @@ export const ProductCard = ({
             {product.type ? product.type.toString().toUpperCase() : ""}
           </p>
           <p className="text-sm text-gray-600">
-            <span className="font-bold">Note :</span> {product.noteMoyenne} / 5
+            <span className="font-bold">Note :</span> {product.noteMoyenne.toFixed(1)} / 5
           </p>
           <p className="text-sm text-gray-600">
             <span className="font-bold">Quantité :</span> {product.qteStock}
           </p>
         </div>
         <div className="mt-3 flex items-center justify-between">
-          <span
-            className={`text-lg font-semibold text-gray-900 ${montserrat.className}`}
-          >
-            {product.prix.toFixed(2)} FCFA
-          </span>
+          {product.prixPromo && product.prixPromo > 0 ? (
+            <div className="flex flex-col">
+              <span className={`text-lg font-semibold text-green-600 ${montserrat.className}`}>
+                {product.prixPromo.toFixed(2)} FCFA
+              </span>
+              <span className="text-xs text-gray-400 line-through">
+                {product.prix.toFixed(2)} FCFA
+              </span>
+            </div>
+          ) : (
+            <span className={`text-lg font-semibold text-gray-900 ${montserrat.className}`}>
+              {product.prix.toFixed(2)} FCFA
+            </span>
+          )}
           <button
             onClick={(e) => {
               e.stopPropagation();

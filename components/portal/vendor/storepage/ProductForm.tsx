@@ -23,6 +23,7 @@ import {
   Image as ImageIcon,
   ChevronDown,
 } from "lucide-react";
+import { AttributeSelector } from "../../common/AttributeSelector";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -196,7 +197,15 @@ export const ProductForm = ({
       );
 
       if (result.error) {
-        toast.error(result.error);
+        const validationErrors = (result.data as unknown) as {
+          field: string;
+          message: string;
+        }[];
+        if (Array.isArray(validationErrors)) {
+          validationErrors.forEach((err) => toast.error(`${err.field}: ${err.message}`));
+        } else {
+          toast.error(result.error);
+        }
       } else {
         toast.success("Produit mis à jour avec succès");
         setFormData(initialFormData);
@@ -243,7 +252,15 @@ export const ProductForm = ({
       });
 
       if (result.error) {
-        toast.error(result.error);
+        const validationErrors = (result.data as unknown) as {
+          field: string;
+          message: string;
+        }[];
+        if (Array.isArray(validationErrors)) {
+          validationErrors.forEach((err) => toast.error(`${err.field}: ${err.message}`));
+        } else {
+          toast.error(result.error);
+        }
       } else {
         toast.success("Produit ajouté avec succès");
         onSubmit();
@@ -517,73 +534,51 @@ export const ProductForm = ({
                 <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                   <Palette className="h-4 w-4" /> Couleurs
                 </label>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between">
-                      {formData.couleurs.length > 0
-                        ? `${formData.couleurs.length} couleur(s) sélectionnée(s)`
-                        : "Sélectionner les couleurs"}
-                      <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[300px] h-[300px] overflow-y-auto">
-                    <DropdownMenuLabel>Couleurs disponibles</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {colors.map((color) => (
-                      <DropdownMenuCheckboxItem
-                        key={color.id}
-                        checked={formData.couleurs.some((c) => c.id === color.id)}
-                        onCheckedChange={(checked) => {
-                          const newCouleurs = checked
-                            ? [...formData.couleurs, color]
-                            : formData.couleurs.filter((c) => c.id !== color.id);
-                          setFormData({ ...formData, couleurs: newCouleurs });
-                        }}
-                      >
-                        <div className="flex items-center gap-2 w-full">
-                          <span
-                            className="w-4 h-4 rounded-full border border-gray-200"
-                            style={{ backgroundColor: color.code }}
-                          />
-                          {color.nom}
-                        </div>
-                      </DropdownMenuCheckboxItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <AttributeSelector
+                  type="color"
+                  options={colors}
+                  selectedIds={formData.couleurs.map((c) => c.id)}
+                  onSelect={(id) => {
+                    const color = colors.find((c) => c.id === id);
+                    if (color) {
+                      setFormData({
+                        ...formData,
+                        couleurs: [...formData.couleurs, color],
+                      });
+                    }
+                  }}
+                  onDeselect={(id) => {
+                    setFormData({
+                      ...formData,
+                      couleurs: formData.couleurs.filter((c) => c.id !== id),
+                    });
+                  }}
+                />
               </div>
               <div className="sm:col-span-2">
                 <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                   <Ruler className="h-4 w-4" /> Tailles
                 </label>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between">
-                      {formData.tailles.length > 0
-                        ? `${formData.tailles.length} taille(s) sélectionnée(s)`
-                        : "Sélectionner les tailles"}
-                      <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[300px] h-[300px] overflow-y-auto">
-                    <DropdownMenuLabel>Tailles disponibles</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {sizes.map((size) => (
-                      <DropdownMenuCheckboxItem
-                        key={size.id}
-                        checked={formData.tailles.some((t) => t.id === size.id)}
-                        onCheckedChange={(checked) => {
-                          const newTailles = checked
-                            ? [...formData.tailles, size]
-                            : formData.tailles.filter((t) => t.id !== size.id);
-                          setFormData({ ...formData, tailles: newTailles });
-                        }}
-                      >
-                        {size.nom}
-                      </DropdownMenuCheckboxItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <AttributeSelector
+                  type="size"
+                  options={sizes}
+                  selectedIds={formData.tailles.map((t) => t.id)}
+                  onSelect={(id) => {
+                    const size = sizes.find((s) => s.id === id);
+                    if (size) {
+                      setFormData({
+                        ...formData,
+                        tailles: [...formData.tailles, size],
+                      });
+                    }
+                  }}
+                  onDeselect={(id) => {
+                    setFormData({
+                      ...formData,
+                      tailles: formData.tailles.filter((t) => t.id !== id),
+                    });
+                  }}
+                />
               </div>
             </div>
           </div>

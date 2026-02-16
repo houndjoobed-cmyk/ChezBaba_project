@@ -3,5 +3,5 @@
 import HolyLoader from "holy-loader";
 
 export default function ClientHolyLoader() {
-    return <HolyLoader color="#868686" />;
+    return <HolyLoader color="#bdfe00" />;
 }

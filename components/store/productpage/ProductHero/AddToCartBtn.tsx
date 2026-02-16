@@ -2,6 +2,7 @@
 
 // Redux
 import { RootState } from "@/redux/store";
+import { useState } from "react";
 import { addToCart } from "@/redux/features/carts/cartsSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
@@ -15,6 +16,7 @@ const AddToCartBtn = ({
 }: {
   data: ProductFromAPI & { quantity: number };
 }) => {
+  const [isAdded, setIsAdded] = useState(false);
   const dispatch = useAppDispatch();
   const { sizeSelection, colorSelection } = useAppSelector(
     (state: RootState) => state.products
@@ -26,11 +28,12 @@ const AddToCartBtn = ({
       className={cn(
         "bg-black w-full ml-3 sm:ml-5 rounded-full h-11 md:h-[52px] text-sm sm:text-base text-white transition-all active:scale-95",
         {
-          "hover:bg-black/80 cursor-pointer": data.quantity > 0,
-          "bg-gray-400 cursor-not-allowed opacity-60": data.quantity === 0,
+          "hover:bg-black/80 cursor-pointer": data.quantity > 0 && !isAdded,
+          "bg-green-600 hover:bg-green-700": isAdded,
+          "bg-gray-400 cursor-not-allowed opacity-60": data.quantity === 0 && !isAdded,
         }
       )}
-      disabled={data.quantity === 0}
+      disabled={data.quantity === 0 || isAdded}
       onClick={() => {
         dispatch(
           addToCart({
@@ -47,10 +50,12 @@ const AddToCartBtn = ({
             quantity: data.quantity,
           })
         );
+        setIsAdded(true);
         toast.success("Produit ajouté au panier");
+        setTimeout(() => setIsAdded(false), 2000);
       }}
     >
-      Ajouter au panier
+      {isAdded ? "Ajouté au panier !" : "Ajouter au panier"}
     </button>
   );
 };

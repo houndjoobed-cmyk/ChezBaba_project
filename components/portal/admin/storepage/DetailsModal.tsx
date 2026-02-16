@@ -14,8 +14,9 @@ import {
   Palette,
   Ruler,
   Truck,
+  Play,
 } from "lucide-react";
-import { getImageUrlFromPublicId } from "@/lib/utils";
+import { getImageUrlFromPublicId, getVideoUrlFromPublicId } from "@/lib/utils";
 import MDEditor from "@uiw/react-md-editor";
 
 interface DetailsModalProps {
@@ -147,6 +148,16 @@ export const DetailsModal = ({
                   {product.prix.toFixed(2)} FCFA
                 </p>
               </div>
+              {product.prixPromo && product.prixPromo > 0 && (
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                    <DollarSign className="h-4 w-4" /> Prix Promotionnel
+                  </label>
+                  <p className="mt-1 text-base font-medium text-green-600">
+                    {product.prixPromo.toFixed(2)} FCFA (-{Math.round(((product.prix - product.prixPromo) / product.prix) * 100)}%)
+                  </p>
+                </div>
+              )}
               <div>
                 <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
                   <Box className="h-4 w-4" /> Quantité en stock
@@ -166,6 +177,22 @@ export const DetailsModal = ({
               </div>
             </div>
           </div>
+
+          {/* Video Section */}
+          {product.video && (
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                <Play className="h-5 w-5 text-gray-600" /> Vidéo de présentation
+              </h3>
+              <div className="aspect-video w-full max-w-md mx-auto overflow-hidden rounded-lg shadow-md border border-gray-200">
+                <video
+                  src={getVideoUrlFromPublicId(product.video.videoPublicId)}
+                  controls
+                  className="w-full h-full object-contain bg-black"
+                />
+              </div>
+            </div>
+          )}
 
           {/* Dates Section */}
           <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
@@ -273,11 +300,11 @@ export const DetailsModal = ({
           </div>
 
           {/* Vendor and Supplier Section */}
-          {(product.vendeur || product.fournisseur) && (
+          {(product.vendeur || product.fournisseur || product.delaiLivraison || product.garantie) && (
             <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
               <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                <Truck className="h-5 w-5 text-gray-600" /> Fournisseur et
-                vendeur
+                <Truck className="h-5 w-5 text-gray-600" /> Logistique et
+                partenaires
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {product.vendeur && (
@@ -303,7 +330,27 @@ export const DetailsModal = ({
                       <Truck className="h-4 w-4" /> Fournisseur
                     </label>
                     <p className="mt-1 text-base text-gray-600">
-                      {product.fournisseur.nom || "Non spécifié"}
+                      {product.fournisseur}
+                    </p>
+                  </div>
+                )}
+                {product.delaiLivraison && (
+                  <div>
+                    <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                      <Truck className="h-4 w-4" /> Délai de livraison
+                    </label>
+                    <p className="mt-1 text-base text-gray-600">
+                      {product.delaiLivraison}
+                    </p>
+                  </div>
+                )}
+                {product.garantie && (
+                  <div>
+                    <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                      <Package className="h-4 w-4" /> Garantie
+                    </label>
+                    <p className="mt-1 text-base text-gray-600">
+                      {product.garantie}
                     </p>
                   </div>
                 )}

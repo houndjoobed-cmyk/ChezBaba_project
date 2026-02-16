@@ -81,18 +81,27 @@ export const ProductCard = ({
         </h2>
         <div className="mt-2 space-y-1">
           <p className="text-sm text-gray-600">
-            <span className="font-bold">Note :</span> {product.noteMoyenne} / 5
+            <span className="font-bold">Note :</span> {product.noteMoyenne.toFixed(1)} / 5
           </p>
           <p className="text-sm text-gray-600">
             <span className="font-bold">Quantité :</span> {product.qteStock}
           </p>
         </div>
         <div className="mt-3 flex items-center justify-between">
-          <span
-            className={`text-lg font-semibold text-gray-900 ${montserrat.className}`}
-          >
-            {product.prix.toFixed(2)} FCFA
-          </span>
+          {product.prixPromo && product.prixPromo > 0 ? (
+            <div className="flex flex-col">
+              <span className={`text-lg font-semibold text-green-600 ${montserrat.className}`}>
+                {product.prixPromo.toFixed(2)} FCFA
+              </span>
+              <span className="text-xs text-gray-400 line-through">
+                {product.prix.toFixed(2)} FCFA
+              </span>
+            </div>
+          ) : (
+            <span className={`text-lg font-semibold text-gray-900 ${montserrat.className}`}>
+              {product.prix.toFixed(2)} FCFA
+            </span>
+          )}
           <button
             onClick={(e) => {
               e.stopPropagation();
