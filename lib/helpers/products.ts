@@ -100,8 +100,8 @@ export function formatProductData(product: ProductFromDB): ProductFromAPI {
     qteStock,
     noteMoyenne: noteMoyenne?.toNumber(),
     delaiLivraison,
-    prixPromo: prixPromo && typeof (prixPromo as any).toNumber === 'function'
-      ? (prixPromo as any).toNumber()
+    prixPromo: prixPromo && typeof (prixPromo as { toNumber?: () => number }).toNumber === 'function'
+      ? (prixPromo as { toNumber: () => number }).toNumber()
       : (prixPromo as number | null),
     garantie,
     ...rest,

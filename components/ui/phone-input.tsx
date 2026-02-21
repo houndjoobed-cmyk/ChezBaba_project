@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { Search, ChevronDown, Check } from "lucide-react";
 import { countries, Country } from "@/lib/constants/countries";
 import { cn } from "@/lib/utils";
@@ -58,9 +59,11 @@ const PhoneInput = ({ value, onChange, className, disabled }: PhoneInputProps) =
                         disabled={disabled}
                         className="flex items-center gap-2 px-3 py-2 border rounded-md bg-white hover:bg-gray-50 transition-colors min-w-[110px] disabled:opacity-50 disabled:cursor-not-allowed h-10"
                     >
-                        <img
+                        <Image
                             src={selectedCountry.flagUrl}
                             alt=""
+                            width={24}
+                            height={16}
                             className="w-6 h-4 object-cover rounded-sm border border-gray-100"
                         />
                         <span className="text-sm font-medium">{selectedCountry.code}</span>
@@ -89,9 +92,11 @@ const PhoneInput = ({ value, onChange, className, disabled }: PhoneInputProps) =
                                     className="flex items-center justify-between py-2 px-3 cursor-pointer focus:bg-orange-50 gap-2"
                                 >
                                     <div className="flex items-center gap-3 overflow-hidden">
-                                        <img
+                                        <Image
                                             src={country.flagUrl}
                                             alt=""
+                                            width={20}
+                                            height={14}
                                             className="w-5 h-3.5 object-cover rounded-sm border border-gray-100 flex-shrink-0"
                                         />
                                         <div className="flex flex-col min-w-0">

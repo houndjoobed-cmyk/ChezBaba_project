@@ -20,7 +20,7 @@ export const fetchDataFromAPI = async <T>(
         message: null,
         error: `${json.message || json.error || res.statusText
           } (Error ${status})`,
-        data: json.data as any,
+        data: (json.data as unknown) as T,
       };
     }
 
