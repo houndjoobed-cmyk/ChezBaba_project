@@ -113,11 +113,13 @@ export async function GET(_req: NextRequest) {
         totalVentes += itemRevenue;
         produitsVendus += line.quantite;
 
-        const pData = productRevenuMap.get(line.produitId) || { totalRevenu: 0, quantite: 0 };
-        productRevenuMap.set(line.produitId, {
-          totalRevenu: pData.totalRevenu + itemRevenue,
-          quantite: pData.quantite + line.quantite,
-        });
+        if (line.produitId) {
+          const pData = productRevenuMap.get(line.produitId) || { totalRevenu: 0, quantite: 0 };
+          productRevenuMap.set(line.produitId, {
+            totalRevenu: pData.totalRevenu + itemRevenue,
+            quantite: pData.quantite + line.quantite,
+          });
+        }
       }
     }
 
