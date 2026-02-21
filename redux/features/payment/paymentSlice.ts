@@ -165,6 +165,27 @@ export const requestWithdrawal = createAsyncThunk(
     }
 );
 
+/**
+ * Récupère l'historique des retraits du vendeur.
+ */
+export const fetchWithdrawalHistory = createAsyncThunk(
+    "payment/fetchWithdrawalHistory",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await fetch("/api/withdrawals/history");
+            const data = await response.json();
+
+            if (!response.ok) {
+                return rejectWithValue(data.error || "Erreur lors de la récupération de l'historique");
+            }
+
+            return data.data;
+        } catch {
+            return rejectWithValue("Erreur réseau lors de la récupération de l'historique");
+        }
+    }
+);
+
 // ---- Slice ----
 
 const paymentSlice = createSlice({
@@ -251,6 +272,21 @@ const paymentSlice = createSlice({
                 }
             })
             .addCase(requestWithdrawal.rejected, (state, action) => {
+                state.withdrawalLoading = false;
+                state.withdrawalError = action.payload as string;
+            });
+
+        // Fetch Withdrawal History
+        builder
+            .addCase(fetchWithdrawalHistory.pending, (state) => {
+                state.withdrawalLoading = true;
+                state.withdrawalError = null;
+            })
+            .addCase(fetchWithdrawalHistory.fulfilled, (state, action) => {
+                state.withdrawalLoading = false;
+                state.withdrawals = action.payload;
+            })
+            .addCase(fetchWithdrawalHistory.rejected, (state, action) => {
                 state.withdrawalLoading = false;
                 state.withdrawalError = action.payload as string;
             });

@@ -103,6 +103,7 @@ export async function POST(req: NextRequest) {
     const produit = await prisma.produit.findUnique({
       where: { id: productId },
       select: {
+        nom: true,
         noteMoyenne: true,
         totalEvaluations: true,
         produitMarketplace: { select: { vendeurId: true } },
@@ -153,7 +154,7 @@ export async function POST(req: NextRequest) {
           userId: produit.produitMarketplace.vendeurId,
           type: "EVALUATION", // NotificationType.EVALUATION
           objet: "Nouvel avis !",
-          text: `Vous avez reçu un avis de ${note}/5 sur votre produit.`,
+          text: `Vous avez reçu un avis de ${note}/5 sur votre produit "${produit.nom}".`,
           urlRedirection: `/vendor/store`, // Ideally specific product page or reviews page if exists
         },
       });

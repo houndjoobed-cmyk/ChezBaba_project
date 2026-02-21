@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchWalletBalance, requestWithdrawal } from "@/redux/features/payment/paymentSlice";
+import { fetchWalletBalance, fetchWithdrawalHistory, requestWithdrawal } from "@/redux/features/payment/paymentSlice";
 import {
     Wallet,
     ArrowUpRight,
@@ -40,6 +40,7 @@ export default function VendorWallet() {
 
     useEffect(() => {
         dispatch(fetchWalletBalance());
+        dispatch(fetchWithdrawalHistory());
     }, [dispatch]);
 
     const handleWithdrawal = async () => {
@@ -139,8 +140,17 @@ export default function VendorWallet() {
                                         value={withdrawalAmount}
                                         onChange={(e) => setWithdrawalAmount(e.target.value)}
                                         min={2000}
+                                        max={walletBalance?.solde || undefined}
                                     />
-                                    <p className="text-xs text-gray-500">Minimum: 2 000 FCFA</p>
+                                    <div className="flex justify-between items-center text-xs">
+                                        <p className="text-gray-500">Minimum: 2 000 FCFA</p>
+                                        {withdrawalAmount && Number(withdrawalAmount) > (walletBalance?.solde || 0) && (
+                                            <p className="text-red-500 font-medium flex items-center gap-1">
+                                                <AlertCircle className="h-3 w-3" />
+                                                Solde insuffisant
+                                            </p>
+                                        )}
+                                    </div>
                                 </div>
 
                                 <div className="grid gap-2">
@@ -191,7 +201,14 @@ export default function VendorWallet() {
                                 </div>
                             </div>
                             <DialogFooter>
-                                <Button type="submit" onClick={handleWithdrawal} disabled={withdrawalLoading}>
+                                <Button
+                                    type="submit"
+                                    onClick={handleWithdrawal}
+                                    disabled={
+                                        withdrawalLoading ||
+                                        (withdrawalAmount ? Number(withdrawalAmount) > (walletBalance?.solde || 0) : false)
+                                    }
+                                >
                                     {withdrawalLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                                     Confirmer le retrait
                                 </Button>

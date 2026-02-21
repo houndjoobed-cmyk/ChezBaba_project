@@ -164,6 +164,25 @@ export async function POST(req: NextRequest) {
     });
 
     const data = formatReportData(newReport);
+
+    // --- Notification Logic ---
+    const adminUsers = await prisma.user.findMany({
+      where: { role: 'ADMIN' },
+      select: { id: true }
+    });
+
+    if (adminUsers.length > 0) {
+      await prisma.notification.createMany({
+        data: adminUsers.map((admin) => ({
+          userId: admin.id,
+          type: "SIGNALEMENT",
+          objet: "Nouveau signalement",
+          text: `Le produit "${produit.nom}" a fait l'objet d'un signalement.`,
+          urlRedirection: `/admin/reports`,
+        }))
+      });
+    }
+
     return NextResponse.json(
       { message: "Le signalement a été bien enregistré", data },
       { status: 201 }

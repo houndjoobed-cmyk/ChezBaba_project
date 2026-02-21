@@ -131,7 +131,7 @@ export async function requestWithdrawal(
             },
         });
 
-        // Notification
+        // Notification Vendeur
         await tx.notification.create({
             data: {
                 userId: vendeurId,
@@ -141,6 +141,30 @@ export async function requestWithdrawal(
                 urlRedirection: "/vendor/wallet",
             },
         });
+
+        // Notification Admin
+        const adminUsers = await tx.user.findMany({
+            where: { role: 'ADMIN' },
+            select: { id: true }
+        });
+
+        if (adminUsers.length > 0) {
+            const vendeurInfo = await tx.vendeur.findUnique({
+                where: { id: vendeurId },
+                select: { nomBoutique: true }
+            });
+            const nomBoutique = vendeurInfo?.nomBoutique || "Un vendeur";
+
+            await tx.notification.createMany({
+                data: adminUsers.map((admin) => ({
+                    userId: admin.id,
+                    type: "PAIEMENT",
+                    objet: "Nouvelle demande de retrait",
+                    text: `La boutique ${nomBoutique} a demandé un retrait de ${montant} FCFA par ${methode === "MOBILE_MONEY" ? "Mobile Money" : "Carte Bancaire"}.`,
+                    urlRedirection: "/admin/wallet",
+                })),
+            });
+        }
 
         return newRetrait;
     });
@@ -217,11 +241,15 @@ export async function getAllWithdrawals(
                         vendeur: {
                             select: {
                                 nomBoutique: true,
-                                user: {
+                                client: {
                                     select: {
-                                        nom: true,
-                                        prenom: true,
-                                        email: true,
+                                        user: {
+                                            select: {
+                                                nom: true,
+                                                prenom: true,
+                                                email: true,
+                                            },
+                                        },
                                     },
                                 },
                             },
@@ -245,8 +273,8 @@ export async function getAllWithdrawals(
             dateDemande: r.dateDemande,
             vendeur: {
                 nomBoutique: r.portefeuille.vendeur.nomBoutique,
-                nomComplet: `${r.portefeuille.vendeur.user.prenom} ${r.portefeuille.vendeur.user.nom}`,
-                email: r.portefeuille.vendeur.user.email,
+                nomComplet: `${r.portefeuille.vendeur.client.user.prenom} ${r.portefeuille.vendeur.client.user.nom}`,
+                email: r.portefeuille.vendeur.client.user.email,
             },
         })),
         pagination: {

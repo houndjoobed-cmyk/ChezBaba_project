@@ -21,46 +21,25 @@ export async function GET(_req: NextRequest) {
     );
   }
 
-  // Get the vendor analytics
+  const statutsValides = [
+    CommandeStatut.PAYEE,
+    CommandeStatut.EN_PREPARATION,
+    CommandeStatut.EXPEDIEE,
+    CommandeStatut.LIVREE,
+    CommandeStatut.LIVRAISON_CONFIRMEE
+  ];
+
   try {
     const [
-      totalVentes,
       totalProduits,
-      produitsVendus,
       meilleurProduit,
       pireProduit,
       commandes,
-      produitPlusRevenu,
     ] = await Promise.all([
-      prisma.commande.aggregate({
-        _sum: { montant: true },
-        where: {
-          statut: CommandeStatut.LIVREE,
-          lignesCommande: {
-            some: {
-              produit: {
-                produitMarketplace: {
-                  vendeurId: session.user.id,
-                },
-              },
-            },
-          },
-        },
-      }),
       prisma.produit.count({
         where: {
           produitMarketplace: {
             vendeurId: session.user.id,
-          },
-        },
-      }),
-      prisma.ligneCommande.aggregate({
-        _sum: { quantite: true },
-        where: {
-          produit: {
-            produitMarketplace: {
-              vendeurId: session.user.id,
-            },
           },
         },
       }),
@@ -96,7 +75,7 @@ export async function GET(_req: NextRequest) {
       }),
       prisma.commande.findMany({
         where: {
-          statut: CommandeStatut.LIVREE,
+          statut: { in: statutsValides },
           lignesCommande: {
             some: {
               produit: {
@@ -119,32 +98,41 @@ export async function GET(_req: NextRequest) {
           },
         },
       }),
-      prisma.ligneCommande.groupBy({
-        by: ["produitId"],
-        _sum: {
-          quantite: true,
-          prixUnit: true,
-        },
-        where: {
-          produit: {
-            produitMarketplace: {
-              vendeurId: session.user.id,
-            },
-          },
-        },
-        orderBy: {
-          _sum: {
-            prixUnit: "desc",
-          },
-        },
-        take: 1,
-      }),
     ]);
 
-    // Get the product details for the highest revenue product
-    const produitPlusRevenuDetails = produitPlusRevenu[0]?.produitId
+    // Compute vendor-specific sales stats from valid orders
+    let totalVentes = 0;
+    let produitsVendus = 0;
+
+    // Pour trouver le produit générant le plus de revenus
+    const productRevenuMap = new Map<string, { totalRevenu: number; quantite: number }>();
+
+    for (const cmd of commandes) {
+      for (const line of cmd.lignesCommande) {
+        const itemRevenue = line.quantite * Number(line.prixUnit);
+        totalVentes += itemRevenue;
+        produitsVendus += line.quantite;
+
+        const pData = productRevenuMap.get(line.produitId) || { totalRevenu: 0, quantite: 0 };
+        productRevenuMap.set(line.produitId, {
+          totalRevenu: pData.totalRevenu + itemRevenue,
+          quantite: pData.quantite + line.quantite,
+        });
+      }
+    }
+
+    let topProductInfo = null;
+    let maxRevenu = -1;
+    for (const [pId, data] of Array.from(productRevenuMap.entries())) {
+      if (data.totalRevenu > maxRevenu) {
+        maxRevenu = data.totalRevenu;
+        topProductInfo = { id: pId, ...data };
+      }
+    }
+
+    const produitPlusRevenuDetails = topProductInfo?.id
       ? await prisma.produit.findUnique({
-        where: { id: produitPlusRevenu[0].produitId },
+        where: { id: topProductInfo.id },
         select: {
           id: true,
           nom: true,
@@ -159,13 +147,17 @@ export async function GET(_req: NextRequest) {
     for (const cmd of commandes) {
       const day = days[new Date(cmd.date).getDay()];
       const prev = weekDataMap.get(day) || { sales: 0, itemsSold: 0 };
-      const itemsSold = cmd.lignesCommande.reduce(
-        (sum: number, l) => sum + l.quantite,
-        0
-      );
+
+      let cmdVentes = 0;
+      let cmdItems = 0;
+      for (const line of cmd.lignesCommande) {
+        cmdItems += line.quantite;
+        cmdVentes += line.quantite * Number(line.prixUnit);
+      }
+
       weekDataMap.set(day, {
-        sales: prev.sales + Number(cmd.montant),
-        itemsSold: prev.itemsSold + itemsSold,
+        sales: prev.sales + cmdVentes,
+        itemsSold: prev.itemsSold + cmdItems,
       });
     }
     const weekData = days.map((day) => ({
@@ -186,13 +178,17 @@ export async function GET(_req: NextRequest) {
       const day = new Date(cmd.date).getDate();
       const range = getRangeLabel(day);
       const prev = monthDataMap.get(range) || { sales: 0, itemsSold: 0 };
-      const itemsSold = cmd.lignesCommande.reduce(
-        (sum: number, l) => sum + l.quantite,
-        0
-      );
+
+      let cmdVentes = 0;
+      let cmdItems = 0;
+      for (const line of cmd.lignesCommande) {
+        cmdItems += line.quantite;
+        cmdVentes += line.quantite * Number(line.prixUnit);
+      }
+
       monthDataMap.set(range, {
-        sales: prev.sales + Number(cmd.montant),
-        itemsSold: prev.itemsSold + itemsSold,
+        sales: prev.sales + cmdVentes,
+        itemsSold: prev.itemsSold + cmdItems,
       });
     }
     const monthData = Array.from(monthDataMap.entries())
@@ -222,13 +218,17 @@ export async function GET(_req: NextRequest) {
       const monthIndex = new Date(cmd.date).getMonth();
       const label = months[monthIndex];
       const prev = yearDataMap.get(label) || { sales: 0, itemsSold: 0 };
-      const itemsSold = cmd.lignesCommande.reduce(
-        (sum: number, l) => sum + l.quantite,
-        0
-      );
+
+      let cmdVentes = 0;
+      let cmdItems = 0;
+      for (const line of cmd.lignesCommande) {
+        cmdItems += line.quantite;
+        cmdVentes += line.quantite * Number(line.prixUnit);
+      }
+
       yearDataMap.set(label, {
-        sales: prev.sales + Number(cmd.montant),
-        itemsSold: prev.itemsSold + itemsSold,
+        sales: prev.sales + cmdVentes,
+        itemsSold: prev.itemsSold + cmdItems,
       });
     }
     const yearData = months.map((month) => ({
@@ -238,9 +238,9 @@ export async function GET(_req: NextRequest) {
     }));
 
     return NextResponse.json({
-      totalVentes: totalVentes._sum.montant,
+      totalVentes,
       totalProduits,
-      produitsVendus: produitsVendus._sum.quantite,
+      produitsVendus,
       meilleurProduit: meilleurProduit ? {
         id: meilleurProduit.id,
         nom: meilleurProduit.nom,
@@ -253,11 +253,11 @@ export async function GET(_req: NextRequest) {
         noteMoyenne: pireProduit.noteMoyenne,
         totalEvaluations: pireProduit.totalEvaluations
       } : null,
-      produitPlusRevenu: produitPlusRevenuDetails
+      produitPlusRevenu: produitPlusRevenuDetails && topProductInfo
         ? {
           ...produitPlusRevenuDetails,
-          totalRevenu: produitPlusRevenu[0]._sum.prixUnit,
-          quantiteVendue: produitPlusRevenu[0]._sum.quantite,
+          totalRevenu: topProductInfo.totalRevenu,
+          quantiteVendue: topProductInfo.quantite,
         }
         : null,
       weekData,

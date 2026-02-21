@@ -94,11 +94,34 @@ export async function PATCH(
       }
     }
 
-    // Effectuer la mise à jour
-    const updatedOrder = await prisma.commande.update({
-      where: { id: orderId },
-      data: { statut: status },
-    });
+    // Générer le texte de la notification en fonction du statut
+    let notifText = `Le statut de votre commande #${orderId} a été mis à jour : ${status}.`;
+    if (status === CommandeStatut.EN_PREPARATION) {
+      notifText = `Bonne nouvelle ! Le vendeur a commencé la préparation de votre commande #${orderId}.`;
+    } else if (status === CommandeStatut.EXPEDIEE) {
+      notifText = `Votre commande #${orderId} a été expédiée. Cliquez ici pour suivre son avancement.`;
+    } else if (status === CommandeStatut.LIVREE) {
+      notifText = `Votre commande #${orderId} a été marquée comme livrée.`;
+    } else if (status === CommandeStatut.ANNULEE) {
+      notifText = `Votre commande #${orderId} a été annulée.`;
+    }
+
+    // Effectuer la mise à jour et créer la notification
+    const [updatedOrder] = await prisma.$transaction([
+      prisma.commande.update({
+        where: { id: orderId },
+        data: { statut: status },
+      }),
+      prisma.notification.create({
+        data: {
+          userId: commande.clientId,
+          type: "COMMANDE",
+          objet: "Suivi de commande",
+          text: notifText,
+          urlRedirection: `/client/orders/${orderId}`,
+        },
+      }),
+    ]);
 
     return NextResponse.json(updatedOrder);
 
