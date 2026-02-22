@@ -170,7 +170,7 @@ export function getWidgetConfig(
     return {
         amount,
         publicKey: KKIAPAY_PUBLIC_KEY,
-        sandbox: process.env.NODE_ENV !== "production",
+        sandbox: process.env.KKIAPAY_SANDBOX === "true" || process.env.NODE_ENV !== "production",
         reason,
         channels,
         email: extra.email,
