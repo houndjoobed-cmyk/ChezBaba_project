@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { toast } from "sonner";
@@ -10,7 +10,6 @@ import {
     Loader2,
     RefreshCcw,
     MoreHorizontal,
-    Wallet,
     Phone,
     University,
 } from "lucide-react";
@@ -46,7 +45,7 @@ export default function WithdrawalList() {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
-    const fetchWithdrawals = async () => {
+    const fetchWithdrawals = useCallback(async () => {
         setLoading(true);
         try {
             const res = await fetch(`/api/admin/withdrawals?page=${page}&pageSize=20`);
@@ -57,16 +56,16 @@ export default function WithdrawalList() {
             } else {
                 toast.error("Erreur lors du chargement des retraits");
             }
-        } catch (error) {
+        } catch {
             toast.error("Erreur réseau");
         } finally {
             setLoading(false);
         }
-    };
+    }, [page]);
 
     useEffect(() => {
         fetchWithdrawals();
-    }, [page]);
+    }, [fetchWithdrawals]);
 
     const handleStatusUpdate = async (id: string, newStatus: "TRAITE" | "REJETE") => {
         setProcessingId(id);
@@ -84,7 +83,7 @@ export default function WithdrawalList() {
                 const error = await res.json();
                 toast.error(error.error || "Une erreur est survenue");
             }
-        } catch (error) {
+        } catch {
             toast.error("Erreur réseau");
         } finally {
             setProcessingId(null);

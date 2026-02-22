@@ -38,7 +38,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur client@email.com existe déjà.");
   }
 
@@ -67,7 +67,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur client1@email.com existe déjà.");
   }
 
@@ -96,7 +96,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur client2@email.com existe déjà.");
   }
 
@@ -125,7 +125,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur client3@email.com existe déjà.");
   }
 
@@ -154,7 +154,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur client4@email.com existe déjà.");
   }
 
@@ -183,7 +183,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur client5@email.com existe déjà.");
   }
 
@@ -212,7 +212,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur client6@email.com existe déjà.");
   }
 
@@ -241,7 +241,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur client7@email.com existe déjà.");
   }
 
@@ -270,7 +270,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur client8@email.com existe déjà.");
   }
 
@@ -299,7 +299,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur client9@email.com existe déjà.");
   }
 
@@ -328,7 +328,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur client10@email.com existe déjà.");
   }
 
@@ -380,7 +380,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur vendeur@email.com existe déjà.");
   }
 
@@ -432,7 +432,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur vendeur1@email.com existe déjà.");
   }
 
@@ -484,7 +484,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur vendeur2@email.com existe déjà.");
   }
 
@@ -516,7 +516,7 @@ async function insertUsers() {
         },
       },
     });
-  } catch (error) {
+  } catch {
     console.warn("Utilisateur admin@email.com existe déjà.");
   }
 

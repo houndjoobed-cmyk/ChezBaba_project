@@ -22,7 +22,6 @@ export default function SalesPage() {
     setSortConfig,
     filteredSells,
     pagination,
-    currentPage,
     setCurrentPage,
     refetch,
   } = useVendorSells();
@@ -76,7 +75,7 @@ export default function SalesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-6 px-4 sm:px-6 lg:px-10">
       <div className="max-w-7xl mx-auto">
-        <SellsHeader sells={filteredSells} onExport={() => { }} />
+        <SellsHeader sells={filteredSells} />
 
         <SearchAndFilters
           searchQuery={searchQuery}

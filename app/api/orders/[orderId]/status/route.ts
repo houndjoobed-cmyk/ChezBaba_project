@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/utils/prisma";
-import { CommandeStatut, UserRole } from "@prisma/client";
+import { CommandeStatut, UserRole, Prisma } from "@prisma/client";
 import { ERROR_MESSAGES } from "@/lib/constants/settings";
 import { z } from "zod";
 
@@ -106,22 +106,32 @@ export async function PATCH(
       notifText = `Votre commande #${orderId} a été annulée.`;
     }
 
-    // Effectuer la mise à jour et créer la notification
-    const [updatedOrder] = await prisma.$transaction([
+    // Préparer les transactions
+    const transactions: Prisma.PrismaPromise<unknown>[] = [
       prisma.commande.update({
         where: { id: orderId },
         data: { statut: status },
       }),
-      prisma.notification.create({
-        data: {
-          userId: commande.clientId,
-          type: "COMMANDE",
-          objet: "Suivi de commande",
-          text: notifText,
-          urlRedirection: `/client/orders/${orderId}`,
-        },
-      }),
-    ]);
+    ];
+
+    const clientId = commande.clientId;
+    if (clientId) {
+      transactions.push(
+        prisma.notification.create({
+          data: {
+            userId: clientId,
+            type: "COMMANDE",
+            objet: "Suivi de commande",
+            text: notifText,
+            urlRedirection: `/client/orders/${orderId}`,
+          },
+        })
+      );
+    }
+
+    // Effectuer la mise à jour et créer la notification
+    const resultQuery = await prisma.$transaction(transactions);
+    const updatedOrder = resultQuery[0];
 
     return NextResponse.json(updatedOrder);
 

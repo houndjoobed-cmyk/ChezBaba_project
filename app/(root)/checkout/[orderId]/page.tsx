@@ -3,8 +3,7 @@
 
 import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
+
 import KKiaPyWidget from "@/components/checkout/KKiaPyWidget";
 import { Loader2, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";

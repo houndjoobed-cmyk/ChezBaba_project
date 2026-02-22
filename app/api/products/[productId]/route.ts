@@ -6,7 +6,7 @@ import { ERROR_MESSAGES } from "@/lib/constants/settings";
 import { formatProductData, getProductSelect } from "@/lib/helpers/products";
 import { auth } from "@/lib/auth";
 import { Prisma, UserRole } from "@prisma/client";
-import { deleteFromCloudinary } from "@/lib/helpers/cloudinary";
+
 import { updateProductSchema, formatValidationErrors } from "@/lib/validations";
 
 // Fetch product by ID

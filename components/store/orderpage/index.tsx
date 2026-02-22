@@ -31,7 +31,7 @@ export default function OrderPageMain() {
   }>({});
   const [isFetchingSummary, setIsFetchingSummary] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isOrderSuccessful, _setIsOrderSuccessful] = useState(false);
+  const [isOrderSuccessful] = useState(false);
 
   const [deliveryAddress, setDeliveryAddress] = useState({
     street: "",
@@ -39,7 +39,7 @@ export default function OrderPageMain() {
     quartier: "",
     postalCode: "",
   });
-  const [paymentInfo, _setPaymentInfo] = useState({
+  const [paymentInfo] = useState({
     cardNumber: "",
     cvc: "",
     cardholderName: "",

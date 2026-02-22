@@ -87,7 +87,7 @@ export default function OrderActions({ orderId, status, userRole }: OrderActions
             toast.success("Litige ouvert. L'équipe support va intervenir.");
             setDisputeOpen(false);
             window.location.reload();
-        } catch (e) {
+        } catch {
             toast.error("Impossible d'ouvrir le litige");
         } finally {
             setLoading(false);

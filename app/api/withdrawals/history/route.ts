@@ -4,7 +4,7 @@ import { prisma } from "@/lib/utils/prisma";
 import { ERROR_MESSAGES } from "@/lib/constants/settings";
 import { UserRole } from "@prisma/client";
 
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
     const session = await auth();
 
     // Authentication Check

@@ -21,18 +21,9 @@ import {
   Palette,
   Ruler,
   Image as ImageIcon,
-  ChevronDown,
 } from "lucide-react";
 import { AttributeSelector } from "../../common/AttributeSelector";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+
 import {
   MAX_UPLOAD_SIZE_MB,
   ALLOWED_IMAGE_FORMATS,

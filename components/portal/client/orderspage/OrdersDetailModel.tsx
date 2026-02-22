@@ -6,10 +6,6 @@ import OrderActions from "@/components/orders/OrderActions";
 import { OrderFromAPI } from "@/lib/types/order.types";
 import { extractDateString, formatPrice } from "@/lib/utils";
 import { getStatusColor, getStatusLabel } from "@/lib/helpers/orderStatus";
-import { useState } from "react";
-import { CommandeStatut } from "@prisma/client";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 interface OrderDetailModalProps {
   order: OrderFromAPI | null;

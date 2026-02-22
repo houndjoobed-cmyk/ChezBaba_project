@@ -192,7 +192,7 @@ export async function processWebhookPayment(
             }
         }
 
-        const orderId = (metadata as Record<string, unknown>)?.orderId as string || webhookData.orderId;
+        const orderId = (((metadata as Record<string, unknown>)?.orderId) as string) || (webhookData.orderId as string);
         console.log(`[Webhook] Extraction OrderId: ${orderId} (Metadata: ${JSON.stringify(metadata)})`);
 
         if (orderId) {

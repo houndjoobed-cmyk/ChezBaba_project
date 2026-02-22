@@ -4,7 +4,6 @@ import { UserRole } from "@prisma/client";
 import { auth } from "@/lib/auth";
 import { ERROR_MESSAGES } from "@/lib/constants/settings";
 import { formatUserData, getUserSelect } from "@/lib/helpers/users";
-import { deleteFromCloudinary } from "@/lib/helpers/cloudinary";
 
 // Get all users (Admin only)
 export async function GET(_req: NextRequest) {

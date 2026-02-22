@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setPaymentMethod } from "@/redux/features/payment/paymentSlice";
-import { CREDIT_CARD_COMMISSION, MOMO_COMMISSION } from "@/lib/constants/settings";
+import { MOMO_COMMISSION } from "@/lib/constants/settings";
 import { AlertCircle, CreditCard, Smartphone } from "lucide-react";
 import { RootState } from "@/redux/store";
 import Image from "next/image";
@@ -29,7 +29,7 @@ export default function PaymentMethodSelector({ orderTotal }: PaymentMethodSelec
 
     // Fees calculation for display (client-side estimation)
     const momoFees = Math.ceil(orderTotal * MOMO_COMMISSION);
-    const cardFees = Math.ceil(orderTotal * CREDIT_CARD_COMMISSION);
+
 
     return (
         <div className="space-y-4">

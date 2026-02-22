@@ -30,7 +30,7 @@ export const shopProductsData: ProductFromAPI[] = [
       { id: "3", nom: "L" },
       { id: "4", nom: "XL" },
     ],
-    fournisseur: { nom: "StyleCo" },
+    fournisseur: "StyleCo",
     images: [
       { id: "1", imagePublicId: "/images/picpub-watch.png" },
       { id: "2", imagePublicId: "/images/pic10.png" },
@@ -58,7 +58,7 @@ export const shopProductsData: ProductFromAPI[] = [
       { id: "3", nom: "L" },
       { id: "4", nom: "XL" },
     ],
-    fournisseur: { nom: "DenimWorks" },
+    fournisseur: "DenimWorks",
     images: [{ id: "4", imagePublicId: "/images/pic2.png" }],
   },
   {
@@ -85,7 +85,7 @@ export const shopProductsData: ProductFromAPI[] = [
       { id: "2", nom: "M" },
       { id: "3", nom: "L" },
     ],
-    fournisseur: { nom: "ClassicThreads" },
+    fournisseur: "ClassicThreads",
     images: [{ id: "5", imagePublicId: "/images/picpub-girl.png" }],
   },
   {
@@ -113,7 +113,7 @@ export const shopProductsData: ProductFromAPI[] = [
       { id: "3", nom: "L" },
       { id: "4", nom: "XL" },
     ],
-    fournisseur: { nom: "UrbanFashion" },
+    fournisseur: "UrbanFashion",
     images: [
       { id: "6", imagePublicId: "/images/picpub-pulls.png" },
       { id: "7", imagePublicId: "/images/pic10.png" },
@@ -287,7 +287,7 @@ export const topSellingData: ProductFromAPI[] = [
       { id: "3", nom: "L" },
       { id: "4", nom: "XL" },
     ],
-    fournisseur: { nom: "PremiumClothing" },
+    fournisseur: "PremiumClothing",
     images: [
       { id: "17", imagePublicId: "/images/picpub-gift.png" },
       { id: "18", imagePublicId: "/images/pic10.png" },
@@ -318,7 +318,7 @@ export const topSellingData: ProductFromAPI[] = [
       { id: "2", nom: "M" },
       { id: "3", nom: "L" },
     ],
-    fournisseur: { nom: "StreetArt" },
+    fournisseur: "StreetArt",
     images: [
       { id: "20", imagePublicId: "/images/pic6.png" },
       { id: "21", imagePublicId: "/images/pic10.png" },
@@ -349,7 +349,7 @@ export const topSellingData: ProductFromAPI[] = [
       { id: "3", nom: "L" },
       { id: "4", nom: "XL" },
     ],
-    fournisseur: { nom: "CasualWear" },
+    fournisseur: "CasualWear",
     images: [{ id: "23", imagePublicId: "/images/pic7.png" }],
   },
   {
@@ -374,7 +374,7 @@ export const topSellingData: ProductFromAPI[] = [
       { id: "3", nom: "L" },
       { id: "4", nom: "XL" },
     ],
-    fournisseur: { nom: "PremiumDenim" },
+    fournisseur: "PremiumDenim",
     images: [{ id: "24", imagePublicId: "/images/pic8.png" }],
   },
 ];
@@ -405,7 +405,7 @@ export const relatedProductData: ProductFromAPI[] = [
       { id: "3", nom: "L" },
       { id: "4", nom: "XL" },
     ],
-    fournisseur: { nom: "ElegantStyle" },
+    fournisseur: "ElegantStyle",
     images: [
       { id: "25", imagePublicId: "/images/pic12.png" },
       { id: "26", imagePublicId: "/images/pic10.png" },
@@ -470,7 +470,7 @@ export const relatedProductData: ProductFromAPI[] = [
       { id: "3", nom: "L" },
       { id: "4", nom: "XL" },
     ],
-    fournisseur: { nom: "ClassicPolo" },
+    fournisseur: "ClassicPolo",
     images: [{ id: "31", imagePublicId: "/images/pic1pub-pulls.png" }],
   },
   {

@@ -2,8 +2,6 @@
 
 import Script from "next/script";
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { confirmDelivery } from "@/redux/features/payment/paymentSlice";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";

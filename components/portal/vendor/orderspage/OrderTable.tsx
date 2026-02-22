@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+
 import { extractDateString, formatPrice } from "@/lib/utils";
 import { OrderFromAPI } from "@/lib/types/order.types";
 import { getStatusColor } from "@/lib/helpers/orderStatus";
@@ -18,23 +18,6 @@ export default function OrderTable({
   setSelectedOrder,
   statusLabels,
 }: OrderTableProps) {
-  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
-  const dropdownRefs = useRef<Map<string, HTMLDivElement>>(new Map());
-
-  // Close dropdown on click outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        !Array.from(dropdownRefs.current.values()).some((ref) =>
-          ref.contains(event.target as Node)
-        )
-      ) {
-        setOpenDropdownId(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   return (
     <div className="flex flex-col gap-6 sm:gap-8">

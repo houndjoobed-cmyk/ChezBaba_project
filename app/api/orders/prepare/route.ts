@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
   try {
     // Retrieve all products in a single batch to avoid multiple lookups
     const productIds = produits.map((p) => p.produitId);
-    const tailleIds = produits.map((p) => p.tailleId).filter((id): id is string => id !== undefined);
+
 
     const dbProducts = await prisma.produit.findMany({
       where: {

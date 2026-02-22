@@ -6,11 +6,10 @@ import {
   getPaginationParams,
   getSortingOrdersParams,
 } from "@/lib/utils/params";
-import { Prisma, UserRole } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { formatOrderData, getOrderSelect } from "@/lib/helpers/orders";
 import {
   formatValidationErrors,
-  fullOrderWithPaymentSchema,
   createOrderSchema,
 } from "@/lib/validations";
 import { Decimal } from "@prisma/client/runtime/library";

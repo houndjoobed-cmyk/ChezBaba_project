@@ -8,10 +8,9 @@ import { SellFromAPI } from "@/lib/types/sell.types";
 
 interface SellsHeaderProps {
   sells: SellFromAPI[];
-  onExport: () => void;
 }
 
-export default function SellsHeader({ sells, onExport }: SellsHeaderProps) {
+export default function SellsHeader({ sells }: SellsHeaderProps) {
   const handleExport = () => {
     const data = sells.map((sell) => ({
       ID: sell.id,
