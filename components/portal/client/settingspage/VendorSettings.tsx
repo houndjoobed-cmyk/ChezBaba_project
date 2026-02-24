@@ -237,7 +237,7 @@ export default function VendorSettings({
                   />
                   {vendorInfo.nomBanque === "MOBILE_MONEY" && (
                     <p className="text-xs text-gray-500">
-                      Entrez le numéro avec l'indicatif du pays (ex: +229)
+                      Entrez le numéro avec l&apos;indicatif du pays (ex: +229)
                     </p>
                   )}
                 </div>

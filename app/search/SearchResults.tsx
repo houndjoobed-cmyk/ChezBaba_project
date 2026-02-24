@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function SearchResults() {
     const searchParams = useSearchParams();
-    const query = searchParams.get("q");
+    const query = searchParams?.get("q") || "";
 
     const [products, setProducts] = useState<ProductFromAPI[]>([]);
     const [isLoading, setIsLoading] = useState(true);

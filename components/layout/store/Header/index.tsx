@@ -65,15 +65,7 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-        {/* Mobile : section basse (Message défilant) */}
-        <div className="navBar navBar-mobile-bottom">
-          <form className="search_input_button" style={{ flex: 1 }}>
-            <input type="text" className="search_input" placeholder="Rechercher un produit" />
-            <button type="submit" className="search_icon_btn">
-              <Search size={20} />
-            </button>
-          </form>
-        </div>
+
       </nav>
       {/* Bottom navigation mobile only */}
       <BottomNav />
