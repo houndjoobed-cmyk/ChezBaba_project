@@ -19,17 +19,27 @@ import {
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const type = searchParams.get("type");
+  const searchQuery = searchParams.get("q"); // Retrieve search query
   const { page, pageSize, skip } = getPaginationParams(req);
   const { sortBy, sortOrder } = getSortingProductsParams(req);
 
   try {
+    // Build where clause
+    const whereClause: Prisma.ProduitWhereInput = {
+      ...(type === "boutique" && { produitBoutique: { isNot: null } }),
+      ...(type === "marketplace" && { produitMarketplace: { isNot: null } }),
+      ...(searchQuery && {
+        nom: {
+          contains: searchQuery,
+          mode: 'insensitive',
+        },
+      }),
+    };
+
     // Fetch all products & count
-    const totalProducts = await prisma.produit.count();
+    const totalProducts = await prisma.produit.count({ where: whereClause });
     const products = await prisma.produit.findMany({
-      where: {
-        ...(type === "boutique" && { produitBoutique: { isNot: null } }),
-        ...(type === "marketplace" && { produitMarketplace: { isNot: null } }),
-      },
+      where: whereClause,
       select: getProductSelect(),
       orderBy: { [sortBy]: sortOrder },
       skip,

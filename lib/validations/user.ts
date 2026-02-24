@@ -55,8 +55,10 @@ export const updateUserAvatarSchema = z.object({
 export const becomeVendorSchema = z.object({
   nomBoutique: z.string().min(1, "Nom boutique requis"),
   description: z.string().optional(),
-  nomBanque: z.string().min(1, "Nom banque requis"),
-  rib: z.string().min(1, "RIB requis"),
+  nomBanque: z.enum(["MOBILE_MONEY", "CARTE_BANCAIRE"], {
+    errorMap: () => ({ message: "Veuillez sélectionner une méthode de réception valide" }),
+  }),
+  rib: z.string().min(1, "Les détails de réception (Numéro ou RIB) sont requis"),
 });
 
 // Partial update schema for PATCH
@@ -64,7 +66,7 @@ export const updateVendorSchema = z
   .object({
     nomBoutique: z.string().max(100).optional(),
     description: z.string().max(1000).optional(),
-    nomBanque: z.string().max(50).optional(),
+    nomBanque: z.enum(["MOBILE_MONEY", "CARTE_BANCAIRE"]).optional(),
     rib: z.string().max(50).optional(),
   })
   .strict()

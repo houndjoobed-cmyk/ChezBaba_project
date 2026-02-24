@@ -20,7 +20,7 @@ export default function VendorSettings({
   const [vendorInfo, setVendorInfo] = useState({
     nomBoutique: user.vendeur?.nomBoutique || "",
     description: user.vendeur?.description || "",
-    nomBanque: user.vendeur?.nomBanque || "",
+    nomBanque: user.vendeur?.nomBanque || "MOBILE_MONEY",
     rib: user.vendeur?.rib || "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -114,31 +114,71 @@ export default function VendorSettings({
         </div>
         <div className="p-6 space-y-4">
           <div className="grid gap-6 sm:grid-cols-2">
-            <div className="space-y-2">
-              <label htmlFor="nomBanque" className="block text-sm font-medium">
-                Nom de la banque
+            <div className="space-y-4">
+              <label className="block text-sm font-medium">
+                Méthode de réception
               </label>
-              <input
-                id="nomBanque"
-                name="nomBanque"
-                value={vendorInfo.nomBanque}
-                onChange={handleVendorInfoChange}
-                required
-                className="w-full px-3 py-2 border rounded-md"
-              />
+              <div className="flex gap-4">
+                <label
+                  htmlFor="momo"
+                  className={`flex-1 flex flex-col items-center justify-between rounded-md border-2 p-4 cursor-pointer transition-colors ${vendorInfo.nomBanque === "MOBILE_MONEY"
+                    ? "border-black bg-gray-50"
+                    : "border-gray-200 hover:bg-gray-50"
+                    }`}
+                >
+                  <input
+                    type="radio"
+                    id="momo"
+                    name="nomBanque"
+                    value="MOBILE_MONEY"
+                    checked={vendorInfo.nomBanque === "MOBILE_MONEY"}
+                    onChange={handleVendorInfoChange}
+                    className="sr-only"
+                    required
+                  />
+                  <span className="text-sm font-medium">Mobile Money</span>
+                </label>
+                <label
+                  htmlFor="bank"
+                  className={`flex-1 flex flex-col items-center justify-between rounded-md border-2 p-4 cursor-pointer transition-colors ${vendorInfo.nomBanque === "CARTE_BANCAIRE"
+                    ? "border-black bg-gray-50"
+                    : "border-gray-200 hover:bg-gray-50"
+                    }`}
+                >
+                  <input
+                    type="radio"
+                    id="bank"
+                    name="nomBanque"
+                    value="CARTE_BANCAIRE"
+                    checked={vendorInfo.nomBanque === "CARTE_BANCAIRE"}
+                    onChange={handleVendorInfoChange}
+                    className="sr-only"
+                    required
+                  />
+                  <span className="text-sm font-medium">Virement</span>
+                </label>
+              </div>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 mt-2 sm:mt-0">
               <label htmlFor="rib" className="block text-sm font-medium">
-                Numéro de compte (RIB)
+                {vendorInfo.nomBanque === "MOBILE_MONEY"
+                  ? "Numéro Mobile Money"
+                  : "RIB / Numéro de compte"}
               </label>
               <input
                 id="rib"
                 name="rib"
                 value={vendorInfo.rib}
                 onChange={handleVendorInfoChange}
+                placeholder={vendorInfo.nomBanque === "MOBILE_MONEY" ? "+229 01..." : "BJ061..."}
                 required
                 className="w-full px-3 py-2 border rounded-md"
               />
+              {vendorInfo.nomBanque === "MOBILE_MONEY" && (
+                <p className="text-xs text-gray-500">
+                  Entrez le numéro avec l'indicatif du pays (ex: +229)
+                </p>
+              )}
             </div>
           </div>
         </div>
