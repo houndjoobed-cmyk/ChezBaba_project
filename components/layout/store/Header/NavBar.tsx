@@ -1,6 +1,7 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import BottomNav from "@/components/common/BottomNav";
 import UserMenu from "@/components/layout/store/Header/UserMenu";
@@ -11,6 +12,15 @@ import { LayoutGrid, ShoppingCart, Search } from "lucide-react";
 
 const Navbar = () => {
   const { cart } = useAppSelector((state: RootState) => state.carts);
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   return (
     <>
@@ -64,8 +74,14 @@ const Navbar = () => {
           </div>
         </div>
         {/* Mobile : section basse (barre de recherche) */}
-        <form className="search_input_button hidden md:flex" style={{ flex: 1 }}>
-          <input type="text" className="search_input" placeholder="Rechercher un produit" />
+        <form onSubmit={handleSearch} className="search_input_button hidden md:flex" style={{ flex: 1 }}>
+          <input
+            type="text"
+            className="search_input"
+            placeholder="Rechercher un produit"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
           <button type="submit" className="search_icon_btn">
             <Search size={20} />
           </button>

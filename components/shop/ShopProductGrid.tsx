@@ -49,24 +49,24 @@ const ShopProductGrid = ({ vendorId }: ShopProductGridProps) => {
     return (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             {/* Barre d'outils / Filtres */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 border-b border-gray-100 pb-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6">
                 <div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Catalogue de la boutique</h2>
-                    <p className="text-gray-500 mt-1">Découvrez tous nos articles et exclusivités</p>
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">Catalogue de la boutique</h2>
+                    <p className="text-gray-500 mt-1.5 font-medium">Découvrez tous nos articles et exclusivités</p>
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <div className="relative">
+                    <div className="relative group">
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}
-                            className="appearance-none bg-white border border-gray-200 text-gray-700 py-2.5 px-4 pr-10 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition-all cursor-pointer text-sm font-medium"
+                            className="appearance-none bg-white border border-gray-200 text-gray-700 py-3 pl-4 pr-12 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black/5 hover:border-gray-300 transition-all cursor-pointer text-sm font-semibold shadow-sm"
                         >
                             <option value="dateCreation">Nouveautés</option>
                             <option value="prix">Prix</option>
                             <option value="noteMoyenne">Mieux notés</option>
                         </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400 group-hover:text-gray-600 transition-colors">
                             <Filter className="w-4 h-4" />
                         </div>
                     </div>
@@ -105,13 +105,16 @@ const ShopProductGrid = ({ vendorId }: ShopProductGridProps) => {
                         key="empty"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="flex flex-col items-center justify-center py-32 text-gray-400 bg-gray-50 rounded-3xl border border-dashed border-gray-200"
+                        className="flex flex-col items-center justify-center py-32 text-gray-400 bg-gray-50/50 rounded-[2rem] border-2 border-dashed border-gray-100 relative overflow-hidden"
                     >
-                        <div className="bg-white p-6 rounded-full shadow-sm mb-6">
-                            <PackageX className="w-12 h-12 text-gray-300" />
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-gray-100 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2"></div>
+                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gray-100 rounded-full blur-3xl opacity-50 translate-y-1/2 -translate-x-1/2"></div>
+
+                        <div className="relative z-10 bg-white p-6 rounded-3xl shadow-sm mb-6 ring-1 ring-gray-100">
+                            <PackageX className="w-10 h-10 text-gray-400" />
                         </div>
-                        <p className="text-xl font-bold text-gray-800">Aucun produit trouvé</p>
-                        <p className="max-w-xs text-center mt-2">Cette boutique n&apos;a pas encore de produits disponibles dans cette catégorie.</p>
+                        <p className="relative z-10 text-2xl font-bold text-gray-900 tracking-tight">Aucun produit trouvé</p>
+                        <p className="relative z-10 max-w-sm text-center mt-3 text-gray-500 text-sm">Cette boutique n&apos;a pas encore de produits disponibles dans cette catégorie ou selon ces filtres.</p>
                     </motion.div>
                 ) : (
                     <motion.div
@@ -135,11 +138,11 @@ const ShopProductGrid = ({ vendorId }: ShopProductGridProps) => {
 
                         {/* Pagination Design Premium */}
                         {totalPages > 1 && (
-                            <div className="flex justify-center items-center gap-2 pt-8">
+                            <div className="flex justify-center items-center gap-3 pt-12">
                                 <button
                                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                                     disabled={page === 1}
-                                    className="w-12 h-12 flex items-center justify-center rounded-xl border border-gray-200 hover:bg-black hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-current transition-all duration-300"
+                                    className="w-12 h-12 flex items-center justify-center rounded-2xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:border-gray-200 transition-all duration-300 shadow-sm active:scale-95"
                                 >
                                     &larr;
                                 </button>
@@ -149,10 +152,10 @@ const ShopProductGrid = ({ vendorId }: ShopProductGridProps) => {
                                         key={i}
                                         onClick={() => setPage(i + 1)}
                                         className={cn(
-                                            "w-12 h-12 flex items-center justify-center rounded-xl font-bold transition-all duration-300",
+                                            "w-12 h-12 flex items-center justify-center rounded-2xl font-bold transition-all duration-300 active:scale-95 text-sm",
                                             page === i + 1
-                                                ? "bg-black text-white shadow-lg"
-                                                : "hover:bg-gray-100 text-gray-500"
+                                                ? "bg-black text-white shadow-lg shadow-black/20"
+                                                : "bg-white border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-600 shadow-sm"
                                         )}
                                     >
                                         {i + 1}
@@ -162,7 +165,7 @@ const ShopProductGrid = ({ vendorId }: ShopProductGridProps) => {
                                 <button
                                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                                     disabled={page === totalPages}
-                                    className="w-12 h-12 flex items-center justify-center rounded-xl border border-gray-200 hover:bg-black hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-current transition-all duration-300"
+                                    className="w-12 h-12 flex items-center justify-center rounded-2xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:border-gray-200 transition-all duration-300 shadow-sm active:scale-95"
                                 >
                                     &rarr;
                                 </button>

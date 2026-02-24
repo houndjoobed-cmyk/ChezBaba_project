@@ -59,26 +59,28 @@ const ShopHeader = ({ shop }: ShopHeaderProps) => {
     };
 
     return (
-        <section className="bg-white dark:bg-slate-950">
+        <section className="bg-white dark:bg-slate-950 relative">
             {/* Banner Section */}
-            <div className="relative h-48 md:h-80 w-full overflow-hidden">
+            <div className="relative h-64 md:h-96 w-full overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-black">
                     <div className="absolute inset-0 opacity-20 bg-[url('/images/pattern.png')] bg-repeat" />
                     {/* Decorative Elements */}
                     <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
                 </div>
+                {/* Smooth Gradient Fade at the bottom */}
+                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white dark:from-slate-950 to-transparent pointer-events-none" />
             </div>
 
             {/* Profile Section */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative mb-8">
-                <div className="flex flex-col md:flex-row gap-6 md:gap-8 -mt-20 md:-mt-24">
+                <div className="flex flex-col md:flex-row gap-6 md:gap-8 -mt-24 md:-mt-32">
                     {/* Logo - Overlapping Banner */}
                     <div className="relative shrink-0 flex flex-row items-start gap-3 mx-auto md:mx-0">
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            className="w-32 h-32 md:w-48 md:h-48 rounded-2xl border-4 border-white dark:border-slate-950 shadow-xl overflow-hidden bg-white relative z-10"
+                            className="w-32 h-32 md:w-48 md:h-48 rounded-3xl ring-4 ring-white dark:ring-slate-950 shadow-2xl overflow-hidden bg-white relative z-10"
                         >
                             <Image
                                 src={
@@ -91,7 +93,7 @@ const ShopHeader = ({ shop }: ShopHeaderProps) => {
                                 className="object-cover"
                             />
                         </motion.div>
-                        <div className="bg-black text-white p-2 md:p-3 rounded-xl shadow-lg border-2 border-white dark:border-slate-950 mt-2 md:mt-4 z-20">
+                        <div className="bg-black text-white p-2 md:p-3 rounded-2xl shadow-xl ring-2 ring-white dark:ring-slate-950 mt-2 md:mt-4 z-20 absolute -right-3 md:-right-4 top-4 md:top-8 pointer-events-none">
                             <Store className="w-5 h-5 md:w-6 md:h-6" />
                         </div>
                     </div>
@@ -104,11 +106,11 @@ const ShopHeader = ({ shop }: ShopHeaderProps) => {
                                     {shop.nomBoutique}
                                 </h1>
                                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                                    <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400 rounded-full text-sm font-semibold">
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-400 rounded-full text-sm font-semibold ring-1 ring-green-200 dark:ring-green-500/20 shadow-sm">
                                         <ShieldCheck className="w-4 h-4" />
                                         Vendeur Vérifié
                                     </div>
-                                    <span className="text-gray-500 dark:text-gray-400 text-sm flex items-center gap-1">
+                                    <span className="text-gray-500 dark:text-gray-400 text-sm flex items-center gap-1 bg-gray-50 dark:bg-slate-900 border border-gray-100 dark:border-slate-800 px-3 py-1 rounded-full">
                                         <Calendar className="w-4 h-4" />
                                         Depuis {memberSince}
                                     </span>
@@ -118,10 +120,10 @@ const ShopHeader = ({ shop }: ShopHeaderProps) => {
                             <Button
                                 onClick={handleShare}
                                 variant="outline"
-                                className="w-full md:w-auto gap-2 rounded-full border-gray-200 hover:bg-gray-50 dark:border-slate-800 dark:hover:bg-slate-900"
+                                className="w-full md:w-auto gap-2 rounded-2xl border-gray-200 hover:bg-gray-50 dark:border-slate-800 dark:hover:bg-slate-900 shadow-sm hover:-translate-y-0.5 transition-all duration-300 active:scale-95"
                             >
-                                <Share2 className="w-4 h-4" />
-                                Partager la boutique
+                                <Share2 className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                                <span className="font-semibold">Partager la boutique</span>
                             </Button>
                         </div>
 
@@ -150,27 +152,27 @@ const ShopHeader = ({ shop }: ShopHeaderProps) => {
                             </div>
 
                             {/* Stats Cards */}
-                            <div className="grid grid-cols-3 gap-4 lg:grid-cols-1">
-                                <div className="bg-gray-50 dark:bg-slate-900 rounded-2xl p-4 flex flex-col items-center justify-center text-center border border-gray-100 dark:border-slate-800">
-                                    <div className="mb-2 p-2 bg-white dark:bg-slate-800 rounded-full shadow-sm">
-                                        <Package className="w-5 h-5 text-blue-600" />
+                            <div className="grid grid-cols-3 gap-3 md:gap-4 lg:grid-cols-1">
+                                <div className="bg-gray-50/80 hover:bg-white dark:bg-slate-900/80 dark:hover:bg-slate-900 rounded-3xl p-4 md:p-6 flex flex-col items-center justify-center text-center border border-gray-100 dark:border-slate-800 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                                    <div className="mb-3 p-2.5 bg-blue-100/50 dark:bg-blue-500/10 text-blue-600 rounded-full">
+                                        <Package className="w-5 h-5 md:w-6 md:h-6" />
                                     </div>
-                                    <span className="text-xl font-bold text-gray-900 dark:text-white">{shop.stats.totalProduits}</span>
-                                    <span className="text-xs text-gray-500 font-medium uppercase">Produits</span>
+                                    <span className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 tracking-tight">{shop.stats.totalProduits}</span>
+                                    <span className="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">Produits</span>
                                 </div>
-                                <div className="bg-gray-50 dark:bg-slate-900 rounded-2xl p-4 flex flex-col items-center justify-center text-center border border-gray-100 dark:border-slate-800">
-                                    <div className="mb-2 p-2 bg-white dark:bg-slate-800 rounded-full shadow-sm">
-                                        <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+                                <div className="bg-gray-50/80 hover:bg-white dark:bg-slate-900/80 dark:hover:bg-slate-900 rounded-3xl p-4 md:p-6 flex flex-col items-center justify-center text-center border border-gray-100 dark:border-slate-800 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                                    <div className="mb-3 p-2.5 bg-yellow-100/50 dark:bg-yellow-500/10 text-yellow-600 rounded-full">
+                                        <Star className="w-5 h-5 md:w-6 md:h-6 fill-current" />
                                     </div>
-                                    <span className="text-xl font-bold text-gray-900 dark:text-white">{shop.stats.noteMoyenne.toFixed(1)}/5</span>
-                                    <span className="text-xs text-gray-500 font-medium uppercase">Note Moyenne</span>
+                                    <span className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 tracking-tight">{shop.stats.noteMoyenne.toFixed(1)}<span className="text-sm font-medium text-gray-400">/5</span></span>
+                                    <span className="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">Note</span>
                                 </div>
-                                <div className="bg-gray-50 dark:bg-slate-900 rounded-2xl p-4 flex flex-col items-center justify-center text-center border border-gray-100 dark:border-slate-800">
-                                    <div className="mb-2 p-2 bg-white dark:bg-slate-800 rounded-full shadow-sm">
-                                        <MessageCircle className="w-5 h-5 text-purple-600" />
+                                <div className="bg-gray-50/80 hover:bg-white dark:bg-slate-900/80 dark:hover:bg-slate-900 rounded-3xl p-4 md:p-6 flex flex-col items-center justify-center text-center border border-gray-100 dark:border-slate-800 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                                    <div className="mb-3 p-2.5 bg-purple-100/50 dark:bg-purple-500/10 text-purple-600 rounded-full">
+                                        <MessageCircle className="w-5 h-5 md:w-6 md:h-6" />
                                     </div>
-                                    <span className="text-xl font-bold text-gray-900 dark:text-white">{shop.stats.totalAvis}</span>
-                                    <span className="text-xs text-gray-500 font-medium uppercase">Avis Clients</span>
+                                    <span className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 tracking-tight">{shop.stats.totalAvis}</span>
+                                    <span className="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">Avis</span>
                                 </div>
                             </div>
                         </div>
