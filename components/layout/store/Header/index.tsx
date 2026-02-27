@@ -19,17 +19,23 @@ const Navbar = () => {
           {/* ...section navBar_connexion_inscription retirée... */}
           {/* ...section navBar_connexion_inscription retirée... */}
           {/* Ligne unique : logo, recherche, catégorie, icônes */}
-          <div className="logo_searchBar_button" style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
+          <div className="logo_searchBar_button" style={{ display: 'flex', alignItems: 'center', gap: 32, padding: '20px 40px' }}>
             {/* Logo */}
             <div className="nav_logo">
               <Link href="/" className="logo_link" aria-label="Accueil ChezBaba">
                 <Image src="/images/logo-removebg-preview.png" alt="CHEZ BABA" width={120} height={60} className="logo-image" />
               </Link>
             </div>
-            {/* Message de Bienvenue Défilant */}
+            {/* Message de Bienvenue Défilant (Seamless) */}
             <div className="welcome-marquee-container">
-              <div className="welcome-marquee-text">
-                <span style={{ color: 'var(--primary-color)' }}>ChezBaba</span> : le moins cher! &bull; Profitez de nos offres exceptionnelles &bull; Retrait facile en magasin &bull; la qualité au meilleur prix !
+              <div className="welcome-marquee-content">
+                <div className="welcome-marquee-text">
+                  <span style={{ color: 'var(--primary-color)' }}>ChezBaba</span> : le moins cher! &bull; Profitez de nos offres exceptionnelles &bull; Retrait facile en magasin &bull; la qualité au meilleur prix !
+                </div>
+                {/* On duplique pour l'effet infini */}
+                <div className="welcome-marquee-text">
+                  <span style={{ color: 'var(--primary-color)' }}>ChezBaba</span> : le moins cher! &bull; Profitez de nos offres exceptionnelles &bull; Retrait facile en magasin &bull; la qualité au meilleur prix !
+                </div>
               </div>
             </div>
             {/* Bouton Catégories */}
@@ -37,7 +43,7 @@ const Navbar = () => {
               <LayoutGrid size={20} style={{ marginRight: 6, display: 'inline' }} /> Catégories
             </Link>
             {/* Icônes */}
-            <div className="button_icons" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div className="button_icons" style={{ display: 'flex', alignItems: 'center', gap: 16, }}>
               <Link href="/favorites" className="icone" title="Mes Favoris">
                 <Heart size={24} />
               </Link>
@@ -65,7 +71,7 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-
+        {/* Mobile : section basse supprimée (anciennement recherche) */}
       </nav>
       {/* Bottom navigation mobile only */}
       <BottomNav />
