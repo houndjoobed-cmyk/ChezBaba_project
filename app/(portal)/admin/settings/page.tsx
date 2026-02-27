@@ -65,7 +65,7 @@ export default function AdminSettings() {
       <div className="max-w-7xl mx-auto">
         <header className="mb-6 sm:mb-8">
           <div className="flex items-center gap-2 sm:gap-3">
-            <Settings className="h-6 w-6 sm:h-8 sm:w-8 text-black" />
+            <Settings className="h-6 w-6 sm:h-8 sm:w-8 text-[#0C1B33]" />
             <h1
               className={`text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight ${montserrat.className}`}
             >

@@ -16,6 +16,11 @@ export function getProductSelect() {
     delaiLivraison: true,
     prixPromo: true,
     garantie: true,
+    typeProduit: true,
+    fichierUrl: true,
+    fichierNom: true,
+    messageApresAchat: true,
+    lienApresAchat: true,
     // Relations
     genre: true,
     categorie: {

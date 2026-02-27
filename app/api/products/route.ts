@@ -115,7 +115,15 @@ export async function POST(req: NextRequest) {
       images: formData.getAll("images"),
       video: formData.get("video") instanceof File ? formData.get("video") : undefined,
       fournisseur: formData.get("fournisseur") || undefined,
+      typeProduit: formData.get("typeProduit") || "PHYSIQUE",
+      messageApresAchat: formData.get("messageApresAchat") || undefined,
     };
+
+    const digitalFile = formData.get("digital");
+    if (digitalFile instanceof File) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (inputData as any).digital = digitalFile;
+    }
 
     const parsedData = productSchema.safeParse(inputData);
 
@@ -127,9 +135,11 @@ export async function POST(req: NextRequest) {
     }
 
     // Upload Images to Cloudinary
-    const { images, video } = parsedData.data;
+    const { images, video, typeProduit } = parsedData.data;
     let uploadedImages: string[] = [];
     let uploadedVideo: string | null = null;
+    let uploadedDigitalUrl: string | null = null;
+    let uploadedDigitalName: string | null = null;
 
     try {
       uploadedImages = await Promise.all(
@@ -142,6 +152,14 @@ export async function POST(req: NextRequest) {
       if (video) {
         const videoResult = await uploadToCloudinary(video, "products", "video");
         uploadedVideo = videoResult.public_id;
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const fileToUpload = (inputData as any).digital;
+      if (typeProduit === "DIGITAL" && fileToUpload instanceof File) {
+        const digitalResult = await uploadToCloudinary(fileToUpload, "products_digital", "raw");
+        uploadedDigitalUrl = digitalResult.secure_url;
+        uploadedDigitalName = fileToUpload.name;
       }
     } catch (uploadError) {
       console.error("Media upload failed:", uploadError);
@@ -169,6 +187,11 @@ export async function POST(req: NextRequest) {
           delaiLivraison: parsedData.data.delaiLivraison,
           garantie: parsedData.data.garantie,
           prixPromo: parsedData.data.prixPromo,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          typeProduit: parsedData.data.typeProduit as any,
+          messageApresAchat: parsedData.data.messageApresAchat,
+          fichierUrl: uploadedDigitalUrl,
+          fichierNom: uploadedDigitalName,
           couleurs: parsedData.data.couleurs?.length
             ? {
               connect: parsedData.data.couleurs.map((id: string) => ({ id })),

@@ -57,11 +57,10 @@ const Pagination = ({
           <button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`px-3 py-1 rounded-lg ${
-              page === currentPage
-                ? "bg-black text-white"
+            className={`px-3 py-1 rounded-lg ${page === currentPage
+                ? "bg-[#0C1B33] text-white"
                 : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-100"
-            }`}
+              }`}
           >
             {page}
           </button>
@@ -179,10 +178,10 @@ export default function ReportsPage() {
       prevReports.map((r) =>
         r.id === report.id
           ? {
-              ...r,
-              statut: SignalementStatut.TRAITE,
-              reponse: responseText,
-            }
+            ...r,
+            statut: SignalementStatut.TRAITE,
+            reponse: responseText,
+          }
           : r
       )
     );

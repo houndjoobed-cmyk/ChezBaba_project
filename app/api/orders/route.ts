@@ -186,7 +186,9 @@ export async function POST(req: NextRequest) {
           select: {
             id: true,
             nom: true,
+            typeProduit: true,
             prix: true,
+            prixPromo: true,
             qteStock: true,
             images: { select: { imagePublicId: true }, take: 1 },
           },
@@ -209,22 +211,27 @@ export async function POST(req: NextRequest) {
           }
 
           // Check stock
-          if (produit.qteStock < line.quantite) {
+          if (produit.typeProduit !== "DIGITAL" && produit.qteStock < line.quantite) {
             throw new OutOfStockError(
               `Le produit "${produit.nom}" n'est plus disponible en quantité suffisante (Stock restant : ${produit.qteStock}).`
             );
           }
 
           // Decrement stock (atomic operation) and get updated data
-          const updatedProduit = await tx.produit.update({
-            where: { id: produit.id },
-            data: { qteStock: { decrement: line.quantite } },
-            select: { qteStock: true },
-          });
+          if (produit.typeProduit !== "DIGITAL") {
+            const updatedProduit = await tx.produit.update({
+              where: { id: produit.id },
+              data: { qteStock: { decrement: line.quantite } },
+              select: { qteStock: true },
+            });
 
-          updatedStocksMap.set(produit.id, updatedProduit.qteStock);
+            updatedStocksMap.set(produit.id, updatedProduit.qteStock);
+          } else {
+            // Mock infinite stock for digital
+            updatedStocksMap.set(produit.id, 9999);
+          }
 
-          const prixUnit = produit.prix;
+          const prixUnit = (produit.prixPromo && produit.prixPromo.greaterThan(0)) ? produit.prixPromo : produit.prix;
           const sousTotal = prixUnit.mul(line.quantite);
           total = total.add(sousTotal);
 
@@ -285,7 +292,7 @@ export async function POST(req: NextRequest) {
           });
 
           // Alerte de stock faible
-          if (remainingStock <= LOW_STOCK_THRESHOLD) {
+          if (product?.typeProduit !== "DIGITAL" && remainingStock <= LOW_STOCK_THRESHOLD) {
             await tx.notification.create({
               data: {
                 userId: v.vendeurId,

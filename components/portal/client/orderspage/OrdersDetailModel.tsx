@@ -1,6 +1,6 @@
 "use client";
 
-import { X } from "lucide-react";
+import { X, Download } from "lucide-react";
 import { motion } from "framer-motion";
 import OrderActions from "@/components/orders/OrderActions";
 import { OrderFromAPI } from "@/lib/types/order.types";
@@ -104,17 +104,39 @@ export default function OrderDetailModal({
                     <span className="text-gray-900 font-medium text-sm sm:text-base">
                       {produit.nomProduit}
                     </span>
-                    <p className="text-xs sm:text-sm text-gray-600">
-                      Couleur: {produit.couleur?.nom}, Taille:{" "}
-                      {produit.taille?.nom}
-                    </p>
+                    {produit.typeProduit === "DIGITAL" ? (
+                      <p className="text-xs sm:text-sm text-green-600 font-medium">
+                        Produit Digital
+                      </p>
+                    ) : (
+                      <p className="text-xs sm:text-sm text-gray-600">
+                        Couleur: {produit.couleur?.nom}, Taille:{" "}
+                        {produit.taille?.nom}
+                      </p>
+                    )}
                     <p className="text-xs sm:text-sm text-gray-600">
                       Quantité: {produit.quantite}
                     </p>
                   </div>
-                  <span className="text-gray-900 font-semibold text-sm sm:text-base mt-1 sm:mt-0">
-                    {formatPrice(produit.prixUnit * produit.quantite)}
-                  </span>
+
+                  <div className="flex flex-col items-end gap-2 mt-1 sm:mt-0">
+                    <span className="text-gray-900 font-semibold text-sm sm:text-base">
+                      {formatPrice(produit.prixUnit * produit.quantite)}
+                    </span>
+
+                    {/* Access/Download button for digital products */}
+                    {produit.typeProduit === "DIGITAL" && (order.statut === "PAYEE" || order.statut === "EN_COURS" || order.statut === "LIVRE" || order.statut === "LIVRAISON_CONFIRMEE") && (
+                      <a
+                        href={`/api/products/${produit.produitId}/download`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-green text-darkblue text-xs font-semibold rounded-md hover:bg-green-400 transition-colors"
+                      >
+                        <Download className="w-4 h-4" />
+                        Télécharger
+                      </a>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

@@ -112,7 +112,7 @@ export default function SettingsPage() {
               animate={{ rotate: [0, 15, -15, 10, -10, 5, -5, 0] }}
               transition={{ duration: 1.2, ease: "easeInOut", repeat: 0 }}
             >
-              <Settings className="h-8 w-8 text-black" />
+              <Settings className="h-8 w-8 text-[#0C1B33]" />
             </motion.div>
             <h1
               className={`text-3xl font-extrabold text-gray-900 tracking-tight ${montserrat.className}`}
@@ -145,7 +145,7 @@ export default function SettingsPage() {
                   </div>
                   <button
                     onClick={() => fileInputRef.current?.click()}
-                    className="absolute bottom-0 right-0 p-1.5 rounded-full bg-black text-white hover:bg-black/80 transition-colors"
+                    className="absolute bottom-0 right-0 p-1.5 rounded-full bg-[#0C1B33] text-white hover:bg-[#0C1B33]/80 transition-colors"
                   >
                     <Camera className="h-4 w-4" />
                   </button>
@@ -177,11 +177,10 @@ export default function SettingsPage() {
                   <button
                     key={tab.value}
                     onClick={() => setActiveTab(tab.value)}
-                    className={`w-full text-left px-3 py-2 flex items-center gap-2 rounded-md ${
-                      activeTab === tab.value
+                    className={`w-full text-left px-3 py-2 flex items-center gap-2 rounded-md ${activeTab === tab.value
                         ? "bg-gray-100"
                         : "hover:bg-gray-50"
-                    }`}
+                      }`}
                   >
                     <tab.icon className="h-4 w-4" />
                     {tab.label}

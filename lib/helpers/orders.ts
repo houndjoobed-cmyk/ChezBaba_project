@@ -38,6 +38,13 @@ export function getOrderSelect() {
         prixUnit: true,
         imagePublicId: true,
         produitId: true,
+        produit: {
+          select: {
+            id: true,
+            typeProduit: true,
+            fichierNom: true,
+          }
+        },
         taille: {
           select: {
             id: true,
@@ -94,6 +101,8 @@ export function formatOrderData(order: OrderFromDB): OrderFromAPI {
     produits: lignesCommande.map((ligne) => ({
       ...ligne,
       prixUnit: ligne.prixUnit.toNumber(),
+      typeProduit: ligne.produit?.typeProduit,
+      fichierNom: ligne.produit?.fichierNom,
     })),
     paiement,
   };

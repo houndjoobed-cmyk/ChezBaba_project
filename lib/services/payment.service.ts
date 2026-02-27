@@ -298,24 +298,42 @@ export async function processWebhookPayment(
             select: { clientId: true, montant: true },
         });
 
+        // Check if there are digital products in the order
+        const lignesCommande = await tx.ligneCommande.findMany({
+            where: { commandeId: paiement!.commandeId },
+            include: { produit: true },
+        });
+
+        const hasDigitalProducts = lignesCommande.some(l => l.produit?.typeProduit === "DIGITAL");
+
         if (commande?.clientId) {
             await tx.notification.create({
                 data: {
                     userId: commande.clientId,
                     type: "PAIEMENT",
                     objet: "Paiement confirmé !",
-                    text: `Le paiement de ${commande.montant} FCFA pour votre commande ${paiement!.commandeId} a été reçu avec succès.`,
+                    text: `Le paiement de ${commande.montant} FCFA pour votre commande ${paiement!.commandeId} a été reçu avec succès.${hasDigitalProducts ? " Vos produits digitaux sont désormais accessibles." : ""}`,
                     urlRedirection: "/client/orders",
                 },
             });
+
+            // If there's a specific message for digital products, we can also create a separate notification with that message
+            for (const ligne of lignesCommande) {
+                if (ligne.produit?.typeProduit === "DIGITAL" && ligne.produit.messageApresAchat) {
+                    await tx.notification.create({
+                        data: {
+                            userId: commande.clientId,
+                            type: "MESSAGE",
+                            objet: `Message post-achat: ${ligne.produit.nom}`,
+                            text: `Suite à votre achat, voici un message du vendeur: ${ligne.produit.messageApresAchat}`,
+                            urlRedirection: `/client/orders/${paiement!.commandeId}`,
+                        }
+                    });
+                }
+            }
         }
 
         // Notification aux vendeurs
-        const lignesCommande = await tx.ligneCommande.findMany({
-            where: { commandeId: paiement!.commandeId },
-            select: { produitId: true },
-        });
-
         const produitIds = lignesCommande
             .map((l) => l.produitId)
             .filter((id): id is string => id !== null);

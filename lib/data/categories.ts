@@ -3,40 +3,38 @@ import { CategoryFromAPI } from "@/lib/types/category.types";
 const categories: CategoryFromAPI[] = [
   {
     id: "1",
-    nom: "Hauts",
-    description:
-      "T-shirts, chemises, pulls et autres vêtements pour le haut du corps.",
+    nom: "Vêtements & Accessoires",
+    description: "Trouvez les dernières tendances en mode et prêt-à-porter.",
   },
   {
     id: "2",
-    nom: "Bas",
-    description:
-      "Pantalons, jeans, shorts et autres vêtements pour le bas du corps.",
+    nom: "Chaussures & accessoires",
+    description: "Baskets, bottes, sandales et accessoires assortis.",
   },
   {
     id: "3",
-    nom: "Robes & Ensembles",
-    description: "Robes et ensembles assortis pour toutes occasions.",
+    nom: "Livres & Média",
+    description: "Littérature, éducation, musique et contenus multimédias.",
   },
   {
     id: "4",
-    nom: "Vestes & Manteaux",
-    description: "Vestes légères, manteaux d'hiver et blousons.",
+    nom: "Produits digitaux",
+    description: "Logiciels, abonnements, e-books et biens virtuels.",
   },
   {
     id: "5",
-    nom: "Chaussures",
-    description: "Baskets, bottes, sandales et autres types de chaussures.",
+    nom: "Électronique grand public",
+    description: "Téléphones, ordinateurs, gadgets et accessoires tech.",
   },
   {
     id: "6",
-    nom: "Accessoires",
-    description: "Sacs, écharpes, ceintures et autres compléments de tenue.",
+    nom: "Maison & Jardin",
+    description: "Décoration, mobilier, jardinage et ameublement.",
   },
   {
     id: "7",
     nom: "Autres",
-    description: "Articles divers ne rentrant pas dans les autres catégories.",
+    description: "Découvrez toutes nos autres catégories disponibles.",
   },
 ];
 

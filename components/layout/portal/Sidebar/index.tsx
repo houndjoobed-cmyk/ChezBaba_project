@@ -91,9 +91,9 @@ export default function SidebarLayout({
       {/* Sidebar */}
       <div
         className={`h-full bg-white flex flex-col shadow-lg z-50 border-r border-gray-200 transition-all duration-300 ${isMobile
-            ? `fixed right-0 top-0 bottom-0 ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-            } w-3/4 max-w-xs`
-            : `${isCollapsed ? "w-20" : "w-64"} fixed cursor-pointer`
+          ? `fixed right-0 top-0 bottom-0 ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          } w-3/4 max-w-xs`
+          : `${isCollapsed ? "w-20" : "w-64"} fixed cursor-pointer`
           }`}
         onClick={isMobile ? undefined : handleSidebarClick}
       >
@@ -113,8 +113,8 @@ export default function SidebarLayout({
               <div className="h-12 w-full flex items-center justify-center">
                 <Link href="/">
                   <Image
-                    src="/manifest/favicon.svg"
-                    alt="Logo de l'application"
+                    src="/icons/baba.png"
+                    alt="Logo de ChezBaba"
                     width={50}
                     height={50}
                     className="object-contain hover:opacity-80 transition-opacity"
@@ -137,7 +137,7 @@ export default function SidebarLayout({
             <div className="w-50 h-12 flex items-center justify-center">
               <Link href="/">
                 <Image
-                  src="/manifest/favicon.svg"
+                  src="/icons/baba.png"
                   alt="Logo de l'application"
                   width={50}
                   height={50}
@@ -172,10 +172,10 @@ export default function SidebarLayout({
       {/* Main content */}
       <div
         className={`w-full transition-all duration-300 h-screen overflow-auto ${isMobile
-            ? "pt-16" // Space for mobile header
-            : isCollapsed
-              ? "ml-20"
-              : "ml-64"
+          ? "pt-16" // Space for mobile header
+          : isCollapsed
+            ? "ml-20"
+            : "ml-64"
           }`}
       >
         {children}

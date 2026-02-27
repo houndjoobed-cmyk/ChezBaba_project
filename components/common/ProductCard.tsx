@@ -51,7 +51,7 @@ const ProductCard = ({ data, showFavorite = true, showAddToCart = true }: Produc
           )}
 
           {/* Out of Stock Overlay */}
-          {data.qteStock === 0 && (
+          {data.qteStock === 0 && data.typeProduit !== "DIGITAL" && (
             <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center rounded-[13px] lg:rounded-[20px]">
               <span className="bg-white/90 text-amber-600 text-xs xl:text-sm font-bold px-3 py-1.5 rounded-full border border-amber-100 shadow-sm">
                 Rupture de stock

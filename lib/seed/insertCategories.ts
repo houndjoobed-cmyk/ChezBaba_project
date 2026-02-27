@@ -45,6 +45,8 @@ async function insertCategories() {
   // 5. Créer toutes les autres catégories racines
   await prisma.categorie.createMany({
     data: [
+      { nom: "Livres & Média", description: "Littérature, éducation, musique et contenus multimédias" },
+      { nom: "Produits digitaux", description: "Logiciels, abonnements, e-books et biens virtuels" },
       { nom: "Électronique grand public", description: "Téléphones, gadgets, accessoires tech" },
       { nom: "Sports & Loisirs", description: "Équipement sportif, accessoires" },
       { nom: "Produits de beauté et soins personnels", description: null },
