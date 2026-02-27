@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 @plugin "tailwindcss-animate";
 @plugin "@tailwindcss/typography";
@@ -164,41 +164,48 @@
   border-color: var(--primary-color);
 }
 
-/* === MARQUEE WELCOME MESSAGE === */
+/* === MARQUEE WELCOME MESSAGE (Seamless) === */
 .welcome-marquee-container {
   flex: 1;
   overflow: hidden;
   position: relative;
   display: flex;
   align-items: center;
-  height: 40px;
+  /* Centrage vertical */
+  height: 50px;
   margin: 0 20px;
 }
 
-@media (max-width: 900px) {
-  .welcome-marquee-container {
-    display: none !important;
-  }
+.welcome-marquee-content {
+  display: flex;
+  align-items: center;
+  /* Centrage vertical du contenu */
+  white-space: nowrap;
+  animation: marquee-seamless 20s linear infinite;
+  gap: 60px;
+  /* Espace entre les deux textes */
+}
+
+.welcome-marquee-container:hover .welcome-marquee-content {
+  animation-play-state: paused;
 }
 
 .welcome-marquee-text {
-  position: absolute;
-  white-space: nowrap;
-  animation: marquee 25s linear infinite;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 500;
   color: white;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 
-@keyframes marquee {
+@keyframes marquee-seamless {
   0% {
-    left: 100%;
     transform: translateX(0);
   }
 
   100% {
-    left: 0;
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
@@ -214,6 +221,34 @@
   font-size: 1.3rem;
   position: relative;
   margin: 0 4px;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+}
+
+.icone:hover {
+  color: var(--primary-color);
+  transform: translateY(-3px);
+}
+
+.user-menu-btn {
+  transition: all 0.2s ease-in-out;
+}
+
+.user-menu-btn:hover {
+  transform: translateY(-3px);
+}
+
+.user-icon-img {
+  transition: filter 0.2s ease-in-out;
+}
+
+/* On force le blanc par défaut sur desktop si pas de couleur spécifiée */
+.user-icon-white {
+  filter: brightness(0) invert(1);
+}
+
+.user-menu-btn:hover .user-icon-img {
+  filter: invert(80%) sepia(85%) saturate(1635%) hue-rotate(32deg) brightness(104%) contrast(106%) !important;
 }
 
 .cart-badge {
@@ -629,4 +664,196 @@
 .tc-prohibited-item i {
   color: var(--secondary-color);
   margin-top: 3px;
+}
+
+
+ctg-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* Grille des catégories */
+.ctg-category-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+}
+
+/* Carte catégorie */
+.ctg-category-card {
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(12, 27, 51, 0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  border: 1px solid var(--border-color);
+  position: relative;
+  top: 0;
+}
+
+.ctg-category-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 35px -8px rgba(12, 27, 51, 0.2);
+  border-color: var(--primary-color);
+}
+
+.ctg-card-image {
+  position: relative;
+  padding-top: 75%;
+  overflow: hidden;
+  background-color: var(--lightgray);
+}
+
+.ctg-card-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.ctg-category-card:hover .ctg-card-image img {
+  transform: scale(1.08);
+}
+
+/* Badge de comptage */
+.ctg-product-count {
+  position: absolute;
+  top: 12px;
+  right: 8px;
+  background-color: var(--white);
+  color: var(--darkblue);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.20rem 0.50rem;
+  border-radius: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  border: 2px solid var(--white);
+}
+
+/* Info carte */
+.ctg-card-info {
+  padding: 1.25rem 1rem 1rem;
+  background: var(--white);
+  position: relative;
+}
+
+.ctg-card-info h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--darkblue);
+  margin-bottom: 0.35rem;
+  transition: color 0.3s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ctg-category-card:hover .ctg-card-info h3 {
+  color: var(--primary-color);
+}
+
+.ctg-card-info p {
+  font-size: 0.85rem;
+  color: var(--darkgray);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ctg-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.ctg-price-range {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--darkblue);
+}
+
+.ctg-price-range span {
+  color: var(--darkgray);
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.ctg-explore-btn {
+  background: transparent;
+  border: none;
+  color: var(--darkblue);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--lightgray);
+}
+
+.ctg-category-card:hover .ctg-explore-btn {
+  background-color: var(--primary-color);
+}
+
+/* Carte featured */
+.ctg-category-card.ctg-featured {
+  border-top: 4px solid var(--primary-color);
+}
+
+/* Responsive */
+@media screen and (max-width: 1200px) {
+  .ctg-category-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .ctg-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .ctg-category-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .ctg-category-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .ctg-card-info h3 {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .ctg-category-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .ctg-card-image {
+    padding-top: 65%;
+  }
 }

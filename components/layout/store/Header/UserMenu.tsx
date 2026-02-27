@@ -39,22 +39,20 @@ const UserMenu = ({ color, className }: UserMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className={`p-1 md:p-2 relative ${className || ""}`}>
+        <Button variant="ghost" className={`p-1 md:p-2 relative user-menu-btn ${className || ""}`}>
           <Image
             priority
             src="/icons/user.svg"
             height={30}
             width={30}
             alt="user"
-            className="cursor-pointer w-auto h-[24px] sm:h-[26px] md:h-[28px] lg:h-[30px]"
+            className={`cursor-pointer w-auto h-[24px] sm:h-[26px] md:h-[28px] lg:h-[30px] user-icon-img ${!color || color === "white" ? "user-icon-white" : ""}`}
             style={{
               filter: color === "#bdfe00"
                 ? "invert(80%) sepia(85%) saturate(1635%) hue-rotate(32deg) brightness(104%) contrast(106%)" // Vert primaire
                 : color === "#0C1B33"
                   ? "invert(8%) sepia(35%) saturate(2361%) hue-rotate(185deg) brightness(95%) contrast(97%)" // Bleu foncé
-                  : color === "white" || !color
-                    ? "brightness(0) invert(1)" // Blanc (Desktop)
-                    : "none"
+                  : undefined
             }}
           />
         </Button>
