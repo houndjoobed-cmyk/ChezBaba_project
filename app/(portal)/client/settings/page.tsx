@@ -30,11 +30,13 @@ export default function SettingsPage() {
   const [user, setUser] = useState<UserFromAPI | null>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<string>("personal");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const searchParams = useSearchParams();
   const error = searchParams && typeof searchParams.get === 'function' ? searchParams.get("error") : null;
+  const initialTab = searchParams && typeof searchParams.get === 'function' ? searchParams.get("tab") : null;
+
+  const [activeTab, setActiveTab] = useState<string>(initialTab || "personal");
 
   useEffect(() => {
     if (error === "missing_phone") {

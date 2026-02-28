@@ -1,8 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaInstagram, FaTwitter, FaTiktok } from "react-icons/fa";
+import { auth } from "@/lib/auth";
+import VendorLink from "./VendorLink";
 
-const StoreFooter = () => {
+const StoreFooter = async () => {
+  const session = await auth();
+  const role = session?.user?.role;
   const currentYear = new Date().getFullYear();
 
   return (
@@ -77,9 +81,7 @@ const StoreFooter = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/auth/register-vendor" className="text-gray-300 hover:text-[#bdfe00] transition-colors text-sm">
-                  Devenir Vendeur
-                </Link>
+                <VendorLink role={role} />
               </li>
             </ul>
           </div>
@@ -99,8 +101,8 @@ const StoreFooter = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-gray-300 hover:text-[#bdfe00] transition-colors text-sm">
-                  FAQ
+                <Link href="/returns" className="text-gray-300 hover:text-[#bdfe00] transition-colors text-sm">
+                  Politique de remboursement
                 </Link>
               </li>
               <li>
@@ -118,19 +120,19 @@ const StoreFooter = () => {
               <li className="flex items-start gap-2">
                 <span className="text-[#EA9010]">📧</span>
                 <a
-                  href="mailto:contact@chezbaba.com"
+                  href="mailto:[chezbaba.shop@gmail.com]"
                   className="text-gray-300 hover:text-[#bdfe00] transition-colors text-sm"
                 >
-                  contact@chezbaba.com
+                  chezbaba.shop@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-[#EA9010]">📞</span>
                 <a
-                  href="tel:+22990000000"
+                  href="tel:+33 7 49 30 03 02"
                   className="text-gray-300 hover:text-[#bdfe00] transition-colors text-sm"
                 >
-                  +229 90 00 00 00
+                  +33 7 49 30 03 02
                 </a>
               </li>
               <li className="flex items-start gap-2">
@@ -149,7 +151,7 @@ const StoreFooter = () => {
         <div className="max-w-frame mx-auto px-4 xl:px-0 py-4">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm text-center sm:text-left">
-              © {currentYear} CHEZ BABA. Tous droits réservés.
+              © {currentYear} ChezBaba. Tous droits réservés.
             </p>
             <div className="flex items-center gap-4">
               <Link

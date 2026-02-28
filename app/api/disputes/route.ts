@@ -71,9 +71,8 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // Vérifier le statut — litige impossible après confirmation de livraison
+        // Vérifier le statut — litige pour demande de retour/remboursement
         const forbiddenStatuses: CommandeStatut[] = [
-            CommandeStatut.LIVRAISON_CONFIRMEE,
             CommandeStatut.ANNULEE,
             CommandeStatut.REMBOURSEE,
             CommandeStatut.EN_ATTENTE_PAIEMENT,

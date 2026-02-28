@@ -108,7 +108,7 @@ export default function OrderActions({ orderId, status, userRole }: OrderActions
                             className="bg-green-600 hover:bg-green-700 text-white flex-1"
                             disabled={loading}
                         >
-                            {loading ? "Traitement..." : "Oui, j&apos;ai reçu ma commande"}
+                            {loading ? "Traitement..." : "Oui, j'ai reçu ma commande"}
                             <CheckCircle className="ml-2 h-4 w-4" />
                         </Button>
 
@@ -134,13 +134,50 @@ export default function OrderActions({ orderId, status, userRole }: OrderActions
                                     />
                                 </div>
                                 <DialogFooter>
-                                    <Button variant="destructive" onClick={handleCreateDispute} disabled={!disputeReason}>
-                                        Ouvrir un litige
+                                    <Button variant="destructive" onClick={handleCreateDispute} disabled={!disputeReason || loading}>
+                                        {loading ? "Ouverture..." : "Ouvrir un litige"}
                                     </Button>
                                 </DialogFooter>
                             </DialogContent>
                         </Dialog>
                     </div>
+                </div>
+            );
+        }
+
+        if (status === "LIVREE" || status === "LIVRAISON_CONFIRMEE") {
+            return (
+                <div className="mt-4 flex justify-end">
+                    <Dialog open={disputeOpen} onOpenChange={setDisputeOpen}>
+                        <DialogTrigger asChild>
+                            <Button variant="outline" className="border-orange-200 text-orange-600 hover:bg-orange-50">
+                                <AlertTriangle className="h-4 w-4 mr-2" />
+                                Demander un retour / remboursement
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Demande de retour / remboursement</DialogTitle>
+                                <DialogDescription>
+                                    Veuillez noter que les produits frais et périssables ne sont pas éligibles aux retours.
+                                    Pour les autres produits, vous avez 48h après réception pour signaler un problème. Décrivez-le ci-dessous en détail.
+                                </DialogDescription>
+                            </DialogHeader>
+                            <div className="py-2">
+                                <Textarea
+                                    placeholder="Raison détaillée du retour (ex: Produit cassé, erreur de référence...)"
+                                    value={disputeReason}
+                                    onChange={(e) => setDisputeReason(e.target.value)}
+                                    rows={4}
+                                />
+                            </div>
+                            <DialogFooter>
+                                <Button variant="destructive" onClick={handleCreateDispute} disabled={!disputeReason || loading}>
+                                    {loading ? "Envoi..." : "Soumettre la demande"}
+                                </Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
                 </div>
             );
         }

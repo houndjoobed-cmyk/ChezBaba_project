@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import Navbar from "@/components/layout/store/Header";
-import Footer from "@/components/layout/store/Footer";
 import "../terms.css";
 
 import Acceptation from "./sections/Acceptation";
@@ -77,8 +75,6 @@ export default function TermsPage() {
 
     return (
         <>
-            <Navbar />
-
             {/* Hero Section */}
             <section className="tc-hero">
                 <div className="tc-hero-content">
@@ -115,15 +111,13 @@ export default function TermsPage() {
                         <div className="tc-contact-card">
                             <h3><i className="fas fa-question-circle"></i> Questions ?</h3>
                             <p className="tc-p text-sm text-gray-600 mb-2">Notre équipe juridique est là pour répondre à vos questions</p>
-                            <a href="https://wa.me/2290140551495" target="_blank" className="tc-contact-btn">
+                            <a href="https://wa.me/+33749300302" target="_blank" className="tc-contact-btn">
                                 <i className="fab fa-whatsapp"></i> Nous contacter
                             </a>
                         </div>
                     </div>
                 </aside>
             </div>
-
-            <Footer />
         </>
     );
 }
