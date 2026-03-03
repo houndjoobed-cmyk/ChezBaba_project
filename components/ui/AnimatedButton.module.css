@@ -8,7 +8,7 @@
     /* Match original button height roughly */
     border-radius: 9999px;
     /* Rounded full like original */
-    border: 1px solid #0C1B33;
+    border: 2px solid #0C1B33;
     /* Dark Blue */
     position: relative;
     overflow: hidden;
@@ -61,4 +61,9 @@
     /* sm:text-base */
     font-weight: 500;
     transition: all 0.3s ease-in;
+}
+
+.animatedButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

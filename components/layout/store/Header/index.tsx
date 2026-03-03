@@ -10,7 +10,7 @@ import { RootState } from "@/redux/store";
 import { LayoutGrid, Heart, ShoppingCart, Search } from "lucide-react";
 
 const Navbar = () => {
-  const { cart } = useAppSelector((state: RootState) => state.carts);
+  const cart = useAppSelector((state: RootState) => state.carts.cart);
   return (
     <>
       <nav>
@@ -71,11 +71,9 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-<<<<<<< HEAD
 
-=======
         {/* Mobile : section basse supprimée (anciennement recherche) */}
->>>>>>> DorhiTala
+
       </nav>
       {/* Bottom navigation mobile only */}
       <BottomNav />

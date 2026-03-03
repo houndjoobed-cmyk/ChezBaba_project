@@ -37,37 +37,37 @@ const Stats = () => {
       whileInView={{ y: "0", opacity: 1 }}
       viewport={{ once: true }}
       transition={{ delay: 1.6, duration: 0.6 }}
-      className="flex md:h-full md:max-h-11 lg:max-h-[52px] xl:max-h-[68px] items-center justify-center md:justify-start flex-wrap sm:flex-nowrap md:space-x-3 lg:space-x-6 xl:space-x-8 md:mt-8 md:mb-[116px]"
+      className="flex md:h-full md:max-h-11 lg:max-h-[52px] xl:max-h-[68px] items-center justify-center md:justify-start flex-nowrap md:space-x-3 lg:space-x-6 xl:space-x-8 md:mt-8 mb-8 md:mb-[116px]"
     >
       <div className="flex flex-col">
-        <span className="font-bold text-2xl md:text-xl lg:text-3xl xl:text-[40px] xl:mb-2">
+        <span className="font-bold text-lg md:text-xl lg:text-3xl xl:text-[40px] xl:mb-2 text-[var(--darkblue)]/100">
           <AnimatedCounter from={0} to={totalProducts} />+
         </span>
-        <span className="text-xs xl:text-base text-black/60 text-nowrap">
+        <span className="text-[10px] xl:text-base text-[var(--darkblue)]/60 text-nowrap">
           Produits de Qualité
         </span>
       </div>
       <Separator
-        className="ml-6 md:ml-0 h-12 md:h-full bg-black/10"
+        className="ml-4 md:ml-0 h-10 md:h-full bg-black/10"
         orientation="vertical"
       />
-      <div className="flex flex-col ml-6 md:ml-0">
-        <span className="font-bold text-2xl md:text-xl lg:text-3xl xl:text-[40px] xl:mb-2">
+      <div className="flex flex-col ml-4 md:ml-0">
+        <span className="font-bold text-lg md:text-xl lg:text-3xl xl:text-[40px] xl:mb-2 text-[var(--darkblue)]/100">
           <AnimatedCounter from={0} to={totalUsers} />+
         </span>
-        <span className="text-xs xl:text-base text-black/60 text-nowrap">
+        <span className="text-[10px] xl:text-base text-[var(--darkblue)]/60 text-nowrap">
           Clients Satisfaits
         </span>
       </div>
       <Separator
-        className="hidden sm:block sm:h-12 md:h-full ml-6 md:ml-0 bg-black/10"
+        className="ml-4 md:ml-0 h-10 md:h-full bg-black/10"
         orientation="vertical"
       />
-      <div className="flex flex-col w-full text-center sm:w-auto sm:text-left mt-3 sm:mt-0 sm:ml-6 md:ml-0">
-        <span className="font-bold text-2xl md:text-xl lg:text-3xl xl:text-[40px] xl:mb-2">
+      <div className="flex flex-col ml-4 md:ml-0">
+        <span className="font-bold text-lg md:text-xl lg:text-3xl xl:text-[40px] xl:mb-2 text-[var(--darkblue)]/100">
           <AnimatedCounter from={0} to={totalVendors} />+
         </span>
-        <span className="text-xs xl:text-base text-black/60 text-nowrap">
+        <span className="text-[10px] xl:text-base text-[var(--darkblue)]/60 text-nowrap">
           Vendeurs de Confiance
         </span>
       </div>

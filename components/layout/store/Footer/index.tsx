@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FaFacebook, FaInstagram, FaTwitter, FaTiktok } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTwitter, FaTiktok, FaWhatsapp } from "react-icons/fa";
 
 const StoreFooter = () => {
   const currentYear = new Date().getFullYear();
@@ -12,20 +12,25 @@ const StoreFooter = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-block mb-4">
-              <Image
-                src="/images/logo-removebg-preview.png"
-                alt="CHEZ BABA"
-                width={140}
-                height={70}
-                className="brightness-110"
-              />
-            </Link>
-            <p className="text-gray-300 text-sm leading-relaxed mb-4">
-              Plateforme marketplace centralisée pour petits et grands commerces au Bénin.
-            </p>
+
+            {/* Logo + Description - desktop only */}
+            <div className="hidden md:block">
+              <Link href="/" className="inline-block mb-4">
+                <Image
+                  src="/images/logo-removebg-preview.png"
+                  alt="CHEZ BABA"
+                  width={140}
+                  height={70}
+                  className="brightness-110"
+                />
+              </Link>
+              <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                Plateforme marketplace centralisée pour petits et grands commerces au Bénin.
+              </p>
+            </div>
+
             {/* Social Media */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center md:justify-start gap-3">
               <Link
                 href="#"
                 className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#bdfe00] hover:text-[#0C1B33] flex items-center justify-center transition-all duration-300"
@@ -54,11 +59,18 @@ const StoreFooter = () => {
               >
                 <FaTiktok size={18} />
               </Link>
+              <Link
+                href="https://wa.me/22940551495?text=*Bonjour%20ChezBaba*%2C%0AJe%20vous%20contacte%20depuis%20votre%20site%20afin%20d%27obtenir%20plus%20d%27informations%20sur%20vos%20services."
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#bdfe00] hover:text-[#0C1B33] flex items-center justify-center transition-all duration-300"
+                aria-label="WhatsApp"
+              >
+                <FaWhatsapp size={18} />
+              </Link>
             </div>
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="hidden md:block">
             <h3 className="text-lg font-semibold mb-4 text-[#bdfe00]">Liens Rapides</h3>
             <ul className="space-y-3">
               <li>
@@ -85,7 +97,7 @@ const StoreFooter = () => {
           </div>
 
           {/* Support */}
-          <div>
+          <div className="hidden md:block">
             <h3 className="text-lg font-semibold mb-4 text-[#bdfe00]">Support</h3>
             <ul className="space-y-3">
               <li>
@@ -112,7 +124,7 @@ const StoreFooter = () => {
           </div>
 
           {/* Contact */}
-          <div>
+          <div className="hidden md:block">
             <h3 className="text-lg font-semibold mb-4 text-[#bdfe00]">Contact</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-2">

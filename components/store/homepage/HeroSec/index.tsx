@@ -9,7 +9,7 @@ import Stats from "@/components/store/homepage/HeroSec/Stats";
 
 const HeroSec = () => {
   return (
-    <section className="bg-[#F2F0F1] pt-10 md:pt-16 overflow-hidden">
+    <section className="bg-[#F2F0F1] pt-10 md:pt-16 overflow-x-hidden">
       <div className="md:max-w-[77.5rem] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
         <div className="max-w-frame px-4">
           <motion.h2
@@ -43,21 +43,21 @@ const HeroSec = () => {
               href="/catalog"
               className="
                 w-full md:w-[18rem]
-    mb-5 md:mb-12
-    inline-flex items-center justify-center gap-2
-    text-center
-    bg-gradient-to-r from-[var(--primary-color)] to-[#a8ff1a]
-    text-[var(--darkblue)]
-    font-bold
-    px-14 py-4
-    rounded-full
-    shadow-lg
-    transition-all duration-300 ease-out
-    hover:scale-105
-    hover:shadow-2xl
-    hover:-translate-y-1
-    active:scale-95
-              hover:scale-[1.03] hover:shadow-[var(--primary-color)/30]
+                mb-5 md:mb-12
+                inline-flex items-center justify-center gap-2
+                text-center
+                bg-gradient-to-r from-[var(--primary-color)] to-[#a8ff1a]
+                text-[var(--darkblue)]
+                font-bold
+                px-14 py-4
+                rounded-full
+                shadow-lg
+                transition-all duration-300 ease-out
+                hover:scale-105
+                hover:shadow-2xl
+                hover:-translate-y-1
+                active:scale-95
+                hover:scale-[1.03] hover:shadow-[var(--primary-color)/30]
               ">
               Commencer les achats
             </Link>
@@ -70,7 +70,7 @@ const HeroSec = () => {
           whileInView={{ y: "0", opacity: 1, rotate: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 1.5, duration: 0.8 }}
-          className="relative md:px-4 min-h-[448px] md:min-h-[428px] bg-cover bg-top xl:bg-[center_top_-1.6rem] bg-no-repeat bg-[url('/images/header-res-homepage.png')] md:bg-[url('/images/header-homepage.png')]"
+          className="hidden md:block relative md:px-4 md:min-h-[428px] bg-cover bg-top xl:bg-[center_top_-1.6rem] bg-no-repeat md:bg-[url('/images/header-homepage.png')]"
         >
           <Image
             priority
@@ -78,7 +78,17 @@ const HeroSec = () => {
             height={104}
             width={104}
             alt="big star"
-            className="absolute right-7 xl:right-0 top-12 max-w-[76px] max-h-[76px] lg:max-w-24 lg:max-h-max-w-24 xl:max-w-[104px] xl:max-h-[104px] animate-[spin_4s_infinite]"
+            className="absolute 
+            right-7 
+            xl:right-0 
+            top-12 
+            max-w-[76px] 
+            max-h-[76px] 
+            lg:max-w-24 
+            lg:max-h-max-w-24 
+            xl:max-w-[104px] 
+            xl:max-h-[104px] 
+            animate-[spin_4s_infinite]"
           />
           <Image
             priority
@@ -86,8 +96,38 @@ const HeroSec = () => {
             height={56}
             width={56}
             alt="small star"
-            className="absolute left-7 md:left-0 top-36 sm:top-64 md:top-44 lg:top-56 max-w-11 max-h-11 md:max-w-14 md:max-h-14 animate-[spin_3s_infinite]"
+            className="absolute 
+            left-7 
+            md:left-0 
+            top-36 
+            sm:top-64 
+            md:top-44 
+            lg:top-56 
+            max-w-11 
+            max-h-11 
+            md:max-w-14 
+            md:max-h-14 
+            animate-[spin_3s_infinite]"
           />
+          {/* <Image
+            priority
+            src="/images/panier.png"
+            height={56}
+            width={56}
+            alt="small star"
+            className="absolute 
+            left-64 
+            md:left-64 
+            top-50 
+            sm:top-10 
+            md:top-10 
+            lg:top-10 
+            max-w-20 
+            max-h-20 
+            md:max-w-14 
+            md:max-h-14 
+            animate-[spin_3s_infinite]"
+          /> */}
         </motion.section>
       </div>
     </section>
