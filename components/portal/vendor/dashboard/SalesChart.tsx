@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  LegendProps
 } from "recharts";
 import { montserrat } from "@/styles/fonts";
 import { VendorDashboardStats } from "@/lib/types/dashboard.types";
@@ -60,9 +61,6 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
   }
   return null;
 };
-
-// Composant personnalisé pour la légende
-import { LegendProps } from "recharts";
 
 const CustomLegend = ({ payload }: LegendProps) => {
   return (

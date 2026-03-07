@@ -8,7 +8,8 @@ import {
     ArrowUpRight,
     RefreshCcw,
     Calendar,
-    AlertCircle
+    AlertCircle,
+    Loader2
 } from "lucide-react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -224,7 +225,7 @@ export default function VendorWallet() {
                     <h3 className="font-semibold text-gray-900">Derniers mouvements</h3>
                 </div>
                 <div className="divide-y divide-gray-100">
-                    {withdrawals.length > 0 ? (
+                    {withdrawals?.length > 0 ? (
                         withdrawals.map((w) => (
                             <div key={w.id} className="p-4 flex justify-between items-center hover:bg-gray-50">
                                 <div className="flex items-center gap-3">
@@ -260,5 +261,3 @@ export default function VendorWallet() {
         </div>
     );
 }
-
-import { Loader2 } from "lucide-react";

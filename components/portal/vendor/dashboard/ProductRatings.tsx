@@ -7,11 +7,11 @@ interface ProductRatingsProps {
   stats: VendorDashboardStats;
 }
 
-// Fonction utilitaire pour générer les étoiles en fonction de la note et de la couleur
 const renderStars = (rating: number, color: string) => {
-  const fullStars = Math.floor(rating);
-  const hasHalfStar = rating % 1 >= 0.5;
-  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+  const safeRating = isNaN(rating) || rating < 0 ? 0 : Math.min(Number(rating), 5);
+  const fullStars = Math.floor(safeRating);
+  const hasHalfStar = safeRating % 1 >= 0.5;
+  const emptyStars = Math.max(0, 5 - fullStars - (hasHalfStar ? 1 : 0));
 
   return (
     <div className="flex items-center gap-1">
