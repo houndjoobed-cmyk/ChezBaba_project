@@ -93,9 +93,6 @@ const ShopHeader = ({ shop }: ShopHeaderProps) => {
                                 className="object-cover"
                             />
                         </motion.div>
-                        <div className="bg-black text-white p-2 md:p-3 rounded-2xl shadow-xl ring-2 ring-white dark:ring-slate-950 mt-2 md:mt-4 z-20 absolute -right-3 md:-right-4 top-4 md:top-8 pointer-events-none">
-                            <Store className="w-5 h-5 md:w-6 md:h-6" />
-                        </div>
                     </div>
 
                     {/* Info Section */}
@@ -129,7 +126,7 @@ const ShopHeader = ({ shop }: ShopHeaderProps) => {
 
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             {/* Description */}
-                            <div className="lg:col-span-2">
+                            <div className="lg:col-span-3">
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">À propos</h3>
                                 <div className="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 leading-relaxed">
                                     <div className={cn("relative transition-all duration-300", !isDescriptionExpanded && "max-h-[120px] overflow-hidden")}>
@@ -152,7 +149,7 @@ const ShopHeader = ({ shop }: ShopHeaderProps) => {
                             </div>
 
                             {/* Stats Cards */}
-                            <div className="grid grid-cols-3 gap-3 md:gap-4 lg:grid-cols-1">
+                            <div className="grid grid-cols-3 gap-3 md:gap-4 lg:grid-cols-3 lg:col-span-3">
                                 <div className="bg-gray-50/80 hover:bg-white dark:bg-slate-900/80 dark:hover:bg-slate-900 rounded-3xl p-4 md:p-6 flex flex-col items-center justify-center text-center border border-gray-100 dark:border-slate-800 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
                                     <div className="mb-3 p-2.5 bg-blue-100/50 dark:bg-blue-500/10 text-blue-600 rounded-full">
                                         <Package className="w-5 h-5 md:w-6 md:h-6" />

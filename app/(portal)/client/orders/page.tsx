@@ -1,6 +1,6 @@
 "use client";
 
-import * as XLSX from "xlsx";
+import { exportToExcel } from "@/lib/utils/export";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { JSX, useEffect, useState } from "react";
@@ -173,6 +173,11 @@ export default function OrderHistoryPage(): JSX.Element {
   }, [sessionReady, userId, currentPage, searchDebounced, sortConfig, searchParams, router]);
 
   const handleExport = (): void => {
+    if (orders.length === 0) {
+      toast.error("Aucune commande à exporter.");
+      return;
+    }
+
     const data = orders.map((order) => ({
       ID: order.id,
       Date: extractDateString(order.date),
@@ -180,33 +185,14 @@ export default function OrderHistoryPage(): JSX.Element {
       Articles: order.produits
         .map(
           (produit) =>
-            `${produit.nomProduit} (${produit.couleur?.nom}, ${produit.taille?.nom
-            }): ${produit.quantite} x ${formatPrice(produit.prixUnit)}`
+            `${produit.nomProduit} (${produit.couleur?.nom}, ${produit.taille?.nom}): ${produit.quantite} x ${formatPrice(produit.prixUnit)}`
         )
         .join(" | "),
-      Adresse: `${order.adresse?.rue ? order.adresse.rue + ", " : ""}${order.adresse?.ville ? order.adresse.ville + ", " : ""
-        }${order.adresse?.quartier || ""}${order.adresse?.codePostal ? " - " + order.adresse.codePostal : ""
-        }`,
+      Adresse: `${order.adresse?.rue ? order.adresse.rue + ", " : ""}${order.adresse?.ville ? order.adresse.ville + ", " : ""}${order.adresse?.quartier || ""}${order.adresse?.codePostal ? " - " + order.adresse.codePostal : ""}`,
       Statut: order.statut,
     }));
 
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const headerStyle = {
-      font: { bold: true },
-      fill: { fgColor: { rgb: "D3D3D3" } },
-      alignment: { horizontal: "center" },
-    };
-    const range = XLSX.utils.decode_range(worksheet["!ref"] || "A1:F1");
-    for (let col = range.s.c; col <= range.e.c; col++) {
-      const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col });
-      if (!worksheet[cellAddress]) continue;
-      worksheet[cellAddress].s = headerStyle;
-    }
-    worksheet["!cols"] = [5, 20, 25, 15, 15, 40].map((w) => ({ wch: w }));
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Historique Commandes");
-    XLSX.writeFile(workbook, "historique_commandes.xlsx");
-    toast.success("Historique des commandes exporté avec succès !");
+    exportToExcel(data, "Historique Commandes", "historique_commandes", [5, 20, 25, 15, 15, 40]);
   };
 
   const handleSort = (

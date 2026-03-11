@@ -95,7 +95,7 @@ export function UserDetailsModal({ user, onClose }: UserDetailsModalProps) {
                       {(user as ClientWithStats).stats.totalDepenses?.toFixed(
                         2
                       ) || "0.00"}{" "}
-                      DZ
+                      FCFA
                     </span>
                   </div>
                 </>
@@ -125,7 +125,7 @@ export function UserDetailsModal({ user, onClose }: UserDetailsModalProps) {
                       {(user as VendorWithStats).stats.totalVentes?.toFixed(
                         2
                       ) || "0.00"}{" "}
-                      DZ
+                      FCFA
                     </span>
                   </div>
                 </>

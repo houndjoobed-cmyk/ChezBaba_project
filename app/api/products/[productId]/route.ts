@@ -83,14 +83,7 @@ export async function DELETE(
 
     switch (session.user.role) {
       case UserRole.ADMIN:
-        // Admin can delete any product
-        // Note: Uncomment the following lines if you want to restrict admin to only delete boutique products
-        // if (!produit.produitBoutique) {
-        //   return NextResponse.json(
-        //     { error: "Ce produit n'appartient pas à la boutique." },
-        //     { status: 403 }
-        //   );
-        // }
+        // Admin can delete any product (Boutique or Marketplace)
         break;
 
       case UserRole.VENDEUR:
@@ -207,10 +200,13 @@ export async function PATCH(
       );
     }
 
-    // Vendor can only update his products
-    if (produit.produitMarketplace) {
+    // Authorization logic
+    if (isAdmin) {
+      // Admin can update any product (Boutique or Marketplace)
+    } else if (isVendeur) {
+      // Vendor can only update his own marketplace products
       if (
-        !isVendeur ||
+        !produit.produitMarketplace ||
         produit.produitMarketplace.vendeurId !== session.user.id
       ) {
         return NextResponse.json(
@@ -218,16 +214,11 @@ export async function PATCH(
           { status: 403 }
         );
       }
-    }
-
-    // Admin can only update boutique products
-    if (produit.produitBoutique) {
-      if (!isAdmin) {
-        return NextResponse.json(
-          { error: ERROR_MESSAGES.FORBIDDEN },
-          { status: 403 }
-        );
-      }
+    } else {
+      return NextResponse.json(
+        { error: ERROR_MESSAGES.FORBIDDEN },
+        { status: 403 }
+      );
     }
 
     // Update the product in the database

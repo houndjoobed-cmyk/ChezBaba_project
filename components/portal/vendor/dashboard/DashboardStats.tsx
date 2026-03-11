@@ -20,7 +20,7 @@ export default function DashboardStats({ stats }: DashboardStatsProps) {
               Total des ventes
             </h3>
             <p className="text-base sm:text-lg font-bold text-gray-900">
-              {stats.totalVentes?.toLocaleString() || 0} FCFA
+              {(stats.totalVentes && !isNaN(stats.totalVentes) ? stats.totalVentes.toLocaleString() : 0)} FCFA
             </p>
           </div>
         </div>
@@ -71,7 +71,7 @@ export default function DashboardStats({ stats }: DashboardStatsProps) {
               {stats.produitPlusRevenu?.nom || "Aucun produit"}
             </p>
             <p className="text-[10px] sm:text-xs text-gray-500 truncate">
-              {stats.produitPlusRevenu?.totalRevenu?.toLocaleString() || 0} FCFA de revenus
+              {(stats.produitPlusRevenu?.totalRevenu && !isNaN(stats.produitPlusRevenu.totalRevenu) ? stats.produitPlusRevenu.totalRevenu.toLocaleString() : 0)} FCFA de revenus
             </p>
           </div>
         </div>

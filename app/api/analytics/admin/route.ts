@@ -37,12 +37,37 @@ export async function GET(_req: NextRequest) {
     ] = await Promise.all([
       prisma.commande.aggregate({
         _sum: { montant: true },
-        where: { statut: CommandeStatut.LIVREE },
+        where: {
+          statut: {
+            in: [
+              CommandeStatut.PAYEE,
+              CommandeStatut.EN_PREPARATION,
+              CommandeStatut.EXPEDIEE,
+              CommandeStatut.LIVREE,
+              CommandeStatut.LIVRAISON_CONFIRMEE,
+            ],
+          },
+        },
       }),
       prisma.produit.count(),
       prisma.user.count({ where: { role: UserRole.CLIENT } }),
       prisma.user.count({ where: { role: UserRole.VENDEUR } }),
-      prisma.ligneCommande.aggregate({ _sum: { quantite: true } }),
+      prisma.ligneCommande.aggregate({
+        _sum: { quantite: true },
+        where: {
+          commande: {
+            statut: {
+              in: [
+                CommandeStatut.PAYEE,
+                CommandeStatut.EN_PREPARATION,
+                CommandeStatut.EXPEDIEE,
+                CommandeStatut.LIVREE,
+                CommandeStatut.LIVRAISON_CONFIRMEE,
+              ],
+            },
+          },
+        },
+      }),
       prisma.produit.findFirst({
         orderBy: { noteMoyenne: "desc" },
         where: { noteMoyenne: { not: 0 } },
@@ -64,11 +89,34 @@ export async function GET(_req: NextRequest) {
         },
       }),
       prisma.commande.findMany({
-        where: { statut: CommandeStatut.LIVREE },
+        where: {
+          statut: {
+            in: [
+              CommandeStatut.PAYEE,
+              CommandeStatut.EN_PREPARATION,
+              CommandeStatut.EXPEDIEE,
+              CommandeStatut.LIVREE,
+              CommandeStatut.LIVRAISON_CONFIRMEE,
+            ],
+          },
+        },
         include: { lignesCommande: true },
       }),
       prisma.ligneCommande.groupBy({
         by: ["produitId"],
+        where: {
+          commande: {
+            statut: {
+              in: [
+                CommandeStatut.PAYEE,
+                CommandeStatut.EN_PREPARATION,
+                CommandeStatut.EXPEDIEE,
+                CommandeStatut.LIVREE,
+                CommandeStatut.LIVRAISON_CONFIRMEE,
+              ],
+            },
+          },
+        },
         _sum: {
           quantite: true,
           prixUnit: true,
@@ -82,6 +130,19 @@ export async function GET(_req: NextRequest) {
       }),
       prisma.ligneCommande.groupBy({
         by: ["produitId"],
+        where: {
+          commande: {
+            statut: {
+              in: [
+                CommandeStatut.PAYEE,
+                CommandeStatut.EN_PREPARATION,
+                CommandeStatut.EXPEDIEE,
+                CommandeStatut.LIVREE,
+                CommandeStatut.LIVRAISON_CONFIRMEE,
+              ],
+            },
+          },
+        },
         _sum: {
           quantite: true,
         },
@@ -203,13 +264,13 @@ export async function GET(_req: NextRequest) {
     }));
 
     return NextResponse.json({
-      totalVentes: totalVentes._sum.montant,
+      totalVentes: totalVentes._sum.montant || 0,
       totalProduits,
       utilisateurs: {
         clients: totalClients,
         vendeurs: totalVendeurs,
       },
-      produitsVendus: produitsVendus._sum.quantite,
+      produitsVendus: produitsVendus._sum.quantite || 0,
       meilleurProduit: meilleurProduit ? {
         id: meilleurProduit.id,
         nom: meilleurProduit.nom,

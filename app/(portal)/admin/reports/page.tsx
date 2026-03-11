@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import * as XLSX from "xlsx";
+import { exportToExcel } from "@/lib/utils/export";
 import { SignalementStatut } from "@prisma/client";
 import { extractDateString } from "@/lib/utils";
 
@@ -202,6 +202,11 @@ export default function ReportsPage() {
   };
 
   const handleExport = () => {
+    if (filteredReports.length === 0) {
+      toast.error("Aucun signalement à exporter.");
+      return;
+    }
+
     const data = filteredReports.map((report) => ({
       Client: report.client
         ? `${report.client.prenom} ${report.client.nom}`
@@ -213,11 +218,8 @@ export default function ReportsPage() {
       Statut: report.statut,
       Objet: report.objet || "Aucun",
     }));
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Signalements");
-    XLSX.writeFile(workbook, "signalements.xlsx");
-    toast.success("Signalements exportés avec succès !");
+
+    exportToExcel(data, "Signalements", "signalements", [20, 25, 20, 40, 15, 15, 20]);
   };
 
   const handlePageChange = (page: number) => {

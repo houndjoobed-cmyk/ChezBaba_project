@@ -109,15 +109,18 @@ export async function GET(_req: NextRequest) {
 
     for (const cmd of commandes) {
       for (const line of cmd.lignesCommande) {
-        const itemRevenue = line.quantite * Number(line.prixUnit);
+        const prixUnit = Number(line.prixUnit) || 0;
+        const quantite = line.quantite || 0;
+        const itemRevenue = quantite * prixUnit;
+        
         totalVentes += itemRevenue;
-        produitsVendus += line.quantite;
+        produitsVendus += quantite;
 
         if (line.produitId) {
           const pData = productRevenuMap.get(line.produitId) || { totalRevenu: 0, quantite: 0 };
           productRevenuMap.set(line.produitId, {
             totalRevenu: pData.totalRevenu + itemRevenue,
-            quantite: pData.quantite + line.quantite,
+            quantite: pData.quantite + quantite,
           });
         }
       }
@@ -142,6 +145,10 @@ export async function GET(_req: NextRequest) {
         },
       })
       : null;
+
+    // Default to 0 for safety
+    totalVentes = totalVentes || 0;
+    produitsVendus = produitsVendus || 0;
 
     // WeekData
     const weekDataMap = new Map();

@@ -11,7 +11,7 @@ import AddToCardSection from "./AddToCardSection";
 import FavoriteButton from "@/components/common/FavoriteButton";
 
 // Utils & Types
-import { cn } from "@/lib/utils";
+import { cn, formatPrice } from "@/lib/utils";
 import { ProductFromAPI } from "@/lib/types/product.types";
 
 // Styles
@@ -67,10 +67,10 @@ const ProductHero = ({ product }: { product: ProductFromAPI }) => {
             {product.prixPromo && product.prixPromo > 0 ? (
               <div className="flex items-center gap-3">
                 <span className="font-bold text-green-600 text-2xl sm:text-[32px]">
-                  {product.prixPromo} FCFA
+                  {formatPrice(product.prixPromo)}
                 </span>
                 <span className="font-bold text-gray-400 text-lg sm:text-xl line-through">
-                  {product.prix} FCFA
+                  {formatPrice(product.prix)}
                 </span>
                 <span className="text-sm font-bold bg-green-50 text-green-600 px-2 py-1 rounded border border-green-100">
                   -{Math.round(((product.prix - product.prixPromo) / product.prix) * 100)}%
@@ -78,7 +78,7 @@ const ProductHero = ({ product }: { product: ProductFromAPI }) => {
               </div>
             ) : (
               <span className="font-bold text-black text-2xl sm:text-[32px]">
-                {product.prix} FCFA
+                {formatPrice(product.prix)}
               </span>
             )}
           </div>

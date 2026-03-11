@@ -49,8 +49,8 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
                 {entry.name}:{" "}
                 <span className="font-bold text-gray-900">
                   {entry.name === "Ventes (FCFA)"
-                    ? `${entry.value} FCFA`
-                    : entry.value}
+                    ? `${(entry.value && !isNaN(entry.value) ? entry.value.toLocaleString() : 0)} FCFA`
+                    : (entry.value && !isNaN(entry.value) ? entry.value : 0)}
                 </span>
               </p>
             </div>

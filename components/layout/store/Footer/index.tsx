@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaInstagram, FaTwitter, FaTiktok, FaWhatsapp } from "react-icons/fa";
+import { auth } from "@/lib/auth";
+import VendorLink from "./VendorLink";
 
 const StoreFooter = async () => {
   const session = await auth();

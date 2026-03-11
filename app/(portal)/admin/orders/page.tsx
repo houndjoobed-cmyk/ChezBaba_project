@@ -1,6 +1,6 @@
 "use client";
 
-import * as XLSX from "xlsx";
+import { exportToExcel } from "@/lib/utils/export";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { JSX, useEffect, useState } from "react";
@@ -247,6 +247,11 @@ export default function OrderHistoryPage(): JSX.Element {
   };
 
   const handleExport = () => {
+    if (orders.length === 0) {
+      toast.error("Aucune commande à exporter.");
+      return;
+    }
+
     const data = orders.map((order) => ({
       ID: order.id,
       Client: order.client
@@ -259,29 +264,12 @@ export default function OrderHistoryPage(): JSX.Element {
       Articles: order.produits
         .map(
           (item) =>
-            `${item.nomProduit} (${item.couleur?.nom}, ${item.taille?.nom}): ${item.quantite
-            } x ${formatPrice(item.prixUnit)}`
+            `${item.nomProduit} (${item.couleur?.nom}, ${item.taille?.nom}): ${item.quantite} x ${formatPrice(item.prixUnit)}`
         )
         .join(", "),
     }));
 
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const headerStyle = {
-      font: { bold: true },
-      fill: { fgColor: { rgb: "D3D3D3" } },
-      alignment: { horizontal: "center" },
-    };
-    const range = XLSX.utils.decode_range(worksheet["!ref"] || "A1:G1");
-    for (let col = range.s.c; col <= range.e.c; col++) {
-      const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col });
-      if (!worksheet[cellAddress]) continue;
-      worksheet[cellAddress].s = headerStyle;
-    }
-    worksheet["!cols"] = [5, 20, 25, 15, 10, 15, 40].map((w) => ({ wch: w }));
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Commandes");
-    XLSX.writeFile(workbook, "commandes_chic_et_tendance.xlsx");
-    toast.success("Commandes exportées avec succès !");
+    exportToExcel(data, "Commandes", "commandes_chic_et_tendance", [5, 20, 25, 15, 10, 15, 40]);
   };
 
   const handleSort = (

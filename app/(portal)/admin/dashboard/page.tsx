@@ -111,7 +111,7 @@ export default function DashboardPage() {
           <StatsCard
             icon={Wallet}
             title="Total des ventes"
-            value={formatPrice(parseFloat(dashboardData.totalVentes))}
+            value={formatPrice(parseFloat(dashboardData.totalVentes) || 0)}
             color="emerald"
           />
           <StatsCard

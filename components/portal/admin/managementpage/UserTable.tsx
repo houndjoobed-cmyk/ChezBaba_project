@@ -66,7 +66,7 @@ export function UserTable({
                     Commandes
                   </th>
                   <th className="px-4 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden xl:table-cell">
-                    Total dépensé (DZ)
+                    Total dépensé (FCFA)
                   </th>
                 </>
               ) : (
@@ -78,7 +78,7 @@ export function UserTable({
                     Produits Vendus
                   </th>
                   <th className="px-4 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden xl:table-cell">
-                    Total Ventes (DZ)
+                    Total Ventes (FCFA)
                   </th>
                 </>
               )}
@@ -238,7 +238,7 @@ export function UserTable({
                   Total dépensé:{" "}
                   {(user as ClientWithStats).stats.totalDepenses?.toFixed(2) ||
                     "0.00"}{" "}
-                  DZ
+                  FCFA
                 </div>
               </>
             ) : (
@@ -255,7 +255,7 @@ export function UserTable({
                   Total Ventes:{" "}
                   {(user as VendorWithStats).stats.totalVentes?.toFixed(2) ||
                     "0.00"}{" "}
-                  DZ
+                  FCFA
                 </div>
               </>
             )}
