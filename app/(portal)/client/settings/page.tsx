@@ -30,11 +30,13 @@ export default function SettingsPage() {
   const [user, setUser] = useState<UserFromAPI | null>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<string>("personal");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const searchParams = useSearchParams();
   const error = searchParams && typeof searchParams.get === 'function' ? searchParams.get("error") : null;
+  const initialTab = searchParams && typeof searchParams.get === 'function' ? searchParams.get("tab") : null;
+
+  const [activeTab, setActiveTab] = useState<string>(initialTab || "personal");
 
   useEffect(() => {
     if (error === "missing_phone") {
@@ -128,7 +130,7 @@ export default function SettingsPage() {
               animate={{ rotate: [0, 15, -15, 10, -10, 5, -5, 0] }}
               transition={{ duration: 1.2, ease: "easeInOut", repeat: 0 }}
             >
-              <Settings className="h-8 w-8 text-black" />
+              <Settings className="h-8 w-8 text-[#0C1B33]" />
             </motion.div>
             <h1
               className={`text-3xl font-extrabold text-gray-900 tracking-tight ${montserrat.className}`}
@@ -161,7 +163,7 @@ export default function SettingsPage() {
                   </div>
                   <button
                     onClick={() => fileInputRef.current?.click()}
-                    className="absolute bottom-0 right-0 p-1.5 rounded-full bg-black text-white hover:bg-black/80 transition-colors"
+                    className="absolute bottom-0 right-0 p-1.5 rounded-full bg-[#0C1B33] text-white hover:bg-[#0C1B33]/80 transition-colors"
                   >
                     <Camera className="h-4 w-4" />
                   </button>

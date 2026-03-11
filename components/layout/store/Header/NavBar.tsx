@@ -1,7 +1,5 @@
 "use client";
-import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { LayoutGrid, ShoppingCart } from "lucide-react";
 import BottomNav from "@/components/common/BottomNav";
@@ -11,15 +9,6 @@ import { RootState } from "@/redux/store";
 
 const Navbar = () => {
   const { cart } = useAppSelector((state: RootState) => state.carts);
-  const [searchQuery, setSearchQuery] = useState("");
-  const router = useRouter();
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-    }
-  };
 
   const Marquee = () =>
     <div className="welcome-marquee-container">

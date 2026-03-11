@@ -164,7 +164,7 @@ export default function NotificationsPage() {
             animate={{ rotate: [0, 15, -15, 10, -10, 5, -5, 0] }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
           >
-            <Bell className="h-6 w-6 sm:h-8 sm:w-8 text-black" />
+            <Bell className="h-6 w-6 sm:h-8 sm:w-8 text-[#0C1B33]" />
           </motion.div>
           <h1
             className={`text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight ${montserrat.className}`}

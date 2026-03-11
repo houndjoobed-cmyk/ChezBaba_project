@@ -21,6 +21,8 @@ export default async function HomePage() {
   let shopProducts: ProductFromAPI[] = [];
   let marketplaceProducts: ProductFromAPI[] = [];
 
+
+
   try {
     const [dbTestimonials, dbEvaluations, dbShopProducts, dbMarketplaceProducts] =
       await Promise.all([

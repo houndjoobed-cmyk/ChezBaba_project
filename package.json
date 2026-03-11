@@ -57,6 +57,7 @@
     "react-simple-star-rating": "^5.1.7",
     "recharts": "^2.15.2",
     "redux-persist": "^6.0.0",
+    "resend": "^6.9.3",
     "sonner": "^2.0.1",
     "swr": "^2.4.0",
     "tailwind-merge": "^3.0.2",
@@ -82,6 +83,7 @@
     "eslint-config-next": "15.2.1",
     "postcss": "^8.5.3",
     "prisma": "6.5",
+    "puppeteer": "^24.38.0",
     "tailwindcss": "^4.0.14",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"

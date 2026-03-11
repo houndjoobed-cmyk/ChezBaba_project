@@ -25,7 +25,7 @@ export async function middleware(req: NextRequest) {
 
   // Protect private routes
   if (PRIVATE_ROUTES.some((route) => pathname.startsWith(route))) {
-    if (!session) {
+    if (!session || !session.user) {
       const callbackUrl = encodeURIComponent(req.nextUrl.pathname);
       return NextResponse.redirect(
         new URL(`/auth/login?callbackUrl=${callbackUrl}`, req.url)

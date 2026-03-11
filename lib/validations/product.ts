@@ -66,6 +66,10 @@ export const productSchema = z.object({
     .refine((files) => files.length >= 1 && files.length <= 4, {
       message: "Vous devez télécharger entre 1 et 4 images",
     }),
+  typeProduit: z.enum(["PHYSIQUE", "DIGITAL"]).default("PHYSIQUE"),
+  fichierUrl: z.string().url("URL du fichier invalide").optional().or(z.literal("")),
+  fichierNom: z.string().max(255, "Le nom du fichier est trop long").optional().or(z.literal("")),
+  messageApresAchat: z.string().max(2000, "Le message est trop long").optional().or(z.literal("")),
   video: z
     .instanceof(File)
     .refine((file) => file.type.startsWith("video/"), {
@@ -120,6 +124,10 @@ export const updateProductSchema = z
       .array(z.string().max(MAX_ID_LENGTH, "L'ID de la taille est invalide"))
       .optional(),
     fournisseur: z.string().max(255, "Le nom du fournisseur est trop long").optional(),
+    typeProduit: z.enum(["PHYSIQUE", "DIGITAL"]).optional(),
+    fichierUrl: z.string().url("URL du fichier invalide").optional().or(z.literal("")),
+    fichierNom: z.string().max(255, "Le nom du fichier est trop long").optional().or(z.literal("")),
+    messageApresAchat: z.string().max(2000, "Le message est trop long").optional().or(z.literal("")),
   })
   .refine((data) => Object.keys(data).length > 0, {
     message: "Au moins un champ doit être renseigné.",

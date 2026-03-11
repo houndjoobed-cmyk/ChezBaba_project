@@ -99,7 +99,12 @@ const ProductHero = ({ product }: { product: ProductFromAPI }) => {
 
           {/* Stock Indicator */}
           <div className="mb-5">
-            {product.qteStock === 0 ? (
+            {product.typeProduit === "DIGITAL" ? (
+              <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-green-600 bg-green-50 px-3 py-1.5 rounded-full border border-green-200">
+                <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                Produit Digital
+              </span>
+            ) : product.qteStock === 0 ? (
               <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-600 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200">
                 <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                 Rupture de stock

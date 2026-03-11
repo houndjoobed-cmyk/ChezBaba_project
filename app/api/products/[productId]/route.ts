@@ -187,6 +187,8 @@ export async function PATCH(
       delaiLivraison,
       garantie,
       fournisseur,
+      typeProduit,
+      messageApresAchat,
     } = parsedData.data;
 
     // Check if the product exists
@@ -238,6 +240,9 @@ export async function PATCH(
         qteStock,
         objet,
         description,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        typeProduit: typeProduit as any,
+        messageApresAchat: messageApresAchat !== undefined ? messageApresAchat : undefined,
         delaiLivraison: delaiLivraison !== undefined ? delaiLivraison : undefined,
         garantie: garantie !== undefined ? garantie : undefined,
         categorie: categorieId ? { connect: { id: categorieId } } : undefined,

@@ -1,6 +1,6 @@
-# Rapport du Projet MegaShop
+# Rapport du Projet ChezBaba
 
-Ce document fournit une vue d'ensemble détaillée de l'architecture, de la structure des dossiers et des fichiers du projet **MegaShop**.
+Ce document fournit une vue d'ensemble détaillée de l'architecture, de la structure des dossiers et des fichiers du projet **ChezBaba**.
 
 ## Vue d'ensemble Technique
 

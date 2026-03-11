@@ -31,6 +31,7 @@ export const shopProductsData: ProductFromAPI[] = [
       { id: "4", nom: "XL" },
     ],
     fournisseur: "StyleCo",
+    typeProduit: "PHYSIQUE",
     images: [
       { id: "1", imagePublicId: "/images/picpub-watch.png" },
       { id: "2", imagePublicId: "/images/pic10.png" },
@@ -59,6 +60,7 @@ export const shopProductsData: ProductFromAPI[] = [
       { id: "4", nom: "XL" },
     ],
     fournisseur: "DenimWorks",
+    typeProduit: "PHYSIQUE",
     images: [{ id: "4", imagePublicId: "/images/pic2.png" }],
   },
   {
@@ -86,6 +88,7 @@ export const shopProductsData: ProductFromAPI[] = [
       { id: "3", nom: "L" },
     ],
     fournisseur: "ClassicThreads",
+    typeProduit: "PHYSIQUE",
     images: [{ id: "5", imagePublicId: "/images/picpub-girl.png" }],
   },
   {
@@ -114,6 +117,7 @@ export const shopProductsData: ProductFromAPI[] = [
       { id: "4", nom: "XL" },
     ],
     fournisseur: "UrbanFashion",
+    typeProduit: "PHYSIQUE",
     images: [
       { id: "6", imagePublicId: "/images/picpub-pulls.png" },
       { id: "7", imagePublicId: "/images/pic10.png" },
@@ -154,6 +158,7 @@ export const marketProductsData: ProductFromAPI[] = [
       description: "Vêtements classiques et élégants pour hommes.",
       imagePublicId: null,
     },
+    typeProduit: "PHYSIQUE",
     images: [
       { id: "9", imagePublicId: "/images/picpub-gift.png" },
       { id: "10", imagePublicId: "/images/pic10.png" },
@@ -190,6 +195,7 @@ export const marketProductsData: ProductFromAPI[] = [
       description: "T-shirts avec designs graphiques uniques.",
       imagePublicId: null,
     },
+    typeProduit: "PHYSIQUE",
     images: [
       { id: "12", imagePublicId: "/images/pic6.png" },
       { id: "13", imagePublicId: "/images/pic10.png" },
@@ -227,6 +233,7 @@ export const marketProductsData: ProductFromAPI[] = [
       description: "Vêtements",
       imagePublicId: null,
     },
+    typeProduit: "PHYSIQUE",
     images: [{ id: "15", imagePublicId: "/images/pic7.png" }],
   },
   {
@@ -256,6 +263,7 @@ export const marketProductsData: ProductFromAPI[] = [
       description: "Spécialiste des jeans de qualité.",
       imagePublicId: null,
     },
+    typeProduit: "PHYSIQUE",
     images: [{ id: "16", imagePublicId: "/images/pic8.png" }],
   },
 ];
@@ -288,6 +296,7 @@ export const topSellingData: ProductFromAPI[] = [
       { id: "4", nom: "XL" },
     ],
     fournisseur: "PremiumClothing",
+    typeProduit: "PHYSIQUE",
     images: [
       { id: "17", imagePublicId: "/images/picpub-gift.png" },
       { id: "18", imagePublicId: "/images/pic10.png" },
@@ -319,6 +328,7 @@ export const topSellingData: ProductFromAPI[] = [
       { id: "3", nom: "L" },
     ],
     fournisseur: "StreetArt",
+    typeProduit: "PHYSIQUE",
     images: [
       { id: "20", imagePublicId: "/images/pic6.png" },
       { id: "21", imagePublicId: "/images/pic10.png" },
@@ -350,6 +360,7 @@ export const topSellingData: ProductFromAPI[] = [
       { id: "4", nom: "XL" },
     ],
     fournisseur: "CasualWear",
+    typeProduit: "PHYSIQUE",
     images: [{ id: "23", imagePublicId: "/images/pic7.png" }],
   },
   {
@@ -375,6 +386,7 @@ export const topSellingData: ProductFromAPI[] = [
       { id: "4", nom: "XL" },
     ],
     fournisseur: "PremiumDenim",
+    typeProduit: "PHYSIQUE",
     images: [{ id: "24", imagePublicId: "/images/pic8.png" }],
   },
 ];
@@ -406,6 +418,7 @@ export const relatedProductData: ProductFromAPI[] = [
       { id: "4", nom: "XL" },
     ],
     fournisseur: "ElegantStyle",
+    typeProduit: "PHYSIQUE",
     images: [
       { id: "25", imagePublicId: "/images/pic12.png" },
       { id: "26", imagePublicId: "/images/pic10.png" },
@@ -439,6 +452,7 @@ export const relatedProductData: ProductFromAPI[] = [
       description: "T-shirts avec designs artistiques uniques.",
       imagePublicId: null,
     },
+    typeProduit: "PHYSIQUE",
     images: [
       { id: "28", imagePublicId: "/images/pic1pub-girl.png" },
       { id: "29", imagePublicId: "/images/pic10.png" },
@@ -471,6 +485,7 @@ export const relatedProductData: ProductFromAPI[] = [
       { id: "4", nom: "XL" },
     ],
     fournisseur: "ClassicPolo",
+    typeProduit: "PHYSIQUE",
     images: [{ id: "31", imagePublicId: "/images/pic1pub-pulls.png" }],
   },
   {
@@ -504,6 +519,7 @@ export const relatedProductData: ProductFromAPI[] = [
       description: "Vêtements urbains et modernes pour les passionnés de mode.",
       imagePublicId: null,
     },
+    typeProduit: "PHYSIQUE",
     images: [{ id: "32", imagePublicId: "/images/pic1pub-gift.png" }],
   },
 ];

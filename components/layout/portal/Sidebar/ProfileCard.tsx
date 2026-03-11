@@ -26,9 +26,8 @@ export default function ProfileCard({
           {/* Avatar */}
           <div className="relative flex-shrink-0">
             <div
-              className={`${
-                isMobile ? "w-12 h-12" : "w-14 h-14"
-              } rounded-full overflow-hidden shadow-lg p-0.5 bg-white`}
+              className={`${isMobile ? "w-12 h-12" : "w-14 h-14"
+                } rounded-full overflow-hidden shadow-lg p-0.5 bg-white`}
             >
               <div className="w-full h-full rounded-full overflow-hidden">
                 {photoUrl ? (
@@ -40,11 +39,10 @@ export default function ProfileCard({
                     className="w-full h-full object-cover rounded-full"
                   />
                 ) : (
-                  <div className="w-full h-full bg-black flex items-center justify-center">
+                  <div className="w-full h-full bg-[#0C1B33] flex items-center justify-center">
                     <User
-                      className={`${
-                        isMobile ? "h-6 w-6" : "h-7 w-7"
-                      } text-white`}
+                      className={`${isMobile ? "h-6 w-6" : "h-7 w-7"
+                        } text-white`}
                     />
                   </div>
                 )}
@@ -85,18 +83,18 @@ export default function ProfileCard({
     return (
       <div className="py-4 flex flex-col items-center border-b border-gray-200">
         <div className="w-13 h-13 rounded-full overflow-hidden shadow-md p-0.5 bg-white">
-          <div className="w-full h-full relative bg-black flex items-center justify-center rounded-full">
+          <div className="w-full h-full relative bg-[#0C1B33] flex items-center justify-center rounded-full">
             {photoUrl ? (
               <Image
                 width={50}
                 height={50}
                 src={photoUrl}
                 alt={name}
-                className="text-black bg-white rounded-full"
+                className="text-[#0C1B33] bg-white rounded-full"
                 priority
               />
             ) : (
-              <User className="text-white bg-black" />
+              <User className="text-white bg-[#0C1B33]" />
             )}
           </div>
         </div>

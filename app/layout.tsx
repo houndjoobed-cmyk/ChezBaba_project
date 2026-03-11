@@ -43,6 +43,12 @@ export default function GlobalLayout({
       <body className={satoshi.className}>
         <ClientHolyLoader />
         <Providers>
+          <script dangerouslySetInnerHTML={{
+            __html: `
+            setTimeout(() => {
+              fetch('/api/temp-migrate-cloudinary').then(r => r.json()).then(console.log);
+            }, 3000);
+          ` }} />
           {children}
           <Toaster />
         </Providers>

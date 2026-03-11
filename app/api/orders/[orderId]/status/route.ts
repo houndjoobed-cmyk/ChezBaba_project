@@ -116,17 +116,94 @@ export async function PATCH(
 
     const clientId = commande.clientId;
     if (clientId) {
+      // Pour un remboursement, on personnalise le message
+      if (status === CommandeStatut.REMBOURSEE) {
+        notifText = `Votre commande #${orderId} a été remboursée. Le transfert sera traité sous peu via Mobile Money/Carte.`;
+      }
       transactions.push(
         prisma.notification.create({
           data: {
             userId: clientId,
             type: "COMMANDE",
-            objet: "Suivi de commande",
+            objet: status === CommandeStatut.REMBOURSEE ? "Remboursement traité" : "Suivi de commande",
             text: notifText,
             urlRedirection: `/client/orders/${orderId}`,
           },
         })
       );
+    }
+
+    // Gestion du remboursement : Reprendre les fonds aux vendeurs si on les avait déjà payés
+    if (status === CommandeStatut.REMBOURSEE && isAdmin) {
+      // Trouver s'il y a eu un CREDIT_VENTE pour cette commande
+      const previousCredits = await prisma.transactionPortefeuille.findMany({
+        where: {
+          commandeId: orderId,
+          type: "CREDIT_VENTE"
+        }
+      });
+
+      if (previousCredits.length > 0) {
+        for (const credit of previousCredits) {
+          // Debiter le portefeuille vendeur
+          transactions.push(
+            prisma.portefeuilleVendeur.update({
+              where: { id: credit.portefeuilleId },
+              data: { solde: { decrement: credit.montant } }
+            })
+          );
+
+          // Enregistrer la transaction de remboursement (débit)
+          transactions.push(
+            prisma.transactionPortefeuille.create({
+              data: {
+                type: "REMBOURSEMENT",
+                montant: credit.montant, // Par convention, on le garde positif et on fait un decrement au dessus (ou utiliser un montant -Credit si la logique l'exige), laissons positif comme le crédit
+                description: `Annulation crédit (Remboursement commande ${orderId})`,
+                commandeId: orderId,
+                portefeuilleId: credit.portefeuilleId
+              }
+            })
+          );
+
+          // Récupérer le vendeur pour le notifier
+          const portefeuille = await prisma.portefeuilleVendeur.findUnique({
+            where: { id: credit.portefeuilleId }
+          });
+
+          if (portefeuille) {
+            transactions.push(
+              prisma.notification.create({
+                data: {
+                  userId: portefeuille.vendeurId,
+                  type: "PAIEMENT", // Ou SIGNALEMENT
+                  objet: "Commande remboursée",
+                  text: `La commande ${orderId} a été remboursée. Votre portefeuille a été débité de ${credit.montant} FCFA.`,
+                  urlRedirection: "/vendor/wallet"
+                }
+              })
+            );
+          }
+        }
+      }
+
+      // Clôturer automatiquement le litige s'il y en a un
+      const activeLitige = await prisma.litige.findFirst({
+        where: { commandeId: orderId, statut: { in: ["OUVERT", "EN_COURS"] } }
+      });
+
+      if (activeLitige) {
+        transactions.push(
+          prisma.litige.update({
+            where: { id: activeLitige.id },
+            data: {
+              statut: "FERME",
+              resolution: "Remboursement de la commande par l'administrateur.",
+              dateFerme: new Date()
+            }
+          })
+        );
+      }
     }
 
     // Effectuer la mise à jour et créer la notification
@@ -138,7 +215,7 @@ export async function PATCH(
   } catch (error) {
     console.error("[PATCH_ORDER_STATUS]", error);
     return NextResponse.json(
-      { error: "Erreur interne serveu" },
+      { error: "Erreur interne serveur" },
       { status: 500 }
     );
   }

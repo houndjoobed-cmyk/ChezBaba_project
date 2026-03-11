@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 
-import insertCategories from "@/lib/seed/insertCategories";
 import insertColors from "@/lib/seed/insertColors";
 import insertGenders from "@/lib/seed/insertGenders";
 import insertNotifications from "@/lib/seed/insertNotifications";
@@ -14,7 +13,6 @@ const prisma = new PrismaClient();
 
 async function main() {
   await insertUsers();
-  await insertCategories();
   await insertGenders();
   await insertColors();
   await insertSizes();

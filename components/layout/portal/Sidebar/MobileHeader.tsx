@@ -22,10 +22,10 @@ export default function MobileHeader({
       <div className="flex items-center">
         <Link href="/">
           <Image
-            src="/manifest/favicon.svg"
-            alt="Logo de l'application"
-            width={50}
-            height={50}
+            src="/icons/baba.png"
+            alt="Logo de ChezBaba"
+            width={40}
+            height={40}
             className="object-contain"
             priority
           />
@@ -34,9 +34,8 @@ export default function MobileHeader({
 
       <div className="flex items-center gap-4">
         {/* Notification badge */}
-        {/* Notification badge */}
         <Link href={notificationLink} className="relative">
-          <Bell className="h-6 w-6 text-gray-700" />
+          <Bell className="h-6 w-6 text-gray-700 hover:text-[#0C1B33] transition-colors" />
           {notificationCount > 0 && (
             <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
               {notificationCount > 9 ? "9+" : notificationCount}
@@ -46,11 +45,11 @@ export default function MobileHeader({
 
         {/* Hamburger button */}
         <button
-          className="p-1 rounded-md hover:bg-gray-100"
+          className="p-1 rounded-md hover:bg-gray-100 transition-colors"
           onClick={toggleMobileMenu}
         >
           {isMobileMenuOpen ? (
-            <X className="h-6 w-6 text-gray-700" />
+            <X className="h-6 w-6 text-[#0C1B33]" />
           ) : (
             <Menu className="h-6 w-6 text-gray-700" />
           )}

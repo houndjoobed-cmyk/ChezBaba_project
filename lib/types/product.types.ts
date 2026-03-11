@@ -38,6 +38,11 @@ export type ProductFromAPI = {
   delaiLivraison?: string | null;
   prixPromo?: number | null;
   garantie?: string | null;
+  typeProduit: "PHYSIQUE" | "DIGITAL";
+  fichierUrl?: string | null;
+  fichierNom?: string | null;
+  messageApresAchat?: string | null;
+  lienApresAchat?: string | null;
   genre: { id: string; nom: string } | null;
   categorie: {
     id: string;

@@ -32,6 +32,8 @@ export type OrderFromAPI = {
     prixUnit: number;
     imagePublicId: string | null;
     produitId: string | null;
+    typeProduit?: string | null;
+    fichierNom?: string | null;
     taille?: { id: string; nom: string } | null;
     couleur?: { id: string; nom: string; code: string } | null;
   }[];
@@ -56,6 +58,8 @@ export type PrepareOrderFromAPI = {
     prixUnit: number;
     imagePublicId: string | null;
     produitId: string | null;
+    typeProduit?: string | null;
+    fichierNom?: string | null;
     taille?: { id: string; nom: string } | null;
     couleur?: { id: string; nom: string; code: string } | null;
   }[];

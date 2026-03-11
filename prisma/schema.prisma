@@ -306,6 +306,14 @@ model Produit {
   delaiLivraison     String?             @map("delai_livraison") @db.VarChar(50)
   prixPromo          Decimal?            @map("prix_promo") @db.Decimal(10, 2)
   garantie           String?             @db.VarChar(50)
+  
+  // Nouveaux champs pour les produits digitaux
+  typeProduit        TypeProduit         @default(PHYSIQUE) @map("type_produit")
+  fichierUrl         String?             @map("fichier_url") @db.VarChar(1000)
+  fichierNom         String?             @map("fichier_nom") @db.VarChar(255)
+  messageApresAchat  String?             @map("message_apres_achat") @db.VarChar(2000)
+  lienApresAchat     String?             @map("lien_apres_achat") @db.VarChar(1000)
+
   categorie          Categorie?          @relation(fields: [categorieId], references: [id], onUpdate: NoAction)
   genre              Genre?              @relation(fields: [genreId], references: [id], onUpdate: NoAction)
   couleurs           Couleur[]           @relation("ProduitCouleurs")
@@ -481,6 +489,11 @@ model Vendeur {
 // ENUMS
 // ==========================================
 
+enum TypeProduit {
+  PHYSIQUE
+  DIGITAL
+}
+
 enum PanierStatut {
   EN_COURS
   VALIDE
@@ -608,4 +621,17 @@ model PaiementVendeur {
 
   @@index([vendeurId], map: "index_paiement_vendeur_vendeur_id")
   @@map("paiement_vendeur")
+}
+
+model MessageContact {
+  id        String   @id @default(cuid()) @db.VarChar(25)
+  nom       String   @db.VarChar(100)
+  email     String   @db.VarChar(255)
+  sujet     String   @db.VarChar(100)
+  message   String   @db.VarChar(2000)
+  dateEnvoi DateTime @default(now()) @map("date_envoi")
+  lu        Boolean  @default(false)
+
+  @@index([dateEnvoi], map: "index_message_contact_date")
+  @@map("message_contact")
 }

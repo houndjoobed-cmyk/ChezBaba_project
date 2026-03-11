@@ -7,7 +7,7 @@ import UserMenu from "@/components/layout/store/Header/UserMenu";
 import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 
-import { LayoutGrid, Heart, ShoppingCart, Search } from "lucide-react";
+import { LayoutGrid, Heart, ShoppingCart } from "lucide-react";
 
 const Navbar = () => {
   const cart = useAppSelector((state: RootState) => state.carts.cart);
@@ -71,9 +71,7 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-
         {/* Mobile : section basse supprimée (anciennement recherche) */}
-
       </nav>
       {/* Bottom navigation mobile only */}
       <BottomNav />

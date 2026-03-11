@@ -40,7 +40,7 @@ const AddToCartBtn = ({
             id: data.id,
             name: data.nom,
             imagePublicId: data.images[0].imagePublicId,
-            price: data.prix,
+            price: (data.prixPromo && data.prixPromo > 0) ? data.prixPromo : data.prix,
             color: colorSelection.id
               ? { id: colorSelection.id, name: colorSelection.nom }
               : undefined,

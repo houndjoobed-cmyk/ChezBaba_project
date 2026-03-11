@@ -6,15 +6,18 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+export { cloudinary };
+
 interface CloudinaryUploadResult {
   public_id: string;
+  secure_url: string;
   [key: string]: unknown;
 }
 
 export async function uploadToCloudinary(
   file: File,
   folder: string,
-  resourceType: "image" | "video" | "auto" = "auto"
+  resourceType: "image" | "video" | "auto" | "raw" = "auto"
 ): Promise<CloudinaryUploadResult> {
   // Convert file to Buffer
   const bytes = await file.arrayBuffer();
@@ -22,7 +25,7 @@ export async function uploadToCloudinary(
 
   return new Promise<CloudinaryUploadResult>((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
-      { folder: `megashop/${folder}`, resource_type: resourceType },
+      { folder: `ChezBaba/${folder}`, resource_type: resourceType },
       (error, result) => {
         if (error) {
           console.error("Cloudinary Upload Error:", error);

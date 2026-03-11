@@ -1,9 +1,10 @@
-import insertCategories from "@/lib/seed/insertCategories";
+// This seed script is no longer needed (insertCategories module was removed).
+// Categories are now managed through the admin dashboard.
+
 import { prisma } from "@/lib/utils/prisma";
 
 async function main() {
-    console.log("Only seeding categories...");
-    await insertCategories();
+    console.log("Categories seeding is no longer supported via this script.");
     await prisma.$disconnect();
 }
 

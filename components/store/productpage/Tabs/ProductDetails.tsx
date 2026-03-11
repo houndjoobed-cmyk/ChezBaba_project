@@ -54,9 +54,11 @@ const ProductDetails = ({ product }: { product: ProductFromAPI }) => {
     {
       label: "Stock disponible",
       value:
-        product.qteStock > 0
-          ? `${product.qteStock} unité(s)`
-          : "Rupture de stock",
+        product.typeProduit === "DIGITAL"
+          ? "Disponible (Produit Digital)"
+          : product.qteStock > 0
+            ? `${product.qteStock} unité(s)`
+            : "Rupture de stock",
     },
   ];
 

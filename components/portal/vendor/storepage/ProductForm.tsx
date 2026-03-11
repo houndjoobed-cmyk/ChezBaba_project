@@ -65,6 +65,11 @@ const initialFormData: ProductFromAPI = {
   fournisseur: undefined,
   vendeur: undefined,
   images: [],
+  typeProduit: "PHYSIQUE",
+  fichierUrl: null,
+  fichierNom: null,
+  messageApresAchat: null,
+  lienApresAchat: null,
 };
 
 export const ProductForm = ({
@@ -81,6 +86,7 @@ export const ProductForm = ({
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [additionalImages, setAdditionalImages] = useState<File[]>([]);
   const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [digitalFile, setDigitalFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -90,6 +96,7 @@ export const ProductForm = ({
       setFormData(initialFormData);
       setMainImage(null);
       setAdditionalImages([]);
+      setDigitalFile(null);
     }
   }, [editingProduct]);
 
@@ -121,9 +128,18 @@ export const ProductForm = ({
     return true;
   };
 
+  const validateDigitalFile = (file: File): boolean => {
+    const sizeInMB = file.size / (1024 * 1024);
+    if (sizeInMB > 50) { // arbitrary larger size for digital files like PDFs or ZIPs
+      toast.error("Le fichier dépasse la taille maximale de 50 Mo");
+      return false;
+    }
+    return true;
+  };
+
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    type: "main" | "additional" | "video"
+    type: "main" | "additional" | "video" | "digital"
   ) => {
     const files = e.target.files;
     if (!files) return;
@@ -155,6 +171,14 @@ export const ProductForm = ({
         setVideoFile(null);
         e.target.value = "";
       }
+    } else if (type === "digital") {
+      const file = files[0];
+      if (file && validateDigitalFile(file)) {
+        setDigitalFile(file);
+      } else {
+        setDigitalFile(null);
+        e.target.value = "";
+      }
     }
   };
 
@@ -176,6 +200,8 @@ export const ProductForm = ({
         tailles: formData.tailles.map((t) => t.id),
         delaiLivraison: formData.delaiLivraison || null,
         garantie: formData.garantie || null,
+        typeProduit: formData.typeProduit,
+        messageApresAchat: formData.messageApresAchat || null,
       };
 
       const result = await fetchDataFromAPI<ProductFromAPI>(
@@ -203,6 +229,7 @@ export const ProductForm = ({
         setMainImage(null);
         setAdditionalImages([]);
         setVideoFile(null);
+        setDigitalFile(null);
         onSubmit();
       }
     } else {
@@ -223,6 +250,10 @@ export const ProductForm = ({
       if (formData.delaiLivraison) formDataToSend.append("delaiLivraison", formData.delaiLivraison);
       if (formData.prixPromo) formDataToSend.append("prixPromo", formData.prixPromo.toString());
       if (formData.garantie) formDataToSend.append("garantie", formData.garantie);
+
+      formDataToSend.append("typeProduit", formData.typeProduit);
+      if (formData.messageApresAchat) formDataToSend.append("messageApresAchat", formData.messageApresAchat);
+      if (digitalFile) formDataToSend.append("digital", digitalFile);
 
       if (formData.categorie)
         formDataToSend.append("categorieId", formData.categorie.id);
@@ -259,6 +290,7 @@ export const ProductForm = ({
         setMainImage(null);
         setAdditionalImages([]);
         setVideoFile(null);
+        setDigitalFile(null);
       }
     }
     setIsLoading(false);
@@ -276,6 +308,7 @@ export const ProductForm = ({
               setFormData(initialFormData);
               setMainImage(null);
               setAdditionalImages([]);
+              setDigitalFile(null);
               onClose();
             }}
             className="absolute top-0 right-0 text-gray-600 hover:text-gray-800 transition-colors duration-200 text-lg font-bold"
@@ -298,6 +331,35 @@ export const ProductForm = ({
               générales
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="sm:col-span-2">
+                <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                  <Package className="h-4 w-4" /> Type de produit
+                </label>
+                <div className="flex gap-4 mt-2">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="typeProduit"
+                      value="PHYSIQUE"
+                      checked={formData.typeProduit === "PHYSIQUE"}
+                      onChange={() => setFormData({ ...formData, typeProduit: "PHYSIQUE" })}
+                      className="text-black focus:ring-black"
+                    />
+                    <span className="text-sm font-medium text-gray-700">Produit Physique (Livraison par colis)</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="typeProduit"
+                      value="DIGITAL"
+                      checked={formData.typeProduit === "DIGITAL"}
+                      onChange={() => setFormData({ ...formData, typeProduit: "DIGITAL" })}
+                      className="text-black focus:ring-black"
+                    />
+                    <span className="text-sm font-medium text-gray-700">Produit Digital (E-book, formation, PDF...)</span>
+                  </label>
+                </div>
+              </div>
               <div>
                 <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
                   <FileText className="h-4 w-4" /> Nom
@@ -399,74 +461,122 @@ export const ProductForm = ({
                   </p>
                 )}
               </div>
-              <div>
-                <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                  <Box className="h-4 w-4" /> Quantité en stock
-                </label>
-                <input
-                  type="number"
-                  value={formData.qteStock}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      qteStock: parseInt(e.target.value) || 0,
-                    })
-                  }
-                  className="mt-1 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-black transition-all duration-200"
-                  min="0"
-                  required
-                />
-              </div>
+
+              {formData.typeProduit === "PHYSIQUE" && (
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                    <Box className="h-4 w-4" /> Quantité en stock
+                  </label>
+                  <input
+                    type="number"
+                    value={formData.qteStock}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        qteStock: parseInt(e.target.value) || 0,
+                      })
+                    }
+                    className="mt-1 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-black transition-all duration-200"
+                    min="0"
+                    required={formData.typeProduit === "PHYSIQUE"}
+                  />
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Delivery & Warranty Section */}
-          <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
-              <Package className="h-5 w-5 text-gray-600" /> Livraison et Garantie
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                  <Package className="h-4 w-4" /> Délai de livraison
-                </label>
-                <select
-                  value={formData.delaiLivraison || ""}
-                  onChange={(e) =>
-                    setFormData({ ...formData, delaiLivraison: e.target.value })
-                  }
-                  className="mt-1 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-black transition-all duration-200"
-                >
-                  <option value="">Sélectionner un délai</option>
-                  {DELIVERY_OPTIONS.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                  <option value="Autre">Autre (préciser dans description)</option>
-                </select>
-              </div>
-              <div>
-                <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                  <FileText className="h-4 w-4" /> Garantie
-                </label>
-                <select
-                  value={formData.garantie || ""}
-                  onChange={(e) =>
-                    setFormData({ ...formData, garantie: e.target.value })
-                  }
-                  className="mt-1 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-black transition-all duration-200"
-                >
-                  <option value="">Sélectionner une garantie</option>
-                  {WARRANTY_OPTIONS.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
+          {/* Digital Product Extra Section */}
+          {formData.typeProduit === "DIGITAL" && (
+            <div className="bg-blue-50/50 p-4 rounded-lg shadow-sm border border-blue-100">
+              <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                <FileText className="h-5 w-5 text-blue-600" /> Fichier & Automatisation
+              </h3>
+              <div className="grid grid-cols-1 gap-4">
+                {!editingProduct && (
+                  <div>
+                    <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                      <Folder className="h-4 w-4" /> Uploader le produit (PDF, ZIP, MP4...)
+                    </label>
+                    <input
+                      type="file"
+                      onChange={(e) => handleFileChange(e, "digital")}
+                      className="mt-1 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 bg-white transition-all duration-200"
+                      required={formData.typeProduit === "DIGITAL" && !editingProduct}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Taille max : 50 Mo. Ce fichier sera débloqué après paiement.</p>
+                  </div>
+                )}
+
+                <div data-color-mode="light">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                    <FileText className="h-4 w-4" /> Message envoyé à l&apos;acheteur après le paiement (Optionnel)
+                  </label>
+                  <MDEditor
+                    value={formData.messageApresAchat || ""}
+                    onChange={(value) => {
+                      if ((value || "").length <= 2000) {
+                        setFormData({ ...formData, messageApresAchat: value || "" });
+                      }
+                    }}
+                    className="mt-1 border rounded-lg shadow-sm"
+                    style={{ minHeight: "150px" }}
+                    preview="edit"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Insérez ici un lien vers un groupe Telegram privé, des identifiants ou un mot de passe.</p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
+
+          {/* Delivery & Warranty Section (Only for Physical) */}
+          {formData.typeProduit === "PHYSIQUE" && (
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                <Package className="h-5 w-5 text-gray-600" /> Livraison et Garantie
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                    <Package className="h-4 w-4" /> Délai de livraison
+                  </label>
+                  <select
+                    value={formData.delaiLivraison || ""}
+                    onChange={(e) =>
+                      setFormData({ ...formData, delaiLivraison: e.target.value })
+                    }
+                    className="mt-1 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-black transition-all duration-200"
+                  >
+                    <option value="">Sélectionner un délai</option>
+                    {DELIVERY_OPTIONS.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                    <option value="Autre">Autre (préciser dans description)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                    <FileText className="h-4 w-4" /> Garantie
+                  </label>
+                  <select
+                    value={formData.garantie || ""}
+                    onChange={(e) =>
+                      setFormData({ ...formData, garantie: e.target.value })
+                    }
+                    className="mt-1 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-black transition-all duration-200"
+                  >
+                    <option value="">Sélectionner une garantie</option>
+                    {WARRANTY_OPTIONS.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Attributes Section */}
           <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
@@ -662,6 +772,7 @@ export const ProductForm = ({
                 setFormData(initialFormData);
                 setMainImage(null);
                 setAdditionalImages([]);
+                setDigitalFile(null);
                 onClose();
               }}
               className="bg-gray-200 text-gray-800 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-all duration-300 shadow-md"

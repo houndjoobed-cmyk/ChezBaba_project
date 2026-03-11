@@ -89,7 +89,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-6 px-4 sm:px-6 lg:px-10">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6 flex items-center gap-3">
-          <BarChart2 className="h-6 w-6 sm:h-8 sm:w-8 text-black animate-pulse" />
+          <BarChart2 className="h-6 w-6 sm:h-8 sm:w-8 text-[#0C1B33] animate-pulse" />
           <h1
             className={`text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight ${montserrat.className}`}
             style={{ fontFamily: "'Montserrat', sans-serif" }}

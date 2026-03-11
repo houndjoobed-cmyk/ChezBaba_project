@@ -42,6 +42,7 @@ export async function POST(req: NextRequest) {
       select: {
         id: true,
         nom: true,
+        typeProduit: true,
         prix: true,
         qteStock: true,
         couleurs: {
@@ -70,7 +71,7 @@ export async function POST(req: NextRequest) {
       }
 
       // Check stock at preparation step
-      if (produit.qteStock < line.quantite) {
+      if (produit.typeProduit !== "DIGITAL" && produit.qteStock < line.quantite) {
         throw new OutOfStockError(
           `Le produit "${produit.nom}" n'est plus disponible en quantité suffisante (Stock restant : ${produit.qteStock}).`
         );

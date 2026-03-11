@@ -60,7 +60,7 @@ const categories: CategoryFromAPI[] = [
   {
     id: "9",
     nom: "Emballage & impression",
-    description: "Fournitures d’emballage et impression.",
+    description: "Fournitures d'emballage et impression.",
     img: "/categoriesImages/ctg-emballages.jpeg",
     count: 39
   },
@@ -74,7 +74,7 @@ const categories: CategoryFromAPI[] = [
   {
     id: "11",
     nom: "Hygiène personnelle & ménage",
-    description: "Produits d’entretien et hygiène domestique.",
+    description: "Produits d'entretien et hygiène domestique.",
     img: "/categoriesImages/ctg-hygiene.jpeg",
     count: 58
   },
@@ -120,13 +120,6 @@ const categories: CategoryFromAPI[] = [
     img: "/categoriesImages/ctg-outils.jfif",
     count: 27
   },
-  // {
-  //   id: "18",
-  //   nom: "Machines bâtiment & construction",
-  //   description: "Machines pour le secteur du bâtiment.",
-  //   img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=800",
-  //   count: 31
-  // },
   {
     id: "19",
     nom: "Construction & immobilier",
@@ -141,13 +134,6 @@ const categories: CategoryFromAPI[] = [
     img: "/categoriesImages/ctg-meuble.jfif",
     count: 53
   },
-  // {
-  //   id: "21",
-  //   nom: "Lumière & éclairage",
-  //   description: "Lampes et systèmes d’éclairage.",
-  //   img: "https://images.unsplash.com/photo-1507477338202-487281e6c27e?auto=format&fit=crop&q=80&w=800",
-  //   count: 31
-  // },
   {
     id: "5",
     nom: "Bagages, sacs & étuis",
@@ -162,13 +148,6 @@ const categories: CategoryFromAPI[] = [
     img: "/categoriesImages/ctg-menager.jfif",
     count: 37
   },
-  // {
-  //   id: "23",
-  //   nom: "Fournitures & outils auto",
-  //   description: "Outils et équipements automobiles.",
-  //   img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800",
-  //   count: 44
-  // },
   {
     id: "24",
     nom: "Pièces & accessoires véhicules",
@@ -176,34 +155,6 @@ const categories: CategoryFromAPI[] = [
     img: "/categoriesImages/ctg-pieceAuto.jpeg",
     count: 36
   },
-  // {
-  //   id: "25",
-  //   nom: "Bricolage & outils",
-  //   description: "Outils et matériel de bricolage.",
-  //   img: "https://images.unsplash.com/photo-1581147036324-c1c6c4a2a4b0?auto=format&fit=crop&q=80&w=800",
-  //   count: 55
-  // },
-  // {
-  //   id: "26",
-  //   nom: "Énergies renouvelables",
-  //   description: "Solutions solaires et énergies alternatives.",
-  //   img: "https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&q=80&w=800",
-  //   count: 21
-  // },
-  // {
-  //   id: "27",
-  //   nom: "Équipements & fournitures électriques",
-  //   description: "Matériel et composants électriques.",
-  //   img: "https://images.unsplash.com/photo-1581092918367-5f3c0c2c3d3b?auto=format&fit=crop&q=80&w=800",
-  //   count: 33
-  // },
-  // {
-  //   id: "28",
-  //   nom: "Sécurité & sûreté",
-  //   description: "Systèmes de surveillance et alarmes.",
-  //   img: "https://images.unsplash.com/photo-1581093588401-22a6a8a2f2b2?auto=format&fit=crop&q=80&w=800",
-  //   count: 26
-  // },
   {
     id: "29",
     nom: "Produits digitaux",
@@ -220,19 +171,11 @@ const categories: CategoryFromAPI[] = [
   },
   {
     id: "31",
-    nom: "Transmission d’énergie & composants électroniques",
-    description: "Composants électroniques et transmission d’énergie.",
+    nom: "Transmission d'énergie & composants électroniques",
+    description: "Composants électroniques et transmission d'énergie.",
     img: "/categoriesImages/ctg-composantElectronique.jpeg",
     count: 40
   },
-
-  // {
-  //   id: "34",
-  //   nom: "Matières premières",
-  //   description: "Produits bruts destinés à la fabrication.",
-  //   img: "/categoriesImages/ctg-matierePremiere.jpeg",
-  //   count: 19
-  // }
 ];
 
 export default categories;
