@@ -73,7 +73,7 @@ const TestimonialsSec = ({ data }: ReviewsProps) => {
               transition={{ delay: 0.6, duration: 0.6 }}
               className={cn([
                 integralCF.className,
-                "text-[32px] leading-[36px] md:text-5xl capitalize mr-auto",
+                "text-[32px] leading-[36px] md:text-5xl capitalize mr-auto text-[var(--darkblue)]",
               ])}
             >
               Nos Clients Satisfaits
@@ -102,26 +102,26 @@ const TestimonialsSec = ({ data }: ReviewsProps) => {
                         className={cn([
                           isDesktop
                             ? (current + 1 === count
-                                ? 0
-                                : current + 1 > count
+                              ? 0
+                              : current + 1 > count
                                 ? 1
                                 : current + 1) === index &&
-                              "backdrop-blur-[2px]"
+                            "backdrop-blur-[2px]"
                             : (current === count ? 0 : current) === index &&
-                              "backdrop-blur-[2px]",
+                            "backdrop-blur-[2px]",
                           isDesktop
                             ? (current === 1
-                                ? count - 2
-                                : current === 2
+                              ? count - 2
+                              : current === 2
                                 ? count - 1
                                 : current - 3) === index &&
-                              "backdrop-blur-[2px]"
+                            "backdrop-blur-[2px]"
                             : (current === 1
-                                ? count - 1
-                                : current === 2
+                              ? count - 1
+                              : current === 2
                                 ? 0
                                 : current - 2) === index &&
-                              "backdrop-blur-[2px]",
+                            "backdrop-blur-[2px]",
                           "absolute bg-white/10 right-0 top-0 h-full w-full z-10",
                         ])}
                       />

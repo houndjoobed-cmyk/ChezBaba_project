@@ -10,7 +10,7 @@ import { RootState } from "@/redux/store";
 import { LayoutGrid, Heart, ShoppingCart } from "lucide-react";
 
 const Navbar = () => {
-  const { cart } = useAppSelector((state: RootState) => state.carts);
+  const cart = useAppSelector((state: RootState) => state.carts.cart);
   return (
     <>
       <nav>

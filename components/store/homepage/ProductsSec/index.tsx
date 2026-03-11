@@ -12,7 +12,7 @@ const ProductsSec = ({
   marketplaceProducts,
 }: ProductsSecProps) => {
   return (
-    <section className="my-[50px] sm:my-[72px]">
+    <section className="my-[50px] sm:my-[72px] ">
       <ProductListSec
         title="Explorez Notre Boutique"
         description="Produits vendus et expédiés directement par nous"

@@ -42,7 +42,7 @@ const ProductListSec = ({
         transition={{ duration: 0.6 }}
         className={cn([
           integralCF.className,
-          `text-[32px] md:text-5xl capitalize ${description ? "mb-2 md:mb-4" : "mb-8 md:mb-14"
+          `text-[32px] md:text-5xl capitalize text-[var(--darkblue)] ${description ? "mb-2 md:mb-4" : "mb-8 md:mb-14"
           }`,
         ])}
       >
