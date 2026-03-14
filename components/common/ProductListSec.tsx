@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 import { ProductFromAPI } from "@/lib/types/product.types";
 
 // Styles
-import { integralCF } from "@/styles/fonts";
+import { satoshi } from "@/styles/fonts";
 
 type ProductListSecProps = {
   title: string;
@@ -41,7 +41,7 @@ const ProductListSec = ({
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
         className={cn([
-          integralCF.className,
+          satoshi.className,
           `text-[32px] md:text-5xl capitalize text-[var(--darkblue)] ${description ? "mb-2 md:mb-4" : "mb-8 md:mb-14"
           }`,
         ])}

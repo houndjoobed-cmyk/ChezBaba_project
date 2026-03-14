@@ -79,7 +79,7 @@ export default function OrderActions({ orderId, status, userRole }: OrderActions
             const res = await fetch("/api/disputes", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ orderId, motif: disputeReason })
+                body: JSON.stringify({ commandeId: orderId, motif: disputeReason })
             });
 
             if (!res.ok) throw new Error("Erreur");

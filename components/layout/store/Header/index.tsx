@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import BottomNav from "@/components/common/BottomNav";
+import NotificationBtn from "@/components/layout/store/Header/NotificationBtn";
 import UserMenu from "@/components/layout/store/Header/UserMenu";
 import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
@@ -47,6 +48,7 @@ const Navbar = () => {
               <Link href="/favorites" className="icone" title="Mes Favoris">
                 <Heart size={24} />
               </Link>
+              <NotificationBtn size={24} />
               <Link href="/cart" className="icone" style={{ position: 'relative' }}>
                 <ShoppingCart size={24} />
                 <span className="cart-badge" style={{ background: '#EA9010' }}>{cart ? cart.totalQuantities : 0}</span>
@@ -63,7 +65,8 @@ const Navbar = () => {
                 <Image src="/images/logo-removebg-preview.png" alt="CHEZ BABA" width={100} height={50} className="logo-image" />
               </Link>
             </div>
-            <div className="navBar_connexion_cart">
+            <div className="navBar_connexion_cart flex items-center gap-2">
+              <NotificationBtn size={24} />
               <Link href="/cart" className="icone" style={{ position: 'relative' }}>
                 <ShoppingCart size={24} />
                 <span className="cart-badge" style={{ background: '#EA9010' }}>{cart ? cart.totalQuantities : 0}</span>

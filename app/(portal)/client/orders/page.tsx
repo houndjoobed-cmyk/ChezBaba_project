@@ -172,6 +172,23 @@ export default function OrderHistoryPage(): JSX.Element {
     }
   }, [sessionReady, userId, currentPage, searchDebounced, sortConfig, searchParams, router]);
 
+  /**
+   * Automatically open order details if orderId is in URL
+   */
+  useEffect(() => {
+    const orderIdToOpen = searchParams?.get("orderId");
+    if (orderIdToOpen && sessionReady && userId && orders.length > 0) {
+      const order = orders.find((o) => o.id === orderIdToOpen);
+      if (order) {
+        setSelectedOrder(order);
+      } else if (!isLoading) {
+        // If not in current page, we might need to fetch it specifically or just wait
+        // For now, let's just search in the current loaded list
+      }
+    }
+  }, [searchParams, orders, sessionReady, userId, isLoading]);
+
+
   const handleExport = (): void => {
     if (orders.length === 0) {
       toast.error("Aucune commande à exporter.");

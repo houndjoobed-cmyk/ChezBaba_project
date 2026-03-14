@@ -39,7 +39,7 @@ export default function DeliveryAddressForm({
             <InputGroup.Text
               className={cn(satoshi.className, "text-gray-700 font-medium")}
             >
-              Rue
+              Rue (courte description du lieu)
             </InputGroup.Text>
             <InputGroup.Input
               type="text"
@@ -80,7 +80,6 @@ export default function DeliveryAddressForm({
                 "text-black placeholder:text-gray-400 px-4 py-3 border border-gray-200 rounded-lg focus:outline-none transition-all duration-200",
                 errors["addresse.ville"] && "border-red-500"
               )}
-              required
             />
           </InputGroup>
           {errors["addresse.ville"] && (
@@ -108,7 +107,6 @@ export default function DeliveryAddressForm({
                 "text-black placeholder:text-gray-400 px-4 py-3 border border-gray-200 rounded-lg focus:outline-none transition-all duration-200",
                 errors["addresse.quartier"] && "border-red-500"
               )}
-              required
             />
           </InputGroup>
           {errors["addresse.quartier"] && (
@@ -136,7 +134,6 @@ export default function DeliveryAddressForm({
                 "text-black placeholder:text-gray-400 px-4 py-3 border border-gray-200 rounded-lg focus:outline-none transition-all duration-200",
                 errors["addresse.codePostal"] && "border-red-500"
               )}
-              required
             />
           </InputGroup>
           {errors["addresse.codePostal"] && (

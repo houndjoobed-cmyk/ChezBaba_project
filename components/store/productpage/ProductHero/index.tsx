@@ -15,7 +15,7 @@ import { cn, formatPrice } from "@/lib/utils";
 import { ProductFromAPI } from "@/lib/types/product.types";
 
 // Styles
-import { integralCF } from "@/styles/fonts";
+import { satoshi } from "@/styles/fonts";
 import { Flag, Store } from "lucide-react";
 import Link from "next/link";
 
@@ -37,7 +37,7 @@ const ProductHero = ({ product }: { product: ProductFromAPI }) => {
 
           <h1
             className={cn([
-              integralCF.className,
+              satoshi.className,
               "text-2xl md:text-[40px] md:leading-[40px] mb-3 md:mb-3.5 capitalize pr-12",
             ])}
           >

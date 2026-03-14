@@ -43,7 +43,9 @@ export default function AdminLayout({
     { name: "Signalements", href: "/admin/reports", iconName: "ShieldAlert" },
     { name: "Notifications", href: "/admin/notifications", iconName: "Bell" },
     { name: "Paramètres", href: "/admin/settings", iconName: "Settings" },
+    { name: "Portefeuille", href: "/admin/wallet", iconName: "Banknote" },
     { name: "Retraits", href: "/admin/withdrawals", iconName: "Wallet" },
+    { name: "Remboursements", href: "/admin/refunds", iconName: "RefreshCcw" },
   ];
 
   return (

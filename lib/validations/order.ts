@@ -4,9 +4,9 @@ import { initiatePaymentSchema } from "./payment";
 // Delivery address schema
 const deliveryAddressSchema = z.object({
   rue: z.string().min(1, "Rue est requise"),
-  ville: z.string().min(1, "Ville est requise"),
-  quartier: z.string().min(1, "Le quartier est requis"),
-  codePostal: z.string().min(1, "Code postal est requis"),
+  ville: z.string().default(""),
+  quartier: z.string().default(""),
+  codePostal: z.string().default(""),
 });
 
 // Order line schema

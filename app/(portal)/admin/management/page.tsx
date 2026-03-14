@@ -137,6 +137,83 @@ export default function ManagementPage() {
     }
   };
 
+  const handleExport = async () => {
+    try {
+      toast.info("Préparation de l'export en cours...");
+      
+      const apiUrl = userType === "CLIENT" ? "/api/users/clients" : "/api/users/vendors";
+      const params = new URLSearchParams({
+        page: "1",
+        limit: "10000",
+        search: searchQuery,
+        sortField: sortConfig?.key || "",
+        sortOrder: sortConfig?.direction || "",
+      });
+      
+      const response = await fetch(`${apiUrl}?${params}`);
+      if (!response.ok) throw new Error("Erreur de récupération pour l'export");
+      
+      const data = await response.json();
+      const usersToExport = data.data;
+
+      if (!usersToExport || usersToExport.length === 0) {
+        toast.warning("Aucune donnée à exporter.");
+        return;
+      }
+
+      let csvContent = "";
+      
+      if (userType === "CLIENT") {
+        const headers = ["Nom", "Prénom", "Email", "Téléphone", "Date d'inscription", "Commandes", "Total Dépensé (FCFA)"];
+        csvContent = [
+          headers.join(","),
+          ...(usersToExport as ClientWithStats[]).map((u) => {
+            return [
+              `"${(u.nom || "").replace(/"/g, '""')}"`,
+              `"${(u.prenom || "").replace(/"/g, '""')}"`,
+              `"${(u.email || "").replace(/"/g, '""')}"`,
+              `"${(u.tel || "").replace(/"/g, '""')}"`,
+              `"${new Date(u.dateCreation).toLocaleDateString("fr-FR")}"`,
+              u.stats?.totalCommandes || 0,
+              u.stats?.totalDepenses || 0,
+            ].join(",");
+          }),
+        ].join("\n");
+      } else {
+        const headers = ["Nom Boutique", "Propriétaire", "Email", "Téléphone", "Date d'inscription", "Total Ventes (FCFA)", "Produits Vendus", "Total Produits"];
+        csvContent = [
+          headers.join(","),
+          ...(usersToExport as VendorWithStats[]).map((u) => {
+            return [
+              `"${(u.vendeur?.nomBoutique || "").replace(/"/g, '""')}"`,
+              `"${`${u.nom || ""} ${u.prenom || ""}`.trim().replace(/"/g, '""')}"`,
+              `"${(u.email || "").replace(/"/g, '""')}"`,
+              `"${(u.tel || "").replace(/"/g, '""')}"`,
+              `"${new Date(u.dateCreation).toLocaleDateString("fr-FR")}"`,
+              u.stats?.totalVentes || 0,
+              u.stats?.produitsVendus || 0,
+              u.stats?.totalProduits || 0,
+            ].join(",");
+          }),
+        ].join("\n");
+      }
+
+      const blob = new Blob(["\ufeff", csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `export_${userType.toLowerCase()}s_${new Date().toISOString().split("T")[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      toast.success("Export réussi !");
+    } catch (error) {
+      console.error("Export error:", error);
+      toast.error("Erreur lors de l'export des données");
+    }
+  };
+
   return (
     <div
       className={`min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-6 px-4 sm:px-6 lg:px-10 ${montserrat.className}`}
@@ -149,10 +226,7 @@ export default function ManagementPage() {
           setSearchQuery={setSearchQuery}
           sortConfig={sortConfig}
           setSortConfig={setSortConfig}
-          onExport={() => {
-            // TODO: Implement export functionality
-            toast.info("Export functionality coming soon");
-          }}
+          onExport={handleExport}
         />
         <UserTable
           users={users}

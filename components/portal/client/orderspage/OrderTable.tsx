@@ -76,11 +76,15 @@ export default function OrderTable({
                     </td>
                     <td className="w-1/5 px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm">
                       <span
-                        className={`px-3 py-1 rounded-full font-medium ${getStatusColor(
-                          order.statut!
-                        )}`}
+                        className={`px-3 py-1 rounded-full font-medium ${
+                          order.statut === "REMBOURSEE" && order.demandeRemboursement?.statut === "TRAITE"
+                            ? "text-green-600 bg-green-100"
+                            : getStatusColor(order.statut!)
+                        }`}
                       >
-                        {getStatusLabel(order.statut)}
+                        {order.statut === "REMBOURSEE" && order.demandeRemboursement?.statut === "TRAITE"
+                          ? "Traité"
+                          : getStatusLabel(order.statut)}
                       </span>
                     </td>
                     <td className="w-1/5 px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-semibold text-gray-900">

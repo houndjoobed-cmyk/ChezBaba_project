@@ -29,7 +29,7 @@ export default function GlobalLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" suppressHydrationWarning>
       <head>
         <link
           rel="stylesheet"
@@ -40,7 +40,7 @@ export default function GlobalLayout({
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         />
       </head>
-      <body className={satoshi.className}>
+      <body className={satoshi.className} suppressHydrationWarning>
         <ClientHolyLoader />
         <Providers>
           <script dangerouslySetInnerHTML={{

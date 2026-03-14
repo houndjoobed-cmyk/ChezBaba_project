@@ -326,7 +326,7 @@ export async function processWebhookPayment(
                             type: "MESSAGE",
                             objet: `Message post-achat: ${ligne.produit.nom}`,
                             text: `Suite à votre achat, voici un message du vendeur: ${ligne.produit.messageApresAchat}`,
-                            urlRedirection: `/client/orders/${paiement!.commandeId}`,
+                            urlRedirection: `/client/orders?orderId=${paiement!.commandeId}`,
                         }
                     });
                 }

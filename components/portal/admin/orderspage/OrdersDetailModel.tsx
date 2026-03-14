@@ -76,7 +76,12 @@ export default function OrderDetailModal({
                 Adresse :
               </span>
               <span className="text-gray-900 font-semibold block text-sm sm:text-base">
-                {`${order.adresse?.rue}, ${order.adresse?.ville}, ${order.adresse?.quartier} - ${order.adresse?.codePostal}`}
+                {[
+                  order.adresse?.rue,
+                  order.adresse?.ville,
+                  order.adresse?.quartier,
+                  order.adresse?.codePostal
+                ].filter(Boolean).join(", ")}
               </span>
             </div>
 

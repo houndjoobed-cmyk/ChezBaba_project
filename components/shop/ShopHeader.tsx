@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { Store, Star, Package, MessageCircle, Calendar, ShieldCheck, Share2 } from "lucide-react";
+import { Star, Package, MessageCircle, Calendar, ShieldCheck, Share2 } from "lucide-react";
 import { getImageUrlFromPublicId } from "@/lib/utils";
-import { integralCF } from "@/styles/fonts";
+import { satoshi } from "@/styles/fonts";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -99,7 +99,7 @@ const ShopHeader = ({ shop }: ShopHeaderProps) => {
                     <div className="flex-1 pt-2 md:pt-24 pb-4">
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                             <div>
-                                <h1 className={cn(integralCF.className, "text-3xl md:text-4xl text-gray-900 dark:text-white mb-2 text-center md:text-left")}>
+                                <h1 className={cn(satoshi.className, "text-3xl md:text-4xl text-gray-900 dark:text-white mb-2 text-center md:text-left")}>
                                     {shop.nomBoutique}
                                 </h1>
                                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">

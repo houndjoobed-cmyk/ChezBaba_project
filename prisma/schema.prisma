@@ -54,12 +54,13 @@ model Couleur {
 }
 
 model Client {
-  id           String        @id @db.VarChar(25)
-  user         User          @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  vendeur      Vendeur?
-  commandes    Commande[]
-  signalements Signalement[]
-  litiges      Litige[]
+  id                    String                  @id @db.VarChar(25)
+  user                  User                    @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  vendeur               Vendeur?
+  commandes             Commande[]
+  signalements          Signalement[]
+  litiges               Litige[]
+  demandesRemboursement DemandeRemboursement[]
 
   @@map("client")
 }
@@ -75,11 +76,12 @@ model Commande {
   adresse        Adresse?          @relation(fields: [adresseId], references: [id], onDelete: SetNull, onUpdate: NoAction)
   panier         Panier?           @relation(fields: [panierId], references: [id], onDelete: SetNull, onUpdate: NoAction)
   client         Client?           @relation(fields: [clientId], references: [id], onDelete: SetNull, onUpdate: NoAction)
-  lignesCommande LigneCommande[]
-  paiement       Paiement?
-  litige         Litige?
+  lignesCommande        LigneCommande[]
+  paiement              Paiement?
+  litige                Litige?
   transactionsPortefeuille TransactionPortefeuille[]
-  entreesLivre   GrandLivrePlateforme[]
+  entreesLivre          GrandLivrePlateforme[]
+  demandeRemboursement  DemandeRemboursement?
 
   @@index([clientId], map: "index_commande_client_id")
   @@index([panierId], map: "index_commande_panier_id")
@@ -573,6 +575,29 @@ enum StatutLitige {
   RESOLU_CLIENT
   RESOLU_VENDEUR
   FERME
+}
+
+enum StatutRemboursement {
+  EN_ATTENTE
+  TRAITE
+  REJETE
+}
+
+model DemandeRemboursement {
+  id                 String              @id @default(cuid()) @db.VarChar(25)
+  commandeId         String              @unique @map("commande_id") @db.VarChar(25)
+  clientId           String              @map("client_id") @db.VarChar(25)
+  methode            MethodePaiement
+  detailsDestination String              @map("details_destination") @db.VarChar(255)
+  statut             StatutRemboursement @default(EN_ATTENTE)
+  montant            Decimal             @db.Decimal(10, 2)
+  dateDemande        DateTime            @default(now()) @map("date_demande")
+  dateTraitement     DateTime?           @map("date_traitement")
+  commande           Commande            @relation(fields: [commandeId], references: [id], onDelete: Cascade)
+  client             Client              @relation(fields: [clientId], references: [id])
+
+  @@index([clientId], map: "index_demande_remboursement_client_id")
+  @@map("demande_remboursement")
 }
 
 model Temoignage {

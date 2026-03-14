@@ -38,9 +38,13 @@ export type OrderFromAPI = {
     couleur?: { id: string; nom: string; code: string } | null;
   }[];
   paiement: {
+    date: Date;
+  } | null;
+  demandeRemboursement: {
     id: string;
     statut: string;
-    date: Date;
+    dateDemande: Date;
+    dateTraitement: Date | null;
   } | null;
 };
 

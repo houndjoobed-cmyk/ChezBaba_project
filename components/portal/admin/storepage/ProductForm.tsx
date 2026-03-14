@@ -187,12 +187,6 @@ export const ProductForm = ({
     setIsLoading(true);
 
     if (editingProduct) {
-      if (editingProduct.type === "marketplace") {
-        toast.error("Vous ne pouvez pas modifier les produits marketplace.");
-        setIsLoading(false);
-        return;
-      }
-
       const updateData = {
         nom: formData.nom,
         objet: formData.objet || "",

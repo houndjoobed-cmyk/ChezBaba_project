@@ -1,11 +1,13 @@
 "use client";
 
-import { X, Download } from "lucide-react";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { X, Download, Landmark } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import OrderActions from "@/components/orders/OrderActions";
 import { OrderFromAPI } from "@/lib/types/order.types";
 import { extractDateString, formatPrice } from "@/lib/utils";
 import { getStatusColor, getStatusLabel } from "@/lib/helpers/orderStatus";
+import RefundInfoModal from "../notificationpage/RefundInfoModal";
 
 interface OrderDetailModalProps {
   order: OrderFromAPI | null;
@@ -16,6 +18,8 @@ export default function OrderDetailModal({
   order,
   onClose,
 }: OrderDetailModalProps) {
+  const [isRefundModalOpen, setIsRefundModalOpen] = useState(false);
+
   if (!order) return null;
 
   return (
@@ -42,11 +46,15 @@ export default function OrderDetailModal({
             </h3>
             <div className="flex items-center gap-2">
               <span
-                className={`px-3 py-1 rounded-full font-bold ${getStatusColor(
-                  order.statut!
-                )}`}
+                className={`px-3 py-1 rounded-full font-bold ${
+                  order.statut === "REMBOURSEE" && order.demandeRemboursement?.statut === "TRAITE"
+                    ? "text-green-600 bg-green-100"
+                    : getStatusColor(order.statut!)
+                }`}
               >
-                {getStatusLabel(order.statut)}
+                {order.statut === "REMBOURSEE" && order.demandeRemboursement?.statut === "TRAITE"
+                  ? "Traité"
+                  : getStatusLabel(order.statut)}
               </span>
             </div>
           </div>
@@ -75,7 +83,12 @@ export default function OrderDetailModal({
                 Adresse :
               </span>
               <span className="text-gray-900 font-semibold block text-sm sm:text-base">
-                {`${order.adresse?.rue}, ${order.adresse?.ville}, ${order.adresse?.quartier} - ${order.adresse?.codePostal}`}
+                {[
+                  order.adresse?.rue,
+                  order.adresse?.ville,
+                  order.adresse?.quartier,
+                  order.adresse?.codePostal
+                ].filter(Boolean).join(", ")}
               </span>
             </div>
 
@@ -152,10 +165,34 @@ export default function OrderDetailModal({
             </span>
           </div>
 
-          <div className="pt-2 border-t border-gray-100">
+          <div className="pt-2 border-t border-gray-100 flex flex-col gap-3">
+            {order.statut === "REMBOURSEE" && !order.demandeRemboursement && (
+                <button
+                    onClick={() => setIsRefundModalOpen(true)}
+                    className="w-full py-3 px-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-orange-200 animate-pulse"
+                >
+                    <Landmark className="w-5 h-5" />
+                    Transférer mes infos de remboursement
+                </button>
+            )}
             <OrderActions orderId={order.id} status={order.statut} userRole="CLIENT" />
           </div>
         </div>
+
+        <AnimatePresence>
+            {isRefundModalOpen && (
+                <RefundInfoModal 
+                    commandeId={order.id}
+                    montant={order.montant}
+                    isOpen={isRefundModalOpen}
+                    onClose={() => setIsRefundModalOpen(false)}
+                    onSuccess={() => {
+                        setIsRefundModalOpen(false);
+                        onClose(); // Fermer aussi le détail de la commande après succès
+                    }}
+                />
+            )}
+        </AnimatePresence>
       </motion.div>
     </div>
   );

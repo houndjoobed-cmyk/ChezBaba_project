@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
 import { useIsClient, useMediaQuery } from "usehooks-ts";
 
 // Syles
-import { integralCF } from "@/styles/fonts";
+import { satoshi } from "@/styles/fonts";
 import { ReviewFromAPI } from "@/lib/types/review.types";
 
 type ReviewsProps = { data: ReviewFromAPI[] };
@@ -72,7 +72,7 @@ const TestimonialsSec = ({ data }: ReviewsProps) => {
               viewport={{ once: true }}
               transition={{ delay: 0.6, duration: 0.6 }}
               className={cn([
-                integralCF.className,
+                satoshi.className,
                 "text-[32px] leading-[36px] md:text-5xl capitalize mr-auto text-[var(--darkblue)]",
               ])}
             >

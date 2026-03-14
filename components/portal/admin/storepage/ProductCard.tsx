@@ -4,7 +4,6 @@ import { Edit, Trash2, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { montserrat } from "@/styles/fonts";
 import { getImageUrlFromPublicId } from "@/lib/utils";
-import { toast } from "sonner";
 
 interface ProductCardProps {
   product: ProductFromAPI;
@@ -59,12 +58,7 @@ export const ProductCard = ({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              if (product.type === "boutique") {
-                onEdit(product);
-              } else
-                toast.error(
-                  "Vous ne pouvez pas modifier les modifier les produits de la marketplace"
-                );
+              onEdit(product);
             }}
             className="bg-black text-white px-6 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition-all duration-200 shadow-md font-bold"
           >

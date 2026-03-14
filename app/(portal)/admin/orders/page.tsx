@@ -200,7 +200,7 @@ export default function OrderHistoryPage(): JSX.Element {
       const response = await fetch(`/api/orders/${orderId}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ statut: newStatus }),
+        body: JSON.stringify({ status: newStatus }),
       });
 
       if (!response.ok) {

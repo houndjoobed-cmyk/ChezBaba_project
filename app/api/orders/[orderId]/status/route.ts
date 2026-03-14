@@ -116,9 +116,9 @@ export async function PATCH(
 
     const clientId = commande.clientId;
     if (clientId) {
-      // Pour un remboursement, on personnalise le message
+      // Pour un remboursement, on personnalise le message et l'URL
       if (status === CommandeStatut.REMBOURSEE) {
-        notifText = `Votre commande #${orderId} a été remboursée. Le transfert sera traité sous peu via Mobile Money/Carte.`;
+        notifText = `Votre commande #${orderId} a été acceptée pour remboursement. Cliquez sur "Voir" pour fournir vos coordonnées de paiement (Mobile Money ou virement) afin de recevoir votre remboursement de ${commande.montant} FCFA.`;
       }
       transactions.push(
         prisma.notification.create({
@@ -127,7 +127,9 @@ export async function PATCH(
             type: "COMMANDE",
             objet: status === CommandeStatut.REMBOURSEE ? "Remboursement traité" : "Suivi de commande",
             text: notifText,
-            urlRedirection: `/client/orders/${orderId}`,
+            urlRedirection: status === CommandeStatut.REMBOURSEE 
+              ? `/client/refund?commandeId=${orderId}`
+              : `/client/orders?orderId=${orderId}`,
           },
         })
       );

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { LayoutGrid, ShoppingCart } from "lucide-react";
 import BottomNav from "@/components/common/BottomNav";
+import NotificationBtn from "@/components/layout/store/Header/NotificationBtn";
 import UserMenu from "@/components/layout/store/Header/UserMenu";
 import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
@@ -49,6 +50,7 @@ const Navbar = () => {
 
             {/* Icônes */}
             <div className="button_icons flex items-center gap-6">
+              <NotificationBtn size={26} />
               <Link href="/cart" className="icone group relative p-2 transition-colors hover:text-brand-primary" aria-label="Panier">
                 <ShoppingCart size={26} />
                 <span className="cart-badge absolute -top-1 -right-1 bg-brand-accent text-white text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full shadow-sm animate-in zoom-in duration-300">
@@ -69,6 +71,7 @@ const Navbar = () => {
               </Link>
             </div>
             <div className="navBar_connexion_cart flex items-center gap-3">
+              <NotificationBtn size={24} />
               <Link href="/cart" className="icone relative p-2" aria-label="Panier">
                 <ShoppingCart size={24} />
                 <span className="cart-badge absolute -top-1 -right-1 bg-brand-accent text-white text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full shadow-sm">

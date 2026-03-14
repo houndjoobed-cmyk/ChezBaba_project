@@ -67,6 +67,14 @@ export function getOrderSelect() {
         date: true,
       },
     },
+    demandeRemboursement: {
+      select: {
+        id: true,
+        statut: true,
+        dateDemande: true,
+        dateTraitement: true,
+      }
+    }
   };
 }
 
@@ -80,6 +88,7 @@ export function formatOrderData(order: OrderFromDB): OrderFromAPI {
     lignesCommande,
     paiement,
     client,
+    demandeRemboursement,
   } = order;
 
   return {
@@ -105,5 +114,11 @@ export function formatOrderData(order: OrderFromDB): OrderFromAPI {
       fichierNom: ligne.produit?.fichierNom,
     })),
     paiement,
+    demandeRemboursement: demandeRemboursement ? {
+      id: (demandeRemboursement as { id: string; statut: string; dateDemande: Date; dateTraitement: Date | null }).id,
+      statut: (demandeRemboursement as { id: string; statut: string; dateDemande: Date; dateTraitement: Date | null }).statut,
+      dateDemande: (demandeRemboursement as { id: string; statut: string; dateDemande: Date; dateTraitement: Date | null }).dateDemande,
+      dateTraitement: (demandeRemboursement as { id: string; statut: string; dateDemande: Date; dateTraitement: Date | null }).dateTraitement,
+    } : null,
   };
 }

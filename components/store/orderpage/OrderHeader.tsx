@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
-import { integralCF } from "@/styles/fonts";
+import { satoshi } from "@/styles/fonts";
 import { cn } from "@/lib/utils";
 
 export default function OrderHeader() {
@@ -11,7 +11,7 @@ export default function OrderHeader() {
       </Link>
       <h2
         className={cn(
-          integralCF.className,
+          satoshi.className,
           "font-bold text-[32px] md:text-[40px] text-black uppercase"
         )}
       >
