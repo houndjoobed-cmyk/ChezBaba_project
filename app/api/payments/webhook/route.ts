@@ -14,16 +14,30 @@ export async function POST(req: NextRequest) {
         const rawBody = await req.text();
         const signature = req.headers.get("x-kkiapay-signature") ?? "";
 
-        // Vérification de signature (si le secret est configuré)
-        if (process.env.KKIAPAY_SECRET && signature) {
-            const isValid = verifyWebhookSignature(rawBody, signature);
-            if (!isValid) {
-                console.error("[Webhook] Signature invalide");
-                return NextResponse.json(
-                    { error: "Signature invalide" },
-                    { status: 401 }
-                );
-            }
+        // Vérification de signature OBLIGATOIRE
+        if (!process.env.KKIAPAY_SECRET) {
+            console.error("[Webhook] KKIAPAY_SECRET non configuré");
+            return NextResponse.json(
+                { error: "Configuration serveur invalide" },
+                { status: 500 }
+            );
+        }
+
+        if (!signature) {
+            console.error("[Webhook] Signature manquante");
+            return NextResponse.json(
+                { error: "Signature manquante" },
+                { status: 401 }
+            );
+        }
+
+        const isValid = verifyWebhookSignature(rawBody, signature);
+        if (!isValid) {
+            console.error("[Webhook] Signature invalide");
+            return NextResponse.json(
+                { error: "Signature invalide" },
+                { status: 401 }
+            );
         }
 
         // Parser et valider le payload
@@ -60,7 +74,7 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        console.log("[Webhook] Paiement traité avec succès:", result.message);
+
         return NextResponse.json(
             { success: true, message: result.message },
             { status: 200 }

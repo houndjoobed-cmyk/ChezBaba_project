@@ -1,6 +1,9 @@
-// This temp route is no longer needed. Kept as empty placeholder.
+// Route dépréciée — retourne 410 Gone
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-    return NextResponse.json({ message: "This endpoint has been decommissioned." });
+    return NextResponse.json(
+        { error: "Cette route a été supprimée." },
+        { status: 410 }
+    );
 }

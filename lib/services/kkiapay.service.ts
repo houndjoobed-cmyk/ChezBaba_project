@@ -20,8 +20,8 @@ import { kkiapay } from "@kkiapay-org/nodejs-sdk";
 const k = kkiapay({
     publickey: KKIAPAY_PUBLIC_KEY,
     privatekey: KKIAPAY_PRIVATE_KEY,
-    secretkey: KKIAPAY_SECRET, // Utiliser 'secretkey' !
-    sandbox: true, // Toujours à true en dev local
+    secretkey: KKIAPAY_SECRET,
+    sandbox: process.env.NODE_ENV !== "production",
 });
 
 // ---- Vérification de transaction ----

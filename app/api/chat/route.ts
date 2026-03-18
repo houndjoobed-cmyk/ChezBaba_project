@@ -11,8 +11,6 @@ const openrouter = createOpenRouter({
 export async function POST(req: NextRequest) {
   try {
     const { prompt } = await req.json();
-    console.log("DEBUG - Chat API called. Prompt:", prompt);
-    console.log("DEBUG - API Key present:", !!process.env.OPENROUTER_API_KEY);
 
     const result = streamText({
       // model: openrouter.chat("mistralai/mistral-small-3.1-24b-instruct:free"),

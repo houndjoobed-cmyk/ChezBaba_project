@@ -445,6 +445,7 @@ model User {
   notifications      Notification[]
   reponsesEvaluation ReponseEvaluation[]
   favoris            Favori[]
+  auditLogs          AuditLog[]
 
   accounts           Account[]
   @@index([email], map: "index_email")
@@ -659,4 +660,23 @@ model MessageContact {
 
   @@index([dateEnvoi], map: "index_message_contact_date")
   @@map("message_contact")
+}
+
+// V17 — Journal d'audit pour les actions sensibles
+model AuditLog {
+  id        String   @id @default(cuid()) @db.VarChar(25)
+  action    String   @db.VarChar(100) // ex: USER_DELETED, ROLE_CHANGED, PAYMENT_VERIFIED
+  details   Json?    // Détails de l'action (JSON libre)
+  ipAddress String?  @db.VarChar(45) @map("ip_address")
+  userAgent String?  @db.VarChar(500) @map("user_agent")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Utilisateur qui a effectué l'action (null si système)
+  userId String? @db.VarChar(25) @map("user_id")
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([action], map: "index_audit_log_action")
+  @@index([userId], map: "index_audit_log_user")
+  @@index([createdAt], map: "index_audit_log_date")
+  @@map("audit_log")
 }

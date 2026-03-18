@@ -51,4 +51,18 @@ export const authConfig = {
             return token;
         },
     },
+    // V13 — Protection CSRF via cookies sécurisés
+    cookies: {
+        sessionToken: {
+            name: process.env.NODE_ENV === "production"
+                ? "__Secure-authjs.session-token"
+                : "authjs.session-token",
+            options: {
+                httpOnly: true,
+                sameSite: "lax" as const,
+                path: "/",
+                secure: process.env.NODE_ENV === "production",
+            },
+        },
+    },
 } satisfies NextAuthConfig;

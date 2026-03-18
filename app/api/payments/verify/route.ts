@@ -35,8 +35,8 @@ export async function POST(req: NextRequest) {
             );
         }
 
+
         const { transactionId } = parsed.data;
-        console.log(`[VerifyAPI] Demande de vérification pour transactionId: ${transactionId}`);
 
         // 1. Demander à KKiaPay le statut réel de cette transaction
         const verifiedData = await verifyTransaction(transactionId);

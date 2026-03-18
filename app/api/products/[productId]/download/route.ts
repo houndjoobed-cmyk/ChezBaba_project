@@ -67,7 +67,6 @@ export async function GET(
         }
 
         try {
-            console.log("Fetching Digital Product URL securely:", product.fichierUrl);
 
             // Fetch the file directly from Cloudinary
             const fileResponse = await fetch(product.fichierUrl, {

@@ -7,7 +7,10 @@ export const registerSchema = z.object({
     .transform((email) => email.toLowerCase()), // email en minuscules
   password: z
     .string()
-    .min(6, "Le mot de passe doit contenir au moins 6 caractères."),
+    .min(8, "Le mot de passe doit contenir au moins 8 caractères.")
+    .regex(/[A-Z]/, "Le mot de passe doit contenir au moins une majuscule.")
+    .regex(/[0-9]/, "Le mot de passe doit contenir au moins un chiffre.")
+    .regex(/[^A-Za-z0-9]/, "Le mot de passe doit contenir au moins un caractère spécial."),
   nom: z
     .string()
     .min(2, "Le nom doit contenir au moins 2 caractères.")
@@ -41,7 +44,10 @@ export const resetPasswordSchema = z.object({
     .transform((email) => email.toLowerCase()),
   newPassword: z
     .string()
-    .min(6, "Le mot de passe doit contenir au moins 6 caractères."),
+    .min(8, "Le mot de passe doit contenir au moins 8 caractères.")
+    .regex(/[A-Z]/, "Le mot de passe doit contenir au moins une majuscule.")
+    .regex(/[0-9]/, "Le mot de passe doit contenir au moins un chiffre.")
+    .regex(/[^A-Za-z0-9]/, "Le mot de passe doit contenir au moins un caractère spécial."),
   code: z
     .string()
     .regex(/^\d{6}$/, "Le code doit contenir exactement 6 chiffres."),

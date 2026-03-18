@@ -8,6 +8,54 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import { authConfig } from "./auth.config";
 
+// V16 — Verrouillage de compte après échecs de connexion
+const MAX_LOGIN_ATTEMPTS = 5;
+const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes
+
+interface LoginAttempt {
+  count: number;
+  lockedUntil: number | null;
+}
+
+const loginAttempts = new Map<string, LoginAttempt>();
+
+// Nettoyage périodique
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, entry] of loginAttempts.entries()) {
+    if (entry.lockedUntil && now > entry.lockedUntil) {
+      loginAttempts.delete(key);
+    }
+  }
+}, 10 * 60 * 1000);
+
+function checkAccountLock(email: string): string | null {
+  const attempt = loginAttempts.get(email);
+  if (!attempt) return null;
+  if (attempt.lockedUntil && Date.now() < attempt.lockedUntil) {
+    const minutesLeft = Math.ceil((attempt.lockedUntil - Date.now()) / 60000);
+    return `Compte verrouillé. Réessayez dans ${minutesLeft} minute(s).`;
+  }
+  if (attempt.lockedUntil && Date.now() >= attempt.lockedUntil) {
+    loginAttempts.delete(email);
+  }
+  return null;
+}
+
+function recordFailedAttempt(email: string): void {
+  const attempt = loginAttempts.get(email) || { count: 0, lockedUntil: null };
+  attempt.count++;
+  if (attempt.count >= MAX_LOGIN_ATTEMPTS) {
+    attempt.lockedUntil = Date.now() + LOCKOUT_DURATION_MS;
+    attempt.count = 0;
+  }
+  loginAttempts.set(email, attempt);
+}
+
+function clearAttempts(email: string): void {
+  loginAttempts.delete(email);
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma) as import("next-auth/adapters").Adapter,
   ...authConfig,
@@ -19,19 +67,34 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials): Promise<User | null> {
+        const email = (credentials.email as string).toLowerCase();
+
+        // V16 — Vérifier le verrouillage du compte
+        const lockMessage = checkAccountLock(email);
+        if (lockMessage) throw new Error(lockMessage);
+
         // Find user by email
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email as string },
+          where: { email },
         });
 
-        if (!user || !user.password) throw new Error("No user found!");
+        if (!user || !user.password) {
+          recordFailedAttempt(email);
+          throw new Error("Identifiants invalides.");
+        }
 
         // Check password
         const isValid = await bcrypt.compare(
           credentials.password as string,
           user.password
         );
-        if (!isValid) throw new Error("Invalid password!");
+        if (!isValid) {
+          recordFailedAttempt(email);
+          throw new Error("Identifiants invalides.");
+        }
+
+        // Succès — réinitialiser le compteur
+        clearAttempts(email);
 
         // Return user object (NextAuth creates session)
         return {

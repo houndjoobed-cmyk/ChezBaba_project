@@ -34,21 +34,17 @@ export default function GlobalLayout({
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+          crossOrigin="anonymous"
         />
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          crossOrigin="anonymous"
         />
       </head>
       <body className={satoshi.className} suppressHydrationWarning>
         <ClientHolyLoader />
         <Providers>
-          <script dangerouslySetInnerHTML={{
-            __html: `
-            setTimeout(() => {
-              fetch('/api/temp-migrate-cloudinary').then(r => r.json()).then(console.log);
-            }, 3000);
-          ` }} />
           {children}
           <Toaster />
         </Providers>

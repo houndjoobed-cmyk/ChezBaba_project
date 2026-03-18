@@ -70,9 +70,7 @@ export async function DELETE(
   const { userId } = await params;
   const session = await auth();
 
-  console.log("DELETE /api/users/[userId] - Debug Auth");
-  console.log("Session:", session ? "Present" : "Missing");
-  console.log("Cookies:", req.cookies.getAll().map(c => c.name));
+
 
   // Authentication Check
   if (!session) {

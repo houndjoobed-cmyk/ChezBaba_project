@@ -19,7 +19,6 @@ export async function GET(
     }
 
     try {
-        console.log(`[GET /api/orders/${orderId}] Fetching order for user ${session.user.id}`);
         const order = await prisma.commande.findUnique({
             where: { id: orderId },
             select: getOrderSelect(),
